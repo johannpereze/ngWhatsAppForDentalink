@@ -1,9 +1,32 @@
-<form action="" (ngSubmit)='saveKeys()'>
-  <label  for="dentalinkKey">Ingresa la clave de Dentalink</label>
-  <input type="password" name="dentalinkKey" [(ngModel)]='secretKeys.dentalinkKey' id="dentalinkKey">
+<form
+  *ngIf="
+    secretKeys.dentalinkKey.trim().length +
+    secretKeys.b2chatUser.trim().length +
+    secretKeys.b2ChatPass.trim().length < 36
+  "
+  action=""
+  (ngSubmit)="saveKeys()"
+>
+  <label for="dentalinkKey">Ingresa la clave de Dentalink</label>
+  <input
+    type="password"
+    name="dentalinkKey"
+    [(ngModel)]="secretKeys.dentalinkKey"
+    id="dentalinkKey"
+  />
   <label for="b2chatUser">Ingresa el usuario de WhatsApp</label>
-  <input type="password" name="b2chatUser" [(ngModel)]='secretKeys.b2chatUser' id="b2chatUser">
+  <input
+    type="password"
+    name="b2chatUser"
+    [(ngModel)]="secretKeys.b2chatUser"
+    id="b2chatUser"
+  />
   <label for="b2ChatPass">Ingresa la clave de WhatsApp</label>
-  <input type="password" name="b2ChatPass" [(ngModel)]='secretKeys.b2ChatPass' id="b2ChatPass">
+  <input
+    type="password"
+    name="b2ChatPass"
+    [(ngModel)]="secretKeys.b2ChatPass"
+    id="b2ChatPass"
+  />
   <button>Guardar</button>
 </form>

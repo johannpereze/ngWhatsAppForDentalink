@@ -18,6 +18,7 @@ interface WhatsAppLine {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2chatUser: '',
@@ -38,6 +39,7 @@ export class AppComponent {
   ];
 
   saveKeys() {
+    if(this.secretKeys.dentalinkKey.trim().length) //Hacer estas validaciones y al final cuando pasen fenerar un false para poner en el ngif del form
     console.log(this.secretKeys);
   }
 }
