@@ -6,6 +6,12 @@ interface SecretKeys {
   b2ChatPass: string;
 }
 
+interface WhatsAppLine {
+  name: string;
+  countryCode: number;
+  lineNumber: number;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,7 +24,20 @@ export class AppComponent {
     b2ChatPass: '',
   };
 
-  saveKeys(event:any) {
+  whatsAppLines: WhatsAppLine[] = [
+    {
+      name: 'Notificaciones Prevenga',
+      countryCode: 57,
+      lineNumber: 3137544892,
+    },
+    {
+      name: 'Chats Prevenga',
+      countryCode: 57,
+      lineNumber: 3137596945,
+    },
+  ];
+
+  saveKeys() {
     console.log(this.secretKeys);
   }
 }
