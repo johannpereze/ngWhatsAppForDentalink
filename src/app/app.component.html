@@ -1,12 +1,4 @@
-<form
-  *ngIf="
-    secretKeys.dentalinkKey.trim().length +
-    secretKeys.b2chatUser.trim().length +
-    secretKeys.b2ChatPass.trim().length < 36
-  "
-  action=""
-  (ngSubmit)="saveKeys()"
->
+<form *ngIf="!secretKeysCompleted" action="" (ngSubmit)="saveKeys()">
   <label for="dentalinkKey">Ingresa la clave de Dentalink</label>
   <input
     type="password"

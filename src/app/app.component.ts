@@ -38,8 +38,18 @@ export class AppComponent {
     },
   ];
 
+  secretKeysCompleted = false
+
   saveKeys() {
-    if(this.secretKeys.dentalinkKey.trim().length) //Hacer estas validaciones y al final cuando pasen fenerar un false para poner en el ngif del form
+    if(this.secretKeys.dentalinkKey.trim().length === 81 &&
+    this.secretKeys.b2chatUser.trim().length ===36 &&
+    this.secretKeys.b2ChatPass.trim().length === 36){
+      this.secretKeysCompleted = true
+
+    }else{
+      alert('Claves incompletas')
+    } //Hacer estas validaciones y al final cuando pasen fenerar un false para poner en el ngif del form
     console.log(this.secretKeys);
+
   }
 }
