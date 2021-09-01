@@ -1,24 +1,36 @@
-<form *ngIf="!secretKeysCompleted" action="" (ngSubmit)="saveKeys()">
-  <label for="dentalinkKey">Ingresa la clave de Dentalink</label>
-  <input
-    type="password"
-    name="dentalinkKey"
-    [(ngModel)]="secretKeys.dentalinkKey"
-    id="dentalinkKey"
-  />
-  <label for="b2chatUser">Ingresa el usuario de WhatsApp</label>
-  <input
-    type="password"
-    name="b2chatUser"
-    [(ngModel)]="secretKeys.b2chatUser"
-    id="b2chatUser"
-  />
-  <label for="b2ChatPass">Ingresa la clave de WhatsApp</label>
-  <input
-    type="password"
-    name="b2ChatPass"
-    [(ngModel)]="secretKeys.b2ChatPass"
-    id="b2ChatPass"
-  />
-  <button>Guardar</button>
-</form>
+<div class="keys-form">
+  <form *ngIf="!secretKeysCompleted" action="" (ngSubmit)="saveKeys()">
+    <label for="dentalinkKey">Ingresa la clave de Dentalink</label>
+    <input
+      type="password"
+      name="dentalinkKey"
+      [(ngModel)]="secretKeys.dentalinkKey"
+      id="dentalinkKey"
+    />
+    <label for="b2chatUser">Ingresa el usuario de WhatsApp</label>
+    <input
+      type="password"
+      name="b2chatUser"
+      [(ngModel)]="secretKeys.b2chatUser"
+      id="b2chatUser"
+    />
+    <label for="b2ChatPass">Ingresa la clave de WhatsApp</label>
+    <input
+      type="password"
+      name="b2ChatPass"
+      [(ngModel)]="secretKeys.b2ChatPass"
+      id="b2ChatPass"
+    />
+    <button>Guardar</button>
+  </form>
+</div>
+
+<div class="line-form">
+  <form action="">
+    <select name="" id="">
+      <option *ngFor='let whatsAppLine of whatsAppLines' value="{{whatsAppLine.countryCode}}{{whatsAppLine.lineNumber}}">+{{whatsAppLine.countryCode}}{{whatsAppLine.lineNumber}}</option>
+    </select>
+    <label for="campaignNote">Notas de la campaña</label>
+    <input type="text" id="campaignNote">
+  </form>
+</div>

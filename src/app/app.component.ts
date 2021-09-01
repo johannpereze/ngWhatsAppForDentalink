@@ -18,7 +18,6 @@ interface WhatsAppLine {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2chatUser: '',
@@ -38,18 +37,24 @@ export class AppComponent {
     },
   ];
 
-  secretKeysCompleted = false
+  //Esto creo que debería ser un objeto con toda la info que voy a necesitar al final
+  secretKeysCompleted: boolean = false;
+  selectedLine: number = 0;
 
   saveKeys() {
-    if(this.secretKeys.dentalinkKey.trim().length === 81 &&
-    this.secretKeys.b2chatUser.trim().length ===36 &&
-    this.secretKeys.b2ChatPass.trim().length === 36){
-      this.secretKeysCompleted = true
+    if (
+      this.secretKeys.dentalinkKey.trim().length === 81 &&
+      this.secretKeys.b2chatUser.trim().length === 36 &&
+      this.secretKeys.b2ChatPass.trim().length === 36
+    ) {
+      this.secretKeysCompleted = true;
+    } else {
+      alert('Claves incompletas');
+    }
+    console.log(this.secretKeys);//borrar por seguridad
+  }
 
-    }else{
-      alert('Claves incompletas')
-    } //Hacer estas validaciones y al final cuando pasen fenerar un false para poner en el ngif del form
-    console.log(this.secretKeys);
+  selectLine(){
 
   }
 }
