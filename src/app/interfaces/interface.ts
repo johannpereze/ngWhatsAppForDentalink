@@ -28,24 +28,31 @@ export interface MainParams {
 //   const denatlinkClinics = Convert.toDenatlinkClinics(json);
 
 export interface DentalinkClinics {
-    links: string;
-    data:  Clinics[];
+  links: string;
+  data: Clinics[];
 }
 
 export interface Clinics {
-    id:         number;
-    nombre:     string;
-    telefono:   string;
-    ciudad:     string;
-    comuna:     string;
-    direccion:  string;
-    habilitada: number;
-    links:      Link[];
+  id: number;
+  nombre: string;
+  telefono: string;
+  ciudad: string;
+  comuna: string;
+  direccion: string;
+  habilitada: number;
+  links: Link[];
 }
 
 export interface Link {
-    rel:    string;
-    href:   string;
-    method: string;
+  rel: string;
+  href: string;
+  method: string;
 }
+
+export interface RequestOptions {
+  method: 'GET';
+  headers: Headers;
+  redirect: 'follow';
+}
+
 

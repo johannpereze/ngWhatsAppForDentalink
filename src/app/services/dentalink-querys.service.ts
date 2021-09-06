@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MainParams, SecretKeys, WhatsAppLine, WhatsAppTemplate, DentalinkClinics } from '../interfaces/interface';
+import {
+  MainParams,
+  SecretKeys,
+  WhatsAppLine,
+  WhatsAppTemplate,
+  DentalinkClinics,
+  RequestOptions,
+} from '../interfaces/interface';
+
+var myHeaders = new Headers();
+myHeaders.append(
+  'Authorization',
+  'Token '
+);
+
+var requestOptions: RequestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow',
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DentalinkQuerysService {
-
   constructor(private http: HttpClient) {
-    this.getClinics()
-   }
+    this.getClinics();
+  }
 
   secretKeys: SecretKeys = {
     dentalinkKey: '',
@@ -33,21 +51,19 @@ export class DentalinkQuerysService {
   whatsAppTemplates: WhatsAppTemplate[] = [
     {
       name: 'recordatorio_cita_vigente_3',
-      template: "Hola,  ${Var1}. Recuerda que tienes una cita odontológica en  ${Var2} el día  ${Var3} a las  ${Var4} con el/la Dr(a).  ${Var5}. No respondas a este WhatsApp, es sólo de notificaciones. Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales",
+      template:
+        'Hola,  ${Var1}. Recuerda que tienes una cita odontológica en  ${Var2} el día  ${Var3} a las  ${Var4} con el/la Dr(a).  ${Var5}. No respondas a este WhatsApp, es sólo de notificaciones. Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales',
     },
   ];
 
-
-
   //Esto creo que debería ser un objeto con toda la info que voy a necesitar al final
-  
+
   mainParams: MainParams = {
     secretKeysCompleted: false,
     selectedLine: 0,
-    campaignNote:'',
-    selectedTemplate: ''
-  }
-  
+    campaignNote: '',
+    selectedTemplate: '',
+  };
 
   saveKeys() {
     if (
@@ -59,21 +75,30 @@ export class DentalinkQuerysService {
     } else {
       alert('Claves incompletas');
     }
-    console.log(this.secretKeys);//borrar por seguridad
+    console.log(this.secretKeys); //borrar por seguridad
   }
 
-  getClinics(){
-    console.log(this.mainParams.selectedTemplate);
-    
-    this.http
-      .get<DentalinkClinics>(
-        `https://api.dentalink.healthatom.com/api/v1/sucursales/}search`, {}
-      )
-      // .subscribe((resp) => {
-      //   // console.log(resp.data);
-      //   this.resultados = resp.data;
-      //   localStorage.setItem('resultados', JSON.stringify(this.resultados));
-      // });
+  getClinics() {
+    fetch(
+      'https://api.dentalink.healthatom.com/api/v1/sucursales/',
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
   }
 
+  // getClinics(){
+  //   console.log(this.mainParams.selectedTemplate);
+
+  //   this.http
+  //     .get<DentalinkClinics>(
+  //       `https://api.dentalink.healthatom.com/api/v1/sucursales/}search`, {}
+  //     )
+  //     // .subscribe((resp) => {
+  //     //   // console.log(resp.data);
+  //     //   this.resultados = resp.data;
+  //     //   localStorage.setItem('resultados', JSON.stringify(this.resultados));
+  //     // });
+  // }
 }
