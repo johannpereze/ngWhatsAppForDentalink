@@ -10,10 +10,7 @@ import {
 } from '../interfaces/interface';
 
 var myHeaders = new Headers();
-myHeaders.append(
-  'Authorization',
-  'Token '
-);
+myHeaders.append('Authorization', `Token ${''}`);
 
 var requestOptions: RequestOptions = {
   method: 'GET',
@@ -25,9 +22,7 @@ var requestOptions: RequestOptions = {
   providedIn: 'root',
 })
 export class DentalinkQuerysService {
-  constructor(private http: HttpClient) {
-    this.getClinics();
-  }
+  constructor(private http: HttpClient) {}
 
   secretKeys: SecretKeys = {
     dentalinkKey: '',
