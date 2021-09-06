@@ -1,16 +1,5 @@
-import { Component } from '@angular/core';
-
-interface SecretKeys {
-  dentalinkKey: string;
-  b2chatUser: string;
-  b2ChatPass: string;
-}
-
-interface WhatsAppLine {
-  name: string;
-  countryCode: number;
-  lineNumber: number;
-}
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { DentalinkQuerysService } from './services/dentalink-querys.service';
 
 @Component({
   selector: 'app-root',
@@ -18,43 +7,41 @@ interface WhatsAppLine {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  secretKeys: SecretKeys = {
-    dentalinkKey: '',
-    b2chatUser: '',
-    b2ChatPass: '',
-  };
+  // @ViewChild('lineSelection') lineSelection!: ElementRef<HTMLInputElement>;
 
-  whatsAppLines: WhatsAppLine[] = [
-    {
-      name: 'Notificaciones Prevenga',
-      countryCode: 57,
-      lineNumber: 3137544892,
-    },
-    {
-      name: 'Chats Prevenga',
-      countryCode: 57,
-      lineNumber: 3137596945,
-    },
-  ];
-
-  //Esto creo que debería ser un objeto con toda la info que voy a necesitar al final
-  secretKeysCompleted: boolean = false;
-  selectedLine: number = 0;
-
-  saveKeys() {
-    if (
-      this.secretKeys.dentalinkKey.trim().length === 81 &&
-      this.secretKeys.b2chatUser.trim().length === 36 &&
-      this.secretKeys.b2ChatPass.trim().length === 36
-    ) {
-      this.secretKeysCompleted = true;
-    } else {
-      alert('Claves incompletas');
-    }
-    console.log(this.secretKeys);//borrar por seguridad
+  constructor(private dentalinkQuerysService: DentalinkQuerysService) {
+    // console.log(this.lineSelection);
   }
 
-  selectLine(){
+  get secretKeys() {
+    return this.dentalinkQuerysService.secretKeys;
+  }
+  get whatsAppLines() {
+    return this.dentalinkQuerysService.whatsAppLines;
+  }
 
+  get mainParams() {
+    return this.dentalinkQuerysService.mainParams;
+  }
+
+  get saveKeys() {
+    return this.dentalinkQuerysService.saveKeys;
+  }
+  get whatsAppTemplates() {
+    return this.dentalinkQuerysService.whatsAppTemplates;
+  }
+  get getClinics() {
+    return this.dentalinkQuerysService.getClinics;
+  }
+  // get headers() {
+  //   return this.dentalinkQuerysService.httpHeader;
+  // }
+
+  selectLine() {
+    console.log(this.mainParams.selectedLine);
+    console.log(this.mainParams.campaignNote);
+  }
+  selectTemplate(){
+    this.getClinics()
   }
 }

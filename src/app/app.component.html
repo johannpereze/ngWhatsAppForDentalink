@@ -1,5 +1,9 @@
 <div class="keys-form">
-  <form *ngIf="!secretKeysCompleted" action="" (ngSubmit)="saveKeys()">
+  <form
+    *ngIf="!mainParams.secretKeysCompleted"
+    action=""
+    (ngSubmit)="saveKeys()"
+  >
     <label for="dentalinkKey">Ingresa la clave de Dentalink</label>
     <input
       type="password"
@@ -24,13 +28,44 @@
     <button>Guardar</button>
   </form>
 </div>
-
+<hr />
 <div class="line-form">
-  <form action="">
-    <select name="" id="">
-      <option *ngFor='let whatsAppLine of whatsAppLines' value="{{whatsAppLine.countryCode}}{{whatsAppLine.lineNumber}}">+{{whatsAppLine.countryCode}}{{whatsAppLine.lineNumber}}</option>
+  <form action="" (ngSubmit)="selectLine()">
+    <select
+      name="mainParams"
+      id="lineSelection"
+      [(ngModel)]="mainParams.selectedLine"
+    >
+      <option
+        *ngFor="let whatsAppLine of whatsAppLines"
+        value="{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}"
+      >
+        +{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}
+      </option>
     </select>
     <label for="campaignNote">Notas de la campaña</label>
-    <input type="text" id="campaignNote">
+    <input
+      type="text"
+      id="campaignNote"
+      name="campaignNote"
+      [(ngModel)]="mainParams.campaignNote"
+    />
+    <button type="submit">Siguiente</button>
+  </form>
+  <hr />
+  <form action="" (ngSubmit)="selectTemplate()">
+    <select
+      name="template"
+      id="templateSelection"
+      [(ngModel)]="mainParams.selectedTemplate"
+    >
+      <option
+        *ngFor="let whatsAppTemplate of whatsAppTemplates"
+        value="{{ whatsAppTemplate.name }}"
+      >
+        {{ whatsAppTemplate.name }}: {{ whatsAppTemplate.template }}
+      </option>
+    </select>
+    <button type="submit">Siguiente</button>
   </form>
 </div>
