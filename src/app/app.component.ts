@@ -40,7 +40,7 @@ export class AppComponent {
     this.getClinics();
   }
 
-  public apiResponse: {} = {};
+  apiResponse: {} = {};
 
   getClinics() {
     this.dentalinkQuerysService.getClinics().subscribe((data) => {
