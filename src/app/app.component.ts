@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DentalinkQuerysService } from './services/dentalink-querys.service';
 
 @Component({
@@ -7,11 +7,7 @@ import { DentalinkQuerysService } from './services/dentalink-querys.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  // @ViewChild('lineSelection') lineSelection!: ElementRef<HTMLInputElement>;
-
-  constructor(private dentalinkQuerysService: DentalinkQuerysService) {
-    // console.log(this.lineSelection);
-  }
+  constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
 
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
@@ -30,9 +26,7 @@ export class AppComponent {
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
-  get getClinics() {
-    return this.dentalinkQuerysService.getClinics;
-  }
+
   // get headers() {
   //   return this.dentalinkQuerysService.httpHeader;
   // }
@@ -41,7 +35,17 @@ export class AppComponent {
     console.log(this.mainParams.selectedLine);
     console.log(this.mainParams.campaignNote);
   }
-  selectTemplate(){
-    this.getClinics()
+  selectTemplate() {
+    console.log(this.mainParams.selectedTemplate);
+    this.getClinics();
+  }
+
+  public apiResponse: {} = {};
+
+  getClinics() {
+    this.dentalinkQuerysService.getClinics().subscribe((data) => {
+      this.apiResponse = data;
+      console.log(this.apiResponse);
+    });
   }
 }

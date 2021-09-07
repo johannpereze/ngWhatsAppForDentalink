@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   MainParams,
   SecretKeys,
@@ -9,14 +9,10 @@ import {
   RequestOptions,
 } from '../interfaces/interface';
 
-var myHeaders = new Headers();
-myHeaders.append('Authorization', `Token ${''}`);
-
-var requestOptions: RequestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow',
-};
+const headers = new HttpHeaders().set(
+  'Authorization',
+  'Token '
+);
 
 @Injectable({
   providedIn: 'root',
@@ -51,8 +47,6 @@ export class DentalinkQuerysService {
     },
   ];
 
-  //Esto creo que debería ser un objeto con toda la info que voy a necesitar al final
-
   mainParams: MainParams = {
     secretKeysCompleted: false,
     selectedLine: 0,
@@ -73,27 +67,22 @@ export class DentalinkQuerysService {
     console.log(this.secretKeys); //borrar por seguridad
   }
 
-  getClinics() {
-    fetch(
-      'https://api.dentalink.healthatom.com/api/v1/sucursales/',
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-  }
+  resultados: {} = {};
 
-  // getClinics(){
-  //   console.log(this.mainParams.selectedTemplate);
-
-  //   this.http
-  //     .get<DentalinkClinics>(
-  //       `https://api.dentalink.healthatom.com/api/v1/sucursales/}search`, {}
-  //     )
-  //     // .subscribe((resp) => {
-  //     //   // console.log(resp.data);
-  //     //   this.resultados = resp.data;
-  //     //   localStorage.setItem('resultados', JSON.stringify(this.resultados));
-  //     // });
+  // getClinics() {
+  //   fetch(
+  //     'https://api.dentalink.healthatom.com/api/v1/sucursales/',
+  //     requestOptions
+  //   )
+  //     .then((response) => response.text())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.log('error', error));
   // }
+
+  getClinics() {
+    return this.http.get(
+      'https://api.dentalink.healthatom.com/api/v1/sucursales/',
+      { headers }
+    );
+  }
 }
