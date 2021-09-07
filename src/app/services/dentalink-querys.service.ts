@@ -5,27 +5,19 @@ import {
   SecretKeys,
   WhatsAppLine,
   WhatsAppTemplate,
-  DentalinkClinics,
-  RequestOptions,
 } from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DentalinkQuerysService {
-  constructor(private http: HttpClient) {
-    this.dentalinkKey;
-  }
+  constructor(private http: HttpClient) {}
 
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2chatUser: '',
     b2ChatPass: '',
   };
-
-  get dentalinkKey() {
-    return this.secretKeys.dentalinkKey;
-  }
 
   whatsAppLines: WhatsAppLine[] = [
     {
@@ -58,8 +50,8 @@ export class DentalinkQuerysService {
   saveKeys() {
     if (
       this.secretKeys.dentalinkKey.trim().length === 81 &&
-      this.secretKeys.b2chatUser.trim().length === 0 &&     //poner este valor en 36 cuando las empiece a usar
-      this.secretKeys.b2ChatPass.trim().length === 0        //poner este valor en 36 cuando las empiece a usar
+      this.secretKeys.b2chatUser.trim().length === 0 && //poner este valor en 36 cuando las empiece a usar
+      this.secretKeys.b2ChatPass.trim().length === 0 //poner este valor en 36 cuando las empiece a usar
     ) {
       this.mainParams.secretKeysCompleted = true;
     } else {

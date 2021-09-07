@@ -26,10 +26,6 @@ export class AppComponent {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
 
-  // get headers() {
-  //   return this.dentalinkQuerysService.httpHeader;
-  // }
-
   selectLine() {
     console.log(this.mainParams.selectedLine);
     console.log(this.mainParams.campaignNote);
@@ -39,7 +35,7 @@ export class AppComponent {
     this.getClinics();
   }
 
-  apiResponse: {} = {};
+  apiResponse: {} = {}; //Todo esto debería estar correctamente tipado
 
   getClinics() {
     this.dentalinkQuerysService.getClinics().subscribe((data) => {
