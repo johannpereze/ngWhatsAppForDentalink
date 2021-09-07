@@ -9,17 +9,16 @@ import { DentalinkQuerysService } from './services/dentalink-querys.service';
 export class AppComponent {
   constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
 
+  //Todos los getters del servicio para traer la data
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
   }
   get whatsAppLines() {
     return this.dentalinkQuerysService.whatsAppLines;
   }
-
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
-
   get saveKeys() {
     return this.dentalinkQuerysService.saveKeys;
   }
