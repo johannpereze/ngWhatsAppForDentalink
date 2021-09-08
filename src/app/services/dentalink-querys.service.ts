@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
+  DentalinkClinics,
   MainParams,
   SecretKeys,
   WhatsAppLine,
@@ -60,14 +61,14 @@ export class DentalinkQuerysService {
     console.log(this.secretKeys); //borrar por seguridad
   }
 
-  resultados: {} = {};
+
 
   getClinics() {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get(
+    return this.http.get<DentalinkClinics>(
       'https://api.dentalink.healthatom.com/api/v1/sucursales/',
       { headers }
     );

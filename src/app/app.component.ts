@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Clinics, DentalinkClinics } from './interfaces/interface';
 import { DentalinkQuerysService } from './services/dentalink-querys.service';
 
 @Component({
@@ -25,6 +26,9 @@ export class AppComponent {
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
+  // get clinics() {
+  //   return this.dentalinkQuerysService.clinics;
+  // }
 
   selectLine() {
     console.log(this.mainParams.selectedLine);
@@ -35,12 +39,15 @@ export class AppComponent {
     this.getClinics();
   }
 
-  apiResponse: {} = {}; //Todo esto debería estar correctamente tipado
+  apiResponseData: DentalinkClinics = {
+    links: '',
+    data: [],
+  }; //Todo esto debería estar correctamente tipado
 
   getClinics() {
-    this.dentalinkQuerysService.getClinics().subscribe((data) => {
-      this.apiResponse = data;
-      console.log(this.apiResponse);
+    this.dentalinkQuerysService.getClinics().subscribe((response) => {
+      this.apiResponseData = response;
+      console.log(this.apiResponseData);
     });
   }
 }

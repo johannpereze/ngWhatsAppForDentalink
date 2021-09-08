@@ -68,4 +68,11 @@
     </select>
     <button type="submit">Siguiente</button>
   </form>
+  <hr>
+  <!-- sedes -->
+  <form>
+    <label *ngFor='let clinic of apiResponseData.data'>
+      <input checked type="checkbox" name="" id="">{{clinic.nombre}}
+    </label>
+  </form>
 </div>
