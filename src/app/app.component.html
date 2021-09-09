@@ -68,18 +68,19 @@
     </select>
     <button type="submit">Siguiente</button>
   </form>
-  <hr>
+  <hr />
   <!-- sedes -->
-  <form (ngSubmit)='saveClinics($event)'>
-    <label *ngFor='let clinic of apiResponseData.data'>
-      <input checked name='{{clinic.nombre}}' type="checkbox" name="" id="">{{clinic.nombre}}
+  <form (ngSubmit)="saveClinics($event)">
+    <label *ngFor="let clinic of apiResponseData.data">
+      <input checked name="{{ clinic.nombre }}" type="checkbox" />{{
+        clinic.nombre
+      }}
     </label>
-    <!-- <label for="">
-      <input type="date" name="" id="">
-    </label> -->
+    <label >Fecha de la cita
+      <input [(ngModel)]="mainParams.appointmentsDate" type="date" name="appointmentsDate" >
+    </label>
     <button>Siguiente</button>
   </form>
-
+  
 </div>
-
 

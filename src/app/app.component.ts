@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Clinics, DentalinkClinics } from './interfaces/interface';
 import { DentalinkQuerysService } from './services/dentalink-querys.service';
 
@@ -40,6 +40,8 @@ export class AppComponent {
   }
 
   saveClinics(event:any){//No se como tipar este SumbitEvent
+    
+    
     for (let i = 0; i < this.apiResponseData.data.length; i++) {
     // console.log(event.srcElement[i].name);
     // console.log(event.srcElement[i].checked);
@@ -48,9 +50,17 @@ export class AppComponent {
       this.mainParams.selectedClinics.push(event.srcElement[i].name)
     }
     }
+
+    console.log(this.mainParams.appointmentsDate);
+    
     
     
     console.log(this.mainParams.selectedClinics);
+  
+
+    console.log(this.mainParams);
+    
+    
   }
 
   apiResponseData: DentalinkClinics = {

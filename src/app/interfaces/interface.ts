@@ -19,7 +19,8 @@ export interface MainParams {
   selectedLine: number;
   campaignNote: string;
   selectedTemplate: string;
-  selectedClinics: string[]
+  selectedClinics: string[];
+  appointmentsDate: string
 }
 
 // To parse this data:

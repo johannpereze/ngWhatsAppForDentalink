@@ -46,7 +46,8 @@ export class DentalinkQuerysService {
     selectedLine: 0,
     campaignNote: '',
     selectedTemplate: '',
-    selectedClinics:[]
+    selectedClinics:[],
+    appointmentsDate: '2021-01-01'
   };
 
   saveKeys() {
