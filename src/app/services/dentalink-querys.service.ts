@@ -46,6 +46,7 @@ export class DentalinkQuerysService {
     selectedLine: 0,
     campaignNote: '',
     selectedTemplate: '',
+    selectedClinics:[]
   };
 
   saveKeys() {

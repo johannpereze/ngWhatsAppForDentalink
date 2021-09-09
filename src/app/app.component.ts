@@ -39,6 +39,20 @@ export class AppComponent {
     this.getClinics();
   }
 
+  saveClinics(event:any){//No se como tipar este SumbitEvent
+    for (let i = 0; i < this.apiResponseData.data.length; i++) {
+    // console.log(event.srcElement[i].name);
+    // console.log(event.srcElement[i].checked);
+    
+    if (event.srcElement[i].checked) {
+      this.mainParams.selectedClinics.push(event.srcElement[i].name)
+    }
+    }
+    
+    
+    console.log(this.mainParams.selectedClinics);
+  }
+
   apiResponseData: DentalinkClinics = {
     links: '',
     data: [],

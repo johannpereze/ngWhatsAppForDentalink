@@ -70,9 +70,16 @@
   </form>
   <hr>
   <!-- sedes -->
-  <form>
+  <form (ngSubmit)='saveClinics($event)'>
     <label *ngFor='let clinic of apiResponseData.data'>
-      <input checked type="checkbox" name="" id="">{{clinic.nombre}}
+      <input checked name='{{clinic.nombre}}' type="checkbox" name="" id="">{{clinic.nombre}}
     </label>
+    <!-- <label for="">
+      <input type="date" name="" id="">
+    </label> -->
+    <button>Siguiente</button>
   </form>
+
 </div>
+
+
