@@ -71,7 +71,7 @@
   <hr />
   <!-- sedes -->
   <form (ngSubmit)="saveClinics($event)">
-    <label *ngFor="let clinic of apiResponseData.data">
+    <label *ngFor="let clinic of clinicsApiResponse.data">
       <input checked name="{{ clinic.nombre }}" type="checkbox" />{{
         clinic.nombre
       }}
@@ -84,3 +84,9 @@
   
 </div>
 
+<!-- Resumen -->
+<div>
+  Plantilla: {{mainParams.selectedTemplate}}
+  Nota del envío: {{mainParams.campaignNote}}
+  Fecha de las citas: {{mainParams.appointmentsDate}}
+</div>

@@ -1,5 +1,9 @@
 import { Component, EventEmitter } from '@angular/core';
-import { Clinics, DentalinkClinics } from './interfaces/interface';
+import {
+  Clinics,
+  DentalinkAppointments,
+  DentalinkClinics,
+} from './interfaces/interface';
 import { DentalinkQuerysService } from './services/dentalink-querys.service';
 
 @Component({
@@ -37,41 +41,79 @@ export class AppComponent {
   selectTemplate() {
     console.log(this.mainParams.selectedTemplate);
     this.getClinics();
+    this.getAppointments();
   }
 
-  saveClinics(event:any){//No se como tipar este SumbitEvent
-    
-    
-    for (let i = 0; i < this.apiResponseData.data.length; i++) {
-    // console.log(event.srcElement[i].name);
-    // console.log(event.srcElement[i].checked);
-    
-    if (event.srcElement[i].checked) {
-      this.mainParams.selectedClinics.push(event.srcElement[i].name)
-    }
+  saveClinics(event: any) {
+    //No se como tipar este SumbitEvent
+
+    for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
+      // console.log(event.srcElement[i].name);
+      // console.log(event.srcElement[i].checked);
+
+      if (event.srcElement[i].checked) {
+        this.mainParams.selectedClinics.push(event.srcElement[i].name);
+      }
     }
 
     console.log(this.mainParams.appointmentsDate);
-    
-    
-    
+
     console.log(this.mainParams.selectedClinics);
-  
 
     console.log(this.mainParams);
-    
-    
   }
 
-  apiResponseData: DentalinkClinics = {
+  clinicsApiResponse: DentalinkClinics = {
     links: '',
     data: [],
-  }; //Todo esto debería estar correctamente tipado
+  };
+  appointmentsApiResponse: DentalinkAppointments = {
+    links: {
+      current: '',
+      next: '',
+    },
+    data: [],
+  };
+
+  //Todo esto debería estar correctamente tipado
 
   getClinics() {
     this.dentalinkQuerysService.getClinics().subscribe((response) => {
-      this.apiResponseData = response;
-      console.log(this.apiResponseData);
+      this.clinicsApiResponse = response;
+      console.log(this.clinicsApiResponse);
+    });
+  }
+
+  getAppointments() {
+    this.dentalinkQuerysService.getAppointments().subscribe((response) => {
+      console.log('Linea 89', response);
+      this.dentalinkQuerysService
+        .getNextPage(response.links.next)
+        .subscribe((response) => {
+          console.log('Linea 92', response);
+        });
+    });
+  }
+
+  // }
+  // this.getNextPage
+  // elsereturn
+
+  // console.log(this.appointmentsApiResponse);
+  //   this.dentalinkQuerysService.getNextPage(response.links.next).subscribe((response) => {
+
+  // }
+  // if(!response.links.next) return
+  // else{
+
+  // this.appointmentsApiResponse = response;
+  //Tengo que hacer un callback que vaya trayendo todas las citas
+  // console.log(this.appointmentsApiResponse);
+
+  getNextPage(response:DentalinkAppointments) {
+    this.dentalinkQuerysService.getNextPage(response.links.next).subscribe((response) => {
+      console.log('linea 114', response);
+      this.getNextPage(response)
     });
   }
 }

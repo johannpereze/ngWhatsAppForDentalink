@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
+  DentalinkAppointments,
   DentalinkClinics,
   MainParams,
   SecretKeys,
@@ -46,8 +47,8 @@ export class DentalinkQuerysService {
     selectedLine: 0,
     campaignNote: '',
     selectedTemplate: '',
-    selectedClinics:[],
-    appointmentsDate: '2021-01-01'
+    selectedClinics: [],
+    appointmentsDate: '2021-09-15',
   };
 
   saveKeys() {
@@ -63,8 +64,6 @@ export class DentalinkQuerysService {
     console.log(this.secretKeys); //borrar por seguridad
   }
 
-
-
   getClinics() {
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -74,5 +73,24 @@ export class DentalinkQuerysService {
       'https://api.dentalink.healthatom.com/api/v1/sucursales/',
       { headers }
     );
+  }
+
+  getAppointments() {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Token ${this.secretKeys.dentalinkKey}`
+    );
+    return this.http.get<DentalinkAppointments>(
+      `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`,
+      { headers }
+    );
+  }
+
+  getNextPage(url: string) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Token ${this.secretKeys.dentalinkKey}`
+    );
+    return this.http.get<DentalinkAppointments>(`${url}`, { headers });
   }
 }
