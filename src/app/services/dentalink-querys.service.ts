@@ -51,6 +51,8 @@ export class DentalinkQuerysService {
     appointmentsDate: '2021-09-15',
   };
 
+  appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
+
   saveKeys() {
     if (
       this.secretKeys.dentalinkKey.trim().length === 81 &&
@@ -75,22 +77,11 @@ export class DentalinkQuerysService {
     );
   }
 
-  getAppointments() {
+  getAppointments(url: string) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get<DentalinkAppointments>(
-      `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`,
-      { headers }
-    );
-  }
-
-  getNextPage(url: string) {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Token ${this.secretKeys.dentalinkKey}`
-    );
-    return this.http.get<DentalinkAppointments>(`${url}`, { headers });
+    return this.http.get<DentalinkAppointments>(url, { headers });
   }
 }

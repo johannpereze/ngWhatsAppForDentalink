@@ -143,3 +143,6 @@ export interface Links {
 //   }
 // }
 
+export interface AllAppointments {
+  appointments: any
+}
