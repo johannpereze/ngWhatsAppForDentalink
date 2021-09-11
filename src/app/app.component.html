@@ -1,4 +1,6 @@
-<div class="keys-form">
+<app-wa-notifications-page></app-wa-notifications-page>
+
+<!-- <div class="keys-form">
   <form
     *ngIf="!mainParams.secretKeysCompleted"
     action=""
@@ -27,9 +29,9 @@
     />
     <button>Guardar</button>
   </form>
-</div>
-<hr />
-<div class="line-form">
+</div> -->
+<!-- <hr /> -->
+<!-- <div class="line-form">
   <form action="" (ngSubmit)="selectLine()">
     <select
       name="mainParams"
@@ -51,9 +53,9 @@
       [(ngModel)]="mainParams.campaignNote"
     />
     <button type="submit">Siguiente</button>
-  </form>
+  </form> -->
   <hr />
-  <form action="" (ngSubmit)="selectTemplate()">
+  <!-- <form action="" (ngSubmit)="selectTemplate()">
     <select
       name="template"
       id="templateSelection"
@@ -67,7 +69,7 @@
       </option>
     </select>
     <button type="submit">Siguiente</button>
-  </form>
+  </form> -->
   <hr />
   <!-- sedes -->
   <form (ngSubmit)="saveClinics($event)">
@@ -82,7 +84,7 @@
     <button>Siguiente</button>
   </form>
   
-</div>
+
 
 <!-- Resumen -->
 <div>

@@ -53,6 +53,11 @@ export class DentalinkQuerysService {
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
+  clinicsApiResponse: DentalinkClinics = {
+    links: '',
+    data: [],
+  };
+
   saveKeys() {
     if (
       this.secretKeys.dentalinkKey.trim().length === 81 &&

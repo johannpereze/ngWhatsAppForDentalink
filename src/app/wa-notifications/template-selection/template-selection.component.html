@@ -1,0 +1,15 @@
+<form action="" (ngSubmit)="selectTemplate()">
+    <select
+      name="template"
+      id="templateSelection"
+      [(ngModel)]="mainParams.selectedTemplate"
+    >
+      <option
+        *ngFor="let whatsAppTemplate of whatsAppTemplates"
+        value="{{ whatsAppTemplate.name }}"
+      >
+        {{ whatsAppTemplate.name }}: {{ whatsAppTemplate.template }}
+      </option>
+    </select>
+    <button type="submit">Siguiente</button>
+  </form>
