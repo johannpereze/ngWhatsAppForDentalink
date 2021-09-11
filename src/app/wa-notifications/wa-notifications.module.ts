@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SecretKeysComponent } from './secret-keys/secret-keys.component';
 import { LineSelectionComponent } from './line-selection/line-selection.component';
 import { TemplateSelectionComponent } from './template-selection/template-selection.component';
-import { DateSelectionComponent } from './date-selection/date-selection.component';
+// import { DateSelectionComponent } from './date-selection/date-selection.component';
 import { SummaryComponent } from './summary/summary.component';
 import { WaNotificationsPageComponent } from './wa-notifications-page/wa-notifications-page.component';
 import { ClinicsListComponent } from './clinics-list/clinics-list.component';
@@ -16,7 +16,7 @@ import { ClinicsListComponent } from './clinics-list/clinics-list.component';
     SecretKeysComponent,
     LineSelectionComponent,
     TemplateSelectionComponent,
-    DateSelectionComponent,
+    // DateSelectionComponent,
     SummaryComponent,
     WaNotificationsPageComponent,
     ClinicsListComponent
