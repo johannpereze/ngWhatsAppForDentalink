@@ -15,6 +15,19 @@ import {
 export class DentalinkQuerysService {
   constructor(private http: HttpClient) {}
 
+  //Con estos parámetros voy a hacer la query a los endpoints
+  //Lo usa secretKeys
+  mainParams: MainParams = {
+    secretKeysCompleted: false,
+    selectedLine: 0,
+    campaignNote: '',
+    selectedTemplate: '',
+    selectedClinics: [],
+    appointmentsDate: '2021-09-15',
+  };
+
+  //Estas keys en el futuro se debería almacenar en el backend
+  //Se guardan desde secret keys component con el método savekeys
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2chatUser: '',
@@ -42,15 +55,6 @@ export class DentalinkQuerysService {
     },
   ];
 
-  mainParams: MainParams = {
-    secretKeysCompleted: false,
-    selectedLine: 0,
-    campaignNote: '',
-    selectedTemplate: '',
-    selectedClinics: [],
-    appointmentsDate: '2021-09-15',
-  };
-
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
   clinicsApiResponse: DentalinkClinics = {
@@ -58,6 +62,7 @@ export class DentalinkQuerysService {
     data: [],
   };
 
+  //Gunción para el componente de secretKeys
   saveKeys() {
     if (
       this.secretKeys.dentalinkKey.trim().length === 81 &&
