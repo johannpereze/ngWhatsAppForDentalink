@@ -25,25 +25,22 @@ export class AppComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
-  get clinicsApiResponse() {
-    return this.dentalinkQuerysService.clinicsApiResponse;
-  }
   // get saveKeys() {
   //   return this.dentalinkQuerysService.saveKeys;
   // }
-  // get whatsAppTemplates() {
-  //   return this.dentalinkQuerysService.whatsAppTemplates;
-  // }
-  // get appointmentsUrl() {
-  //   return this.dentalinkQuerysService.appointmentsUrl;
-  // }
+  get whatsAppTemplates() {
+    return this.dentalinkQuerysService.whatsAppTemplates;
+  }
+  get appointmentsUrl() {
+    return this.dentalinkQuerysService.appointmentsUrl;
+  }
 
   
-  // selectTemplate() {
-  //   console.log(this.mainParams.selectedTemplate);
-  //   this.getClinics();
-  //   this.getAppointments();
-  // }
+  selectTemplate() {
+    console.log(this.mainParams.selectedTemplate);
+    this.getClinics();
+    this.getAppointments();
+  }
 
   saveClinics(event: any) {
     //No se como tipar este SumbitEvent
@@ -64,10 +61,10 @@ export class AppComponent {
     console.log(this.mainParams);
   }
 
-  // clinicsApiResponse: DentalinkClinics = {
-  //   links: '',
-  //   data: [],
-  // };
+  clinicsApiResponse: DentalinkClinics = {
+    links: '',
+    data: [],
+  };
   appointmentsApiResponse: DentalinkAppointments = {
     links: {
       current: '',
@@ -76,215 +73,213 @@ export class AppComponent {
     data: [],
   };
 
-}
-
-  // allAppointments: AllAppointments = {
-  //   appointments: [],
-  // };
+  allAppointments: AllAppointments = {
+    appointments: [],
+  };
 
   //Todo esto debería estar correctamente tipado
 
-  // getClinics() {
-  //   this.dentalinkQuerysService.getClinics().subscribe((response) => {
-  //     this.clinicsApiResponse = response;
-  //     console.log(this.clinicsApiResponse);
-  //   });
-  // }
+  getClinics() {
+    this.dentalinkQuerysService.getClinics().subscribe((response) => {
+      this.clinicsApiResponse = response;
+      console.log(this.clinicsApiResponse);
+    });
+  }
 
-//   getAppointments() {
-//     this.dentalinkQuerysService
-//       .getAppointments(this.appointmentsUrl)
-//       .subscribe((response) => {
-//         this.allAppointments.appointments.push(...response.data);
-//         console.log(this.allAppointments);
-//         console.log('Linea 1', response);
-//         this.dentalinkQuerysService
-//           .getAppointments(response.links.next)
-//           .subscribe((response) => {
-//             this.allAppointments.appointments.push(...response.data);
-//             console.log(this.allAppointments);
-//             console.log('Linea 2', response);
-//             this.dentalinkQuerysService
-//               .getAppointments(response.links.next)
-//               .subscribe((response) => {
-//                 this.allAppointments.appointments.push(...response.data);
-//                 console.log(this.allAppointments);
-//                 console.log('Linea 3', response);
-//                 this.dentalinkQuerysService
-//                   .getAppointments(response.links.next)
-//                   .subscribe((response) => {
-//                     this.allAppointments.appointments.push(...response.data);
-//                     console.log(this.allAppointments);
-//                     console.log('Linea 4', response);
-//                     this.dentalinkQuerysService
-//                       .getAppointments(response.links.next)
-//                       .subscribe((response) => {
-//                         this.allAppointments.appointments.push(
-//                           ...response.data
-//                         );
-//                         console.log(this.allAppointments);
-//                         console.log('Linea 5', response);
-//                         this.dentalinkQuerysService
-//                           .getAppointments(response.links.next)
-//                           .subscribe((response) => {
-//                             this.allAppointments.appointments.push(
-//                               ...response.data
-//                             );
-//                             console.log(this.allAppointments);
-//                             console.log('Linea 6', response);
-//                             this.dentalinkQuerysService
-//                               .getAppointments(response.links.next)
-//                               .subscribe((response) => {
-//                                 this.allAppointments.appointments.push(
-//                                   ...response.data
-//                                 );
-//                                 console.log(this.allAppointments);
-//                                 console.log('Linea 7', response);
-//                                 this.dentalinkQuerysService
-//                                   .getAppointments(response.links.next)
-//                                   .subscribe((response) => {
-//                                     this.allAppointments.appointments.push(
-//                                       ...response.data
-//                                     );
-//                                     console.log(this.allAppointments);
-//                                     console.log('Linea 8', response);
-//                                     this.dentalinkQuerysService
-//                                       .getAppointments(response.links.next)
-//                                       .subscribe((response) => {
-//                                         this.allAppointments.appointments.push(
-//                                           ...response.data
-//                                         );
-//                                         console.log(this.allAppointments);
-//                                         console.log('Linea 9', response);
-//                                         this.dentalinkQuerysService
-//                                           .getAppointments(response.links.next)
-//                                           .subscribe((response) => {
-//                                             this.allAppointments.appointments.push(
-//                                               ...response.data
-//                                             );
-//                                             console.log(this.allAppointments);
-//                                             console.log('Linea  10', response);
-//                                             this.dentalinkQuerysService
-//                                               .getAppointments(
-//                                                 response.links.next
-//                                               )
-//                                               .subscribe((response) => {
-//                                                 this.allAppointments.appointments.push(
-//                                                   ...response.data
-//                                                 );
-//                                                 console.log(
-//                                                   this.allAppointments
-//                                                 );
-//                                                 console.log(
-//                                                   'Linea 11',
-//                                                   response
-//                                                 );
-//                                                 this.dentalinkQuerysService
-//                                                   .getAppointments(
-//                                                     response.links.next
-//                                                   )
-//                                                   .subscribe((response) => {
-//                                                     this.allAppointments.appointments.push(
-//                                                       ...response.data
-//                                                     );
-//                                                     console.log(
-//                                                       this.allAppointments
-//                                                     );
-//                                                     console.log(
-//                                                       'Linea 12',
-//                                                       response
-//                                                     );
-//                                                     this.dentalinkQuerysService
-//                                                       .getAppointments(
-//                                                         response.links.next
-//                                                       )
-//                                                       .subscribe((response) => {
-//                                                         this.allAppointments.appointments.push(
-//                                                           ...response.data
-//                                                         );
-//                                                         console.log(
-//                                                           this.allAppointments
-//                                                         );
-//                                                         console.log(
-//                                                           'Linea 13',
-//                                                           response
-//                                                         );
-//                                                         this.dentalinkQuerysService
-//                                                           .getAppointments(
-//                                                             response.links.next
-//                                                           )
-//                                                           .subscribe(
-//                                                             (response) => {
-//                                                               this.allAppointments.appointments.push(
-//                                                                 ...response.data
-//                                                               );
-//                                                               console.log(
-//                                                                 this
-//                                                                   .allAppointments
-//                                                               );
-//                                                               console.log(
-//                                                                 'Linea 14',
-//                                                                 response
-//                                                               );
-//                                                               this.dentalinkQuerysService
-//                                                                 .getAppointments(
-//                                                                   response.links
-//                                                                     .next
-//                                                                 )
-//                                                                 .subscribe(
-//                                                                   (
-//                                                                     response
-//                                                                   ) => {
-//                                                                     this.allAppointments.appointments.push(
-//                                                                       ...response.data
-//                                                                     );
-//                                                                     console.log(
-//                                                                       this
-//                                                                         .allAppointments
-//                                                                     );
-//                                                                     console.log(
-//                                                                       'Linea 15',
-//                                                                       response
-//                                                                     );
-//                                                                     this.dentalinkQuerysService
-//                                                                       .getAppointments(
-//                                                                         response
-//                                                                           .links
-//                                                                           .next
-//                                                                       )
-//                                                                       .subscribe(
-//                                                                         (
-//                                                                           response
-//                                                                         ) => {
-//                                                                           this.allAppointments.appointments.push(
-//                                                                             ...response.data
-//                                                                           );
-//                                                                           console.log(
-//                                                                             this
-//                                                                               .allAppointments
-//                                                                           );
-//                                                                           console.log(
-//                                                                             'Linea 16',
-//                                                                             response
-//                                                                           );
-//                                                                         }
-//                                                                       );
-//                                                                   }
-//                                                                 );
-//                                                             }
-//                                                           );
-//                                                       });
-//                                                   });
-//                                               });
-//                                           });
-//                                       });
-//                                   });
-//                               });
-//                           });
-//                       });
-//                   });
-//               });
-//           });
-//       });
-//   }
-// }
+  getAppointments() {
+    this.dentalinkQuerysService
+      .getAppointments(this.appointmentsUrl)
+      .subscribe((response) => {
+        this.allAppointments.appointments.push(...response.data);
+        console.log(this.allAppointments);
+        console.log('Linea 1', response);
+        this.dentalinkQuerysService
+          .getAppointments(response.links.next)
+          .subscribe((response) => {
+            this.allAppointments.appointments.push(...response.data);
+            console.log(this.allAppointments);
+            console.log('Linea 2', response);
+            this.dentalinkQuerysService
+              .getAppointments(response.links.next)
+              .subscribe((response) => {
+                this.allAppointments.appointments.push(...response.data);
+                console.log(this.allAppointments);
+                console.log('Linea 3', response);
+                this.dentalinkQuerysService
+                  .getAppointments(response.links.next)
+                  .subscribe((response) => {
+                    this.allAppointments.appointments.push(...response.data);
+                    console.log(this.allAppointments);
+                    console.log('Linea 4', response);
+                    this.dentalinkQuerysService
+                      .getAppointments(response.links.next)
+                      .subscribe((response) => {
+                        this.allAppointments.appointments.push(
+                          ...response.data
+                        );
+                        console.log(this.allAppointments);
+                        console.log('Linea 5', response);
+                        this.dentalinkQuerysService
+                          .getAppointments(response.links.next)
+                          .subscribe((response) => {
+                            this.allAppointments.appointments.push(
+                              ...response.data
+                            );
+                            console.log(this.allAppointments);
+                            console.log('Linea 6', response);
+                            this.dentalinkQuerysService
+                              .getAppointments(response.links.next)
+                              .subscribe((response) => {
+                                this.allAppointments.appointments.push(
+                                  ...response.data
+                                );
+                                console.log(this.allAppointments);
+                                console.log('Linea 7', response);
+                                this.dentalinkQuerysService
+                                  .getAppointments(response.links.next)
+                                  .subscribe((response) => {
+                                    this.allAppointments.appointments.push(
+                                      ...response.data
+                                    );
+                                    console.log(this.allAppointments);
+                                    console.log('Linea 8', response);
+                                    this.dentalinkQuerysService
+                                      .getAppointments(response.links.next)
+                                      .subscribe((response) => {
+                                        this.allAppointments.appointments.push(
+                                          ...response.data
+                                        );
+                                        console.log(this.allAppointments);
+                                        console.log('Linea 9', response);
+                                        this.dentalinkQuerysService
+                                          .getAppointments(response.links.next)
+                                          .subscribe((response) => {
+                                            this.allAppointments.appointments.push(
+                                              ...response.data
+                                            );
+                                            console.log(this.allAppointments);
+                                            console.log('Linea  10', response);
+                                            this.dentalinkQuerysService
+                                              .getAppointments(
+                                                response.links.next
+                                              )
+                                              .subscribe((response) => {
+                                                this.allAppointments.appointments.push(
+                                                  ...response.data
+                                                );
+                                                console.log(
+                                                  this.allAppointments
+                                                );
+                                                console.log(
+                                                  'Linea 11',
+                                                  response
+                                                );
+                                                this.dentalinkQuerysService
+                                                  .getAppointments(
+                                                    response.links.next
+                                                  )
+                                                  .subscribe((response) => {
+                                                    this.allAppointments.appointments.push(
+                                                      ...response.data
+                                                    );
+                                                    console.log(
+                                                      this.allAppointments
+                                                    );
+                                                    console.log(
+                                                      'Linea 12',
+                                                      response
+                                                    );
+                                                    this.dentalinkQuerysService
+                                                      .getAppointments(
+                                                        response.links.next
+                                                      )
+                                                      .subscribe((response) => {
+                                                        this.allAppointments.appointments.push(
+                                                          ...response.data
+                                                        );
+                                                        console.log(
+                                                          this.allAppointments
+                                                        );
+                                                        console.log(
+                                                          'Linea 13',
+                                                          response
+                                                        );
+                                                        this.dentalinkQuerysService
+                                                          .getAppointments(
+                                                            response.links.next
+                                                          )
+                                                          .subscribe(
+                                                            (response) => {
+                                                              this.allAppointments.appointments.push(
+                                                                ...response.data
+                                                              );
+                                                              console.log(
+                                                                this
+                                                                  .allAppointments
+                                                              );
+                                                              console.log(
+                                                                'Linea 14',
+                                                                response
+                                                              );
+                                                              this.dentalinkQuerysService
+                                                                .getAppointments(
+                                                                  response.links
+                                                                    .next
+                                                                )
+                                                                .subscribe(
+                                                                  (
+                                                                    response
+                                                                  ) => {
+                                                                    this.allAppointments.appointments.push(
+                                                                      ...response.data
+                                                                    );
+                                                                    console.log(
+                                                                      this
+                                                                        .allAppointments
+                                                                    );
+                                                                    console.log(
+                                                                      'Linea 15',
+                                                                      response
+                                                                    );
+                                                                    this.dentalinkQuerysService
+                                                                      .getAppointments(
+                                                                        response
+                                                                          .links
+                                                                          .next
+                                                                      )
+                                                                      .subscribe(
+                                                                        (
+                                                                          response
+                                                                        ) => {
+                                                                          this.allAppointments.appointments.push(
+                                                                            ...response.data
+                                                                          );
+                                                                          console.log(
+                                                                            this
+                                                                              .allAppointments
+                                                                          );
+                                                                          console.log(
+                                                                            'Linea 16',
+                                                                            response
+                                                                          );
+                                                                        }
+                                                                      );
+                                                                  }
+                                                                );
+                                                            }
+                                                          );
+                                                      });
+                                                  });
+                                              });
+                                          });
+                                      });
+                                  });
+                              });
+                          });
+                      });
+                  });
+              });
+          });
+      });
+  }
+}
