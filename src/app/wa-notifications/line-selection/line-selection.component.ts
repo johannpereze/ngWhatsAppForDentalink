@@ -12,10 +12,13 @@ export class LineSelectionComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
+
+  //Cuando tenga un backend las actualizo en el backend
   get whatsAppLines() {
     return this.dentalinkQuerysService.whatsAppLines;
   }
 
+  //Esta función no se necesita. Simplemente es para ver que sí se guardó la info en mainparams pero la puedo borrar para producción
   selectLine() {
     console.log(this.mainParams.selectedLine);
     console.log(this.mainParams.campaignNote);

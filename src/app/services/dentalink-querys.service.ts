@@ -34,6 +34,7 @@ export class DentalinkQuerysService {
     b2ChatPass: '',
   };
 
+  //Cuando tenga un backend las actualizo en el backend
   whatsAppLines: WhatsAppLine[] = [
     {
       name: 'Notificaciones Prevenga',
