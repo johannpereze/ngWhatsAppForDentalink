@@ -1,11 +1,18 @@
 <form action="" (ngSubmit)="selectTemplate()">
-  <select name="template" [(ngModel)]="mainParams.selectedTemplate">
-    <option
-      *ngFor="let whatsAppTemplate of whatsAppTemplates"
-      value="{{ whatsAppTemplate.name }}"
+  <label for="templateSelection"
+    >Selecciona una plantilla
+    <select
+      id="templateSelection"
+      name="template"
+      [(ngModel)]="mainParams.selectedTemplate"
     >
-      {{ whatsAppTemplate.name }}: {{ whatsAppTemplate.template }}
-    </option>
-  </select>
+      <option
+        *ngFor="let whatsAppTemplate of whatsAppTemplates"
+        value="{{ whatsAppTemplate.name }}"
+      >
+        {{ whatsAppTemplate.name }}: {{ whatsAppTemplate.template }}
+      </option>
+    </select>
+  </label>
   <button type="submit">Siguiente</button>
 </form>

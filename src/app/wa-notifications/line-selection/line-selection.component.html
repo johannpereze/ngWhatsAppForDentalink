@@ -1,24 +1,31 @@
 <div class="line-form">
   <form action="" (ngSubmit)="selectLine()">
-    <select
-      name="mainParams"
-      id="lineSelection"
-      [(ngModel)]="mainParams.selectedLine"
-    >
-      <option
-        *ngFor="let whatsAppLine of whatsAppLines"
-        value="{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}"
-      >
-        +{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}
-      </option>
-    </select>
-    <label for="campaignNote">Notas de la campaña</label>
-    <input
-      type="text"
-      id="campaignNote"
-      name="campaignNote"
-      [(ngModel)]="mainParams.campaignNote"
-    />
-    <button type="submit">Siguiente</button>
+    <div>
+      <label for="lineSelection"
+        >Selecciona una línea de WhatsApp
+        <select
+          name="mainParams"
+          id="lineSelection"
+          [(ngModel)]="mainParams.selectedLine"
+        >
+          <option
+            *ngFor="let whatsAppLine of whatsAppLines"
+            value="{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}"
+          >
+            +{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}
+          </option>
+        </select>
+      </label>
+    </div>
+    <div>
+      <label for="campaignNote">Notas de la campaña</label>
+      <input
+        type="text"
+        id="campaignNote"
+        name="campaignNote"
+        [(ngModel)]="mainParams.campaignNote"
+      />
+    </div>
+    <div><button type="submit">Siguiente</button></div>
   </form>
 </div>
