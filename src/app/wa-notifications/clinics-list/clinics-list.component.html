@@ -1,0 +1,18 @@
+<button (click)="getClinics()">Cargar Sedes</button>
+
+<form (ngSubmit)="saveClinics($event)">
+  <label *ngFor="let clinic of clinicsApiResponse.data">
+    <input checked name="{{ clinic.nombre }}" type="checkbox" />{{
+      clinic.nombre
+    }}
+  </label>
+  <label
+    >Fecha de la cita
+    <input
+      [(ngModel)]="mainParams.appointmentsDate"
+      type="date"
+      name="appointmentsDate"
+    />
+  </label>
+  <button>Siguiente</button>
+</form>

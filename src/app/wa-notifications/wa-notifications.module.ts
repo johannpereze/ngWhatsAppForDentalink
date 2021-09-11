@@ -7,6 +7,7 @@ import { TemplateSelectionComponent } from './template-selection/template-select
 import { DateSelectionComponent } from './date-selection/date-selection.component';
 import { SummaryComponent } from './summary/summary.component';
 import { WaNotificationsPageComponent } from './wa-notifications-page/wa-notifications-page.component';
+import { ClinicsListComponent } from './clinics-list/clinics-list.component';
 
 
 
@@ -17,7 +18,8 @@ import { WaNotificationsPageComponent } from './wa-notifications-page/wa-notific
     TemplateSelectionComponent,
     DateSelectionComponent,
     SummaryComponent,
-    WaNotificationsPageComponent
+    WaNotificationsPageComponent,
+    ClinicsListComponent
   ],
   imports: [
     CommonModule,

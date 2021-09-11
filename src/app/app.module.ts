@@ -7,16 +7,14 @@ import { AppComponent } from './app.component';
 import { WANotificationsModule } from './wa-notifications/wa-notifications.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    WANotificationsModule
+    WANotificationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -23,46 +23,14 @@ export class TemplateSelectionComponent {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
 
-  selectTemplate() {
-    console.log(this.mainParams.selectedTemplate);
-    this.getClinics();
-    this.getAppointments();
-  }
-
-  saveClinics(event: any) {
-    //No se como tipar este SumbitEvent
-
-    for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
-      // console.log(event.srcElement[i].name);
-      // console.log(event.srcElement[i].checked);
-
-      if (event.srcElement[i].checked) {
-        this.mainParams.selectedClinics.push(event.srcElement[i].name);
-      }
-    }
-
-    console.log(this.mainParams.appointmentsDate);
-
-    console.log(this.mainParams.selectedClinics);
-
-    console.log(this.mainParams);
-  }
-
-  getClinics() {
-    this.dentalinkQuerysService.getClinics().subscribe((response) => {
-      this.clinicsApiResponse = response;
-      console.log(this.clinicsApiResponse);
-    });
-  }
-
-  clinicsApiResponse: DentalinkClinics = {
-    links: '',
-    data: [],
-  };
-
   allAppointments: AllAppointments = {
     appointments: [],
   };
+
+  selectTemplate() {
+    console.log(this.mainParams.selectedTemplate);
+    this.getAppointments();
+  }
 
   getAppointments() {
     this.dentalinkQuerysService
