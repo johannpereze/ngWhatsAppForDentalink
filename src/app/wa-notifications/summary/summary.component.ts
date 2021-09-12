@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MainParams } from 'src/app/interfaces/interface';
+import { AllAppointments, MainParams } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 
 @Component({
@@ -13,9 +13,27 @@ export class SummaryComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
+  get whatsAppTemplates() {
+    return this.dentalinkQuerysService.whatsAppTemplates;
+  }
+  get allAppointments() {
+    return this.dentalinkQuerysService.allAppointments;
+  }
 
-  showTemplateWithData(mainParams: MainParams,){
+  // templatesWithDataExamples: string[] = []
 
+  showTemplateWithData(mainParams: MainParams, allAppointments: AllAppointments){
+    for (let i = 0; i < 10; i++) {
+      console.log(mainParams.selectedTemplate);
+        for (const name in this.whatsAppTemplates) {
+          if (Object.prototype.hasOwnProperty.call(this.whatsAppTemplates, name)) {
+            console.log(this.whatsAppTemplates[name].template);
+            
+            
+          }
+        }
+    }
   }
   
 }
+
