@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MainParams } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 
 @Component({
@@ -12,4 +13,9 @@ export class SummaryComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
+
+  showTemplateWithData(mainParams: MainParams,){
+
+  }
+  
 }

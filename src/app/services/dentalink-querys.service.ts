@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
+  AllAppointments,
   DentalinkAppointments,
   DentalinkClinics,
   MainParams,
@@ -58,6 +59,10 @@ export class DentalinkQuerysService {
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
+
+  allAppointments: AllAppointments = {
+    appointments: [],
+  };
   //Función para el componente de secretKeys
   saveKeys() {
     if (

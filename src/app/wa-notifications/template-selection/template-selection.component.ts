@@ -22,10 +22,13 @@ export class TemplateSelectionComponent {
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
+  get allAppointments() {
+    return this.dentalinkQuerysService.allAppointments;
+  }
 
-  allAppointments: AllAppointments = {
-    appointments: [],
-  };
+  // allAppointments: AllAppointments = {
+  //   appointments: [],
+  // };
 
   selectTemplate() {
     console.log(this.mainParams.selectedTemplate);
