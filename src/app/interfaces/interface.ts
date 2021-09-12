@@ -148,26 +148,26 @@ export interface AllAppointments {
 }
 
 export interface Appointment {
-  id:                  number;
-  id_paciente:         number;
+  id?:                  number;
+  id_paciente?:         number;
   nombre_paciente:     string;
-  id_estado:           number;
-  estado_cita:         string;
-  estado_anulacion:    number;
-  estado_confirmacion: number;
-  id_tratamiento:      number;
-  nombre_tratamiento:  string;
-  id_dentista:         number;
+  id_estado?:           number;
+  estado_cita?:         string;
+  estado_anulacion?:    number;
+  estado_confirmacion?: number;
+  id_tratamiento?:      number;
+  nombre_tratamiento?:  string;
+  id_dentista?:         number;
   nombre_dentista:     string;
-  id_sucursal:         number;
+  id_sucursal?:         number;
   nombre_sucursal:     string;
-  id_sillon:           number;
-  nombre_sillon:       string;
+  id_sillon?:           number;
+  nombre_sillon?:       string;
   fecha:               any;
   hora_inicio:         string;
-  hora_fin:            string;
-  duracion:            number;
-  comentarios:         string;
-  fecha_actualizacion: any;
-  links:               Link[];
+  hora_fin?:            string;
+  duracion?:            number;
+  comentarios?:         string;
+  fecha_actualizacion?: any;
+  links?:               Link[];
 }

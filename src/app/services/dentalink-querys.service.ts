@@ -52,50 +52,12 @@ export class DentalinkQuerysService {
   allAppointments: AllAppointments = {
     appointments: [
       {
-        "id": 100001,
-        "id_paciente": 100001,
-        "nombre_paciente": "'Nombre Paciente'",
-        "id_estado": 7,
-        "estado_cita": "No confirmado",
-        "estado_anulacion": 0,
-        "estado_confirmacion": 0,
-        "id_tratamiento": 243466,
-        "nombre_tratamiento": "Nuevo plan de tratamiento",
-        "id_dentista": 196,
-        "nombre_dentista": "'Nombre odontólogo'",
-        "id_sucursal": 8,
-        "nombre_sucursal": "'Sede Prevenga'",
-        "id_sillon": 1,
-        "nombre_sillon": "Sillon 1",
-        "fecha": "'Fecha de Cita'",
-        "hora_inicio": "'Hora de Cita'",
-        "hora_fin": "16:00:00",
-        "duracion": 30,
-        "comentarios": "madrugón Previa aplicación de protocolo y cuestionario COVID con respuestas aptas para ser atendido se asigna cita prioritaria y el paciente la acepta conociendo los riesgos, condiciones y recomendaciones. ",
-        "fecha_actualizacion": "2021-09-12 11:24:02",
-        "links": [
-            {
-                "rel": "self",
-                "href": "https://api.dentalink.healthatom.com/api/v1/citas/715025",
-                "method": "GET"
-            },
-            {
-                "rel": "pacientes",
-                "href": "https://api.dentalink.healthatom.com/api/v1/pacientes/68969",
-                "method": "GET"
-            },
-            {
-                "rel": "tratamientos",
-                "href": "https://api.dentalink.healthatom.com/api/v1/tratamientos/243466",
-                "method": "GET"
-            },
-            {
-                "rel": "dentistas",
-                "href": "https://api.dentalink.healthatom.com/api/v1/dentistas/196",
-                "method": "GET"
-            }
-        ]
-    }
+        nombre_paciente: "'Nombre Paciente'",
+        nombre_dentista: "'Nombre odontólogo'",
+        nombre_sucursal: "'Sede Prevenga'",
+        fecha: "'Fecha de Cita'",
+        hora_inicio: "'Hora de Cita'",
+      },
     ],
   };
 
@@ -107,13 +69,11 @@ export class DentalinkQuerysService {
     },
     {
       name: 'recordatorio_cita_vigente_4',
-      template: `Hola,   ${this.allAppointments.appointments[0].nombre_paciente
-      }. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`,
+      template: `Hola,   ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`,
     },
   ];
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
-
 
   //Función para el componente de secretKeys
   saveKeys() {
