@@ -74,7 +74,7 @@ export class DentalinkQuerysService {
     },
   ];
 
-  templatesWithData: string[] = ['placeholder'];
+  templatesWithData: string[] = [];
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 

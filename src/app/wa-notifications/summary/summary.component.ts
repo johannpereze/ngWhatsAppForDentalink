@@ -61,7 +61,7 @@ export class SummaryComponent {
     });
 
     console.log(this.allAppointments);
-
+    this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
