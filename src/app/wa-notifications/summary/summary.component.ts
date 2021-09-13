@@ -44,7 +44,7 @@ export class SummaryComponent {
     arrayOfTemplate.splice(5, 1, var3);
     arrayOfTemplate.splice(7, 1, var4);
     arrayOfTemplate.splice(9, 1, var5);
-    console.log('Aqui debería ir con el nombre', arrayOfTemplate);
+    // console.log('Aqui debería ir con el nombre', arrayOfTemplate);
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
