@@ -27,8 +27,6 @@ export class SummaryComponent {
     return this.dentalinkQuerysService.templatesWithData;
   }
 
-  
-
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
@@ -48,7 +46,7 @@ export class SummaryComponent {
     arrayOfTemplate.splice(9, 1, var5);
     console.log('Aqui debería ir con el nombre', arrayOfTemplate);
 
-    arrayOfTemplate = arrayOfTemplate.toString();
+    arrayOfTemplate = arrayOfTemplate.join('');
 
     return arrayOfTemplate;
   }
