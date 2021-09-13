@@ -22,7 +22,8 @@ export class DentalinkQuerysService {
     secretKeysCompleted: false,
     selectedLine: 0,
     campaignNote: '',
-    selectedTemplate: '',
+    selectedTemplateName: '',
+    selectedTemplateTemplate: '',
     selectedClinics: [],
     appointmentsDate: '2021-09-15',
   };
@@ -53,10 +54,10 @@ export class DentalinkQuerysService {
     appointments: [
       {
         nombre_paciente: "'Nombre Paciente'",
-        nombre_dentista: "'Nombre odontólogo'",
         nombre_sucursal: "'Sede Prevenga'",
         fecha: "'Fecha de Cita'",
         hora_inicio: "'Hora de Cita'",
+        nombre_dentista: "'Nombre odontólogo'",
       },
     ],
   };
@@ -65,7 +66,7 @@ export class DentalinkQuerysService {
     {
       name: 'recordatorio_cita_vigente_3',
       template:
-        'Hola,  ${Var1}. Recuerda que tienes una cita odontológica en  ${Var2} el día  ${Var3} a las  ${Var4} con el/la Dr(a).  ${Var5}. No respondas a este WhatsApp, es sólo de notificaciones. Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales',
+        'Hola, ${Var1}. Recuerda que tienes una cita odontológica en  ${Var2} el día  ${Var3} a las  ${Var4} con el/la Dr(a).  ${Var5}. No respondas a este WhatsApp, es sólo de notificaciones. Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales',
     },
     {
       name: 'recordatorio_cita_vigente_4',

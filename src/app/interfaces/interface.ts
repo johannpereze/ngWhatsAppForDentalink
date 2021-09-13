@@ -18,7 +18,8 @@ export interface MainParams {
   secretKeysCompleted: boolean;
   selectedLine: number;
   campaignNote: string;
-  selectedTemplate: string;
+  selectedTemplateName: string;
+  selectedTemplateTemplate: string;
   selectedClinics: string[];
   appointmentsDate: string
 }

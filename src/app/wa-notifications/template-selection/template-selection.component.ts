@@ -31,7 +31,7 @@ export class TemplateSelectionComponent {
   // };
 
   selectTemplate() {
-    console.log(this.mainParams.selectedTemplate);
+    console.log(this.mainParams.selectedTemplateName);
     this.getAppointments();
   }
 
