@@ -5,6 +5,7 @@ import {
   MainParams,
 } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
+import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 
 @Component({
   selector: 'app-summary',
@@ -12,7 +13,10 @@ import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.servic
   styleUrls: ['./summary.component.scss'],
 })
 export class SummaryComponent {
-  constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
+  constructor(
+    private dentalinkQuerysService: DentalinkQuerysService,
+    private whatsAppQuerysService: WhatsAppQuerysService,
+    ) {}
 
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
@@ -25,6 +29,9 @@ export class SummaryComponent {
   }
   get templatesWithData() {
     return this.dentalinkQuerysService.templatesWithData;
+  }
+  get sendBroadcast() {
+    return this.whatsAppQuerysService.sendBroadcast;
   }
 
   putDataIntoTemplate(appointment: Appointment): string {

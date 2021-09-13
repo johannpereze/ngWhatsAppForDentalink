@@ -21,7 +21,7 @@ export interface MainParams {
   selectedTemplateName: string;
   selectedTemplateTemplate: string;
   selectedClinics: string[];
-  appointmentsDate: string
+  appointmentsDate: string;
 }
 
 // To parse this data:
@@ -68,69 +68,69 @@ export interface RequestOptions {
 
 export interface DentalinkAppointments {
   links: Links;
-  data:  Appointments[];
+  data: Appointments[];
 }
 
 export interface Appointments {
-  id:                  number;
-  id_paciente:         number;
-  nombre_paciente:     string;
-  id_estado:           number;
-  estado_cita:         EstadoCita;
-  estado_anulacion:    number;
+  id: number;
+  id_paciente: number;
+  nombre_paciente: string;
+  id_estado: number;
+  estado_cita: EstadoCita;
+  estado_anulacion: number;
   estado_confirmacion: number;
-  id_tratamiento:      number;
-  nombre_tratamiento:  NombreTratamiento;
-  id_dentista:         number;
-  nombre_dentista:     string;
-  id_sucursal:         number;
-  nombre_sucursal:     string;
-  id_sillon:           number;
-  nombre_sillon:       NombreSillon;
-  fecha:               Date;
-  hora_inicio:         string;
-  hora_fin:            string;
-  duracion:            number;
-  comentarios:         string;
+  id_tratamiento: number;
+  nombre_tratamiento: NombreTratamiento;
+  id_dentista: number;
+  nombre_dentista: string;
+  id_sucursal: number;
+  nombre_sucursal: string;
+  id_sillon: number;
+  nombre_sillon: NombreSillon;
+  fecha: Date;
+  hora_inicio: string;
+  hora_fin: string;
+  duracion: number;
+  comentarios: string;
   fecha_actualizacion: Date;
-  links:               Link[];
+  links: Link[];
 }
 
 export enum EstadoCita {
-  CambioDeFecha = "Cambio de fecha",
-  ConfirmadoEnSede = "Confirmado en Sede",
-  ConfirmadoPorTeléfono = "Confirmado por teléfono",
-  ConfirmadoPorWhatsApp = "Confirmado por WhatsApp",
-  NoConfirmado = "No confirmado",
-  NotificadoVíaWhatsapp = "Notificado vía Whatsapp",
+  CambioDeFecha = 'Cambio de fecha',
+  ConfirmadoEnSede = 'Confirmado en Sede',
+  ConfirmadoPorTeléfono = 'Confirmado por teléfono',
+  ConfirmadoPorWhatsApp = 'Confirmado por WhatsApp',
+  NoConfirmado = 'No confirmado',
+  NotificadoVíaWhatsapp = 'Notificado vía Whatsapp',
 }
 
 export enum Method {
-  Get = "GET",
+  Get = 'GET',
 }
 
 export enum Rel {
-  Dentistas = "dentistas",
-  Pacientes = "pacientes",
-  Self = "self",
-  Tratamientos = "tratamientos",
+  Dentistas = 'dentistas',
+  Pacientes = 'pacientes',
+  Self = 'self',
+  Tratamientos = 'tratamientos',
 }
 
 export enum NombreSillon {
-  Sillon1 = "Sillon 1",
-  SobreAgendamiento = "Sobre Agendamiento",
+  Sillon1 = 'Sillon 1',
+  SobreAgendamiento = 'Sobre Agendamiento',
 }
 
 export enum NombreTratamiento {
-  Empty = "",
-  NuevoPlanDeTratamiento = "Nuevo plan de tratamiento",
-  Ortodocia = "ORTODOCIA",
-  Reparación15 = "reparación 15",
+  Empty = '',
+  NuevoPlanDeTratamiento = 'Nuevo plan de tratamiento',
+  Ortodocia = 'ORTODOCIA',
+  Reparación15 = 'reparación 15',
 }
 
 export interface Links {
   current: string;
-  next:    string;
+  next: string;
 }
 
 // Converts JSON strings to/from your types
@@ -145,37 +145,46 @@ export interface Links {
 // }
 
 export interface AllAppointments {
-  appointments: Appointment[]
+  appointments: Appointment[];
 }
 
 export interface Appointment {
-  id?:                  number;
-  id_paciente?:         number;
-  nombre_paciente:     string;
-  id_estado?:           number;
-  estado_cita?:         string;
-  estado_anulacion?:    number;
+  id?: number;
+  id_paciente?: number;
+  nombre_paciente: string;
+  id_estado?: number;
+  estado_cita?: string;
+  estado_anulacion?: number;
   estado_confirmacion?: number;
-  id_tratamiento?:      number;
-  nombre_tratamiento?:  string;
-  id_dentista?:         number;
-  nombre_dentista:     string;
-  id_sucursal?:         number;
-  nombre_sucursal:     string;
-  id_sillon?:           number;
-  nombre_sillon?:       string;
-  fecha:               any;
-  hora_inicio:         string;
-  hora_fin?:            string;
-  duracion?:            number;
-  comentarios?:         string;
+  id_tratamiento?: number;
+  nombre_tratamiento?: string;
+  id_dentista?: number;
+  nombre_dentista: string;
+  id_sucursal?: number;
+  nombre_sucursal: string;
+  id_sillon?: number;
+  nombre_sillon?: string;
+  fecha: any;
+  hora_inicio: string;
+  hora_fin?: string;
+  duracion?: number;
+  comentarios?: string;
   fecha_actualizacion?: any;
-  links?:               Link[];
+  links?: Link[];
 }
 
 export interface B2ChatToken {
   access_token: string;
-  token_type:   string;
-  expires_in:   number;
-  scope:        string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+}
+
+export interface BroadcastData {
+  from: string;
+  to: string;
+  contact_name: string;
+  template_name: string;
+  campaign_name: string;
+  values: string[];
 }
