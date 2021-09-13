@@ -70,9 +70,11 @@ export class DentalinkQuerysService {
     },
     {
       name: 'recordatorio_cita_vigente_4',
-      template: `Hola,   ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`,
+      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`,
     },
   ];
+
+  templatesWithData: string[] = ['placeholder'];
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 

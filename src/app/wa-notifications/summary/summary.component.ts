@@ -23,8 +23,11 @@ export class SummaryComponent {
   get allAppointments() {
     return this.dentalinkQuerysService.allAppointments;
   }
+  get templatesWithData() {
+    return this.dentalinkQuerysService.templatesWithData;
+  }
 
-  templatesWithData: string[] = ['placeholder'];
+  
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
