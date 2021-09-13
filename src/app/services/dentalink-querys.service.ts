@@ -82,8 +82,8 @@ export class DentalinkQuerysService {
   saveKeys() {
     if (
       this.secretKeys.dentalinkKey.trim().length === 81 &&
-      this.secretKeys.b2chatUser.trim().length === 0 && //poner este valor en 36 cuando las empiece a usar
-      this.secretKeys.b2ChatPass.trim().length === 0 //poner este valor en 36 cuando las empiece a usar
+      this.secretKeys.b2chatUser.trim().length === 36 && //poner este valor en 36 cuando las empiece a usar
+      this.secretKeys.b2ChatPass.trim().length === 36 //poner este valor en 36 cuando las empiece a usar
     ) {
       this.mainParams.secretKeysCompleted = true;
     } else {
