@@ -35,3 +35,6 @@ export class WhatsAppQuerysService {
     );
   }
 }
+
+//Debo seguir avanzando tomando el token desde postman
+//Este servicio no funciona por cors policy y preflight. Al parecer tendré que montar un servidor que haga el request para que no intervenga el navegador y su CORS policy
