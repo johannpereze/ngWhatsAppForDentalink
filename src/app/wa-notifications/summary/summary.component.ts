@@ -79,17 +79,23 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
-      this.sendBroadcast(element);
+      this.getBroadcastResponse(element);
     });
 
     //console.log('templatesWithData', this.templatesWithData);
+  }
+
+  getBroadcastResponse(appointment: Appointment){
+    this.sendBroadcast(appointment).subscribe((response) => {
+      console.log(response);
+    });
   }
 
   // sendBroadcast(appointment: Appointment) {
   sendBroadcast(appointment: Appointment) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${this.secretKeys.dentalinkKey}`);
+      .set('Authorization', `Bearer ${this.secretKeys.b2ChatPass}`);
     const body = JSON.stringify(this.getBodyParams(appointment))
     console.log('body', body);
     
