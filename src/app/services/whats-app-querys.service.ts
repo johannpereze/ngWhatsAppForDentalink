@@ -71,20 +71,13 @@ export class WhatsAppQuerysService {
     //primero obtenemos todos los parámetros
     const broadcastData: BroadcastData = {
       from: `+${this.mainParams.selectedLine}`,
-      to: '',
-      contact_name: '',
+      to: `+${'573192161411'}`,
+      contact_name: appointment.nombre_paciente,
       template_name: this.mainParams.selectedTemplateName,
       campaign_name: this.mainParams.campaignNote,
-      values: [],
+      values: [...WhatsAppQuerysService.getBroadcastValues(appointment)],
     };
-
-    broadcastData.to = `+${'573192161411'}`;
-    broadcastData.contact_name = appointment.nombre_paciente;
-    broadcastData.values.push(
-      ...WhatsAppQuerysService.getBroadcastValues(appointment)
-    );
     console.log('broadcastData', broadcastData);
-
     return broadcastData;
   }
 }

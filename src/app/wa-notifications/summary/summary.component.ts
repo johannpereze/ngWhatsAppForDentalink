@@ -73,15 +73,16 @@ export class SummaryComponent {
       }
     });
 
-    console.log(this.allAppointments);
-    this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
+    console.log('this.allAppointments', this.allAppointments);
+    //ojo. Descomentar la siguiente linea si voy a usar datos reales
+    // this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
       this.sendBroadcast(element);
     });
 
-    console.log('templatesWithData', this.templatesWithData);
+    //console.log('templatesWithData', this.templatesWithData);
   }
 
   // sendBroadcast(appointment: Appointment) {
@@ -92,10 +93,9 @@ export class SummaryComponent {
     const body = JSON.stringify(this.getBodyParams(appointment))
     console.log('body', body);
     
-    // return this.http.post<BroadcastResponse>(
-    //   'https://api.b2chat.io/broadcast',
-    //   { headers },
-    //   { body }
-    // );
+    return this.http.post<BroadcastResponse>(
+      'https://api.b2chat.io/broadcast',
+      { headers, body }
+    );
   }
 }
