@@ -62,12 +62,13 @@ export class WhatsAppQuerysService {
     valuesArray.push(appointment.fecha);
     valuesArray.push(appointment.hora_inicio);
     valuesArray.push(appointment.nombre_dentista);
-    console.log(valuesArray);
+    console.log('valuesArray', valuesArray);
 
     return valuesArray;
   }
 
-  sendBroadcast() {
+  getBodyParams(appointment: Appointment) {
+    //primero obtenemos todos los parámetros
     const broadcastData: BroadcastData = {
       from: `+${this.mainParams.selectedLine}`,
       to: '',
@@ -76,12 +77,15 @@ export class WhatsAppQuerysService {
       campaign_name: this.mainParams.campaignNote,
       values: [],
     };
-    this.allAppointments.appointments.forEach((element) => {
-      broadcastData.to = `+${'Pendiente'}`;
-      broadcastData.contact_name = element.nombre_paciente;
-      broadcastData.values.push(...(WhatsAppQuerysService.getBroadcastValues(element)));
-      console.log(broadcastData);
-    });
+
+    broadcastData.to = `+${'573192161411'}`;
+    broadcastData.contact_name = appointment.nombre_paciente;
+    broadcastData.values.push(
+      ...WhatsAppQuerysService.getBroadcastValues(appointment)
+    );
+    console.log('broadcastData', broadcastData);
+
+    return broadcastData;
   }
 }
 

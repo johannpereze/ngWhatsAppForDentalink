@@ -27,33 +27,6 @@ export class SecretKeysComponent {
     return this.dentalinkQuerysService.allAppointments;
   }
 
-  // getBroadcastValues(appointment: Appointment) {
-  //   const valuesArray: string[] = [];
-  //   valuesArray.push(appointment.nombre_paciente);
-  //   valuesArray.push(appointment.nombre_sucursal);
-  //   valuesArray.push(appointment.fecha);
-  //   valuesArray.push(appointment.hora_inicio);
-  //   valuesArray.push(appointment.nombre_dentista);
-  //   return valuesArray;
-  // }
-
-  // sendBroadcast() {
-  //   const broadcastData: BroadcastData = {
-  //     from: `+${this.mainParams.selectedLine}`,
-  //     to: '',
-  //     contact_name: '',
-  //     template_name: this.mainParams.selectedTemplateName,
-  //     campaign_name: this.mainParams.campaignNote,
-  //     values: [''],
-  //   };
-  //   this.allAppointments.appointments.forEach((element) => {
-  //     broadcastData.to = `+${'Pendiente'}`;
-  //     broadcastData.contact_name = element.nombre_paciente;
-  //     broadcastData.values = this.getBroadcastValues(element);
-  //     console.log(broadcastData);
-  //   });
-  // }
-
   //Bloqueado por CORS policy
   // getWhatsAppToken() {
   //   this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {

@@ -188,3 +188,8 @@ export interface BroadcastData {
   campaign_name: string;
   values: string[];
 }
+
+export interface BroadcastResponse {
+  message: string;
+  trace_id: string;
+}

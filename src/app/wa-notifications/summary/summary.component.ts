@@ -1,11 +1,14 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   AllAppointments,
   Appointment,
+  BroadcastResponse,
   MainParams,
 } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
+import { Appointments } from '../../interfaces/interface';
 
 @Component({
   selector: 'app-summary',
@@ -16,7 +19,8 @@ export class SummaryComponent {
   constructor(
     private dentalinkQuerysService: DentalinkQuerysService,
     private whatsAppQuerysService: WhatsAppQuerysService,
-    ) {}
+    private http: HttpClient
+  ) {}
 
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
@@ -30,15 +34,19 @@ export class SummaryComponent {
   get templatesWithData() {
     return this.dentalinkQuerysService.templatesWithData;
   }
-  get sendBroadcast() {
-    return this.whatsAppQuerysService.sendBroadcast;
+  get getBodyParams() {
+    return this.whatsAppQuerysService.getBodyParams;
   }
+  get secretKeys() {
+    return this.whatsAppQuerysService.secretKeys;
+  }
+ 
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
 
-    // Convierto el template en un array con split y le incrusto los valores con splice
+    // Convierto el template en un array con split y le incrusto los valores con splice y kinto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
     const var1 = appointment.nombre_paciente;
     const var2 = appointment.nombre_sucursal;
@@ -51,7 +59,6 @@ export class SummaryComponent {
     arrayOfTemplate.splice(5, 1, var3);
     arrayOfTemplate.splice(7, 1, var4);
     arrayOfTemplate.splice(9, 1, var5);
-    // console.log('Aqui debería ir con el nombre', arrayOfTemplate);
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -59,8 +66,7 @@ export class SummaryComponent {
   }
 
   showTemplateWithData() {
-    //busque la propiedad template en el objeto con name coincidente con selectedTemplateName
-
+    //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
       if (value.name === this.mainParams.selectedTemplateName) {
         this.mainParams.selectedTemplateTemplate = value.template;
@@ -72,8 +78,24 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
+      this.sendBroadcast(element);
     });
 
     console.log('templatesWithData', this.templatesWithData);
+  }
+
+  // sendBroadcast(appointment: Appointment) {
+  sendBroadcast(appointment: Appointment) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${this.secretKeys.dentalinkKey}`);
+    const body = JSON.stringify(this.getBodyParams(appointment))
+    console.log('body', body);
+    
+    // return this.http.post<BroadcastResponse>(
+    //   'https://api.b2chat.io/broadcast',
+    //   { headers },
+    //   { body }
+    // );
   }
 }
