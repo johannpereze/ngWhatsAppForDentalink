@@ -50,7 +50,7 @@ export class WhatsAppQuerysService {
       .set('Content-Type', 'application/x-www-form-urlencoded');
     console.log(headers);
 
-    return this.http.get<B2ChatToken>( //OJO AQUÍ ES PUT REALMENTE PERO PARA MI SERVIDOR VA A SER GET POR AHORA
+    return this.http.post<B2ChatToken>(
       'http://localhost:8084/oauth/token?grant_type=client_credentials',
       { headers }
     );
