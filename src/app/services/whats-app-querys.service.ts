@@ -56,29 +56,30 @@ export class WhatsAppQuerysService {
     );
   }
 
-  sendWhatsAppBroadcast() {
+  sendWhatsAppBroadcast(body:BroadcastData) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`)
     console.log(headers);
 
-    const body = {
-      "from": "+573137544892",
-      "to": "+573192161411",
-      "contact_name": "",
-      "template_name": "recordatorio_cita_vigente_3",
-      "campaign_name": "este es body enviado desde angular",
-      "values": [
-        "Johann Sebastian",
-        "Prevenga Caldas",
-        "01/08/2021",
-        "10:00:00",
-        "Juan Camilo Ramos"
-      ]
-    }
-
+    // const body2 = {
+    //   "from": "+573137544892",
+    //   "to": "+573192161411",
+    //   "contact_name": "",
+    //   "template_name": "recordatorio_cita_vigente_3",
+    //   "campaign_name": "este es body enviado desde angular",
+    //   "values": [
+    //     "Johann Sebastian",
+    //     "Prevenga Caldas",
+    //     "01/08/2021",
+    //     "10:00:00",
+    //     "Juan Camilo Ramos"
+    //   ]
+    // }
+    console.log(body);
+    
     return this.http.post<B2ChatToken>(
-      'http://localhost:8084/broadcast', body,
+      'http://localhost:8084/broadcast', JSON.stringify(body),
       { headers }
     );
   }

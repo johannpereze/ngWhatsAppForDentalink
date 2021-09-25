@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {
   AllAppointments,
   Appointment,
+  BroadcastData,
   BroadcastResponse,
   MainParams,
 } from 'src/app/interfaces/interface';
@@ -40,7 +41,6 @@ export class SummaryComponent {
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
- 
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
@@ -85,7 +85,7 @@ export class SummaryComponent {
     //console.log('templatesWithData', this.templatesWithData);
   }
 
-  getBroadcastResponse(appointment: Appointment){
+  getBroadcastResponse(appointment: Appointment) {
     this.sendBroadcast(appointment).subscribe((response) => {
       console.log(response);
     });
@@ -96,9 +96,9 @@ export class SummaryComponent {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${this.secretKeys.b2ChatPass}`);
-    const body = JSON.stringify(this.getBodyParams(appointment))
+    const body = JSON.stringify(this.getBodyParams(appointment));
     console.log('body', body);
-    
+
     return this.http.post<BroadcastResponse>(
       'https://api.b2chat.io/broadcast',
       { headers, body }
@@ -106,9 +106,61 @@ export class SummaryComponent {
   }
 
   sendWhatsAppBroadcast() {
-    this.whatsAppQuerysService.sendWhatsAppBroadcast().subscribe((response) => {
-      // this.whatsAppQuerysService.whatsAppToken = response;
-      console.log('response sendWhatsAppBroadcast', response);
+    this.allAppointments.appointments.forEach((appointment) => {
+      const body: BroadcastData = {
+        from: `+${this.mainParams.selectedLine}`,
+        to: '+573192161411', //este todavía no lo tengo
+        contact_name: appointment.nombre_paciente,
+        template_name: this.mainParams.selectedTemplateName,
+        campaign_name: this.mainParams.campaignNote,
+        values: [
+          appointment.nombre_paciente,
+          appointment.nombre_sucursal,
+          appointment.fecha,
+          appointment.hora_inicio,
+          appointment.nombre_dentista,
+        ],
+      };
+      this.whatsAppQuerysService
+        .sendWhatsAppBroadcast(body)
+        .subscribe((response) => {
+          // this.whatsAppQuerysService.whatsAppToken = response;
+          console.log('response sendWhatsAppBroadcast', response);
+        });
     });
   }
 }
+
+// sendWhatsAppBroadcast(){
+
+//   this.allAppointments.appointments.forEach((appointment) => {
+//     const headers = new HttpHeaders()
+//       .set('Content-Type', 'application/json')
+//       .set(
+//         'Authorization',
+//         `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`
+//       );
+//     console.log(headers);
+
+//     const body = {
+//       from: `+57${this.mainParams.selectedLine}`,
+//       to: '+573192161411', //este todavía no lo tengo
+//       contact_name: appointment.nombre_paciente,
+//       template_name: this.mainParams.selectedTemplateName,
+//       campaign_name: this.mainParams,
+//       values: [
+//         appointment.nombre_paciente,
+//         appointment.nombre_sucursal,
+//         appointment.fecha,
+//         appointment.hora_inicio,
+//         appointment.nombre_dentista,
+//       ],
+//     };
+
+//     return this.http.post<B2ChatToken>(
+//       'http://localhost:8084/broadcast',
+//       body,
+//       { headers }
+//     );
+//   });
+// }
