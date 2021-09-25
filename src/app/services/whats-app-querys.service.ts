@@ -45,12 +45,13 @@ export class WhatsAppQuerysService {
 
   getWhatsAppToken() {
     const headers = new HttpHeaders()
-      .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
+      // .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
+      
       .set('Content-Type', 'application/x-www-form-urlencoded');
     console.log(headers);
 
-    return this.http.put<B2ChatToken>(
-      'https://api.b2chat.io/oauth/token?grant_type=client_credentials',
+    return this.http.get<B2ChatToken>( //OJO AQUÍ ES PUT REALMENTE PERO PARA MI SERVIDOR VA A SER GET POR AHORA
+      'http://localhost:8084/oauth/token?grant_type=client_credentials',
       { headers }
     );
   }
