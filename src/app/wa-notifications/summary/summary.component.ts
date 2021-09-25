@@ -104,4 +104,11 @@ export class SummaryComponent {
       { headers, body }
     );
   }
+
+  sendWhatsAppBroadcast() {
+    this.whatsAppQuerysService.sendWhatsAppBroadcast().subscribe((response) => {
+      // this.whatsAppQuerysService.whatsAppToken = response;
+      console.log('response sendWhatsAppBroadcast', response);
+    });
+  }
 }

@@ -56,6 +56,18 @@ export class WhatsAppQuerysService {
     );
   }
 
+  sendWhatsAppBroadcast() {
+    const headers = new HttpHeaders()
+      
+      .set('Content-Type', 'application/json');
+    console.log(headers);
+
+    return this.http.post<B2ChatToken>(
+      'http://localhost:8084/broadcast',
+      { headers }
+    );
+  }
+
   static getBroadcastValues(appointment: Appointment) {
     const valuesArray: string[] = [];
     valuesArray.push(appointment.nombre_paciente);
@@ -81,6 +93,8 @@ export class WhatsAppQuerysService {
     console.log('broadcastData', broadcastData);
     return broadcastData;
   }
+
+
 }
 
 //Debo seguir avanzando tomando el token desde postman

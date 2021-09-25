@@ -7,12 +7,17 @@
   <div>Fecha de las citas: {{ mainParams.appointmentsDate }}</div>
 </div>
 <div>
-  <button (click)='showTemplateWithData()'>Cargar Ejemplos</button>
+  <button (click)="showTemplateWithData()">Cargar Ejemplos</button>
   <!-- <button (click)='sendBroadcast()'>Enviar mensajes</button> -->
 </div>
 
+<button (click)="sendWhatsAppBroadcast()">Enviar Mensajes</button>
 
 <!-- Template con datos -->
 <div>Aquí van los templates con la data</div>
-<br><hr>
-<div *ngFor='let template of templatesWithData'>{{template}} <br><hr></div>
+<br />
+<hr />
+<div *ngFor="let template of templatesWithData">
+  {{ template }} <br />
+  <hr />
+</div>
