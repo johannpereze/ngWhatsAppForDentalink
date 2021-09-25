@@ -27,11 +27,11 @@ export class SecretKeysComponent {
     return this.dentalinkQuerysService.allAppointments;
   }
 
-  //Bloqueado por CORS policy
-  // getWhatsAppToken() {
-  //   this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-  //     this.whatsAppQuerysService.whatsAppToken = response;
-  //     console.log(this.whatsAppQuerysService.whatsAppToken);
-  //   });
-  // }
+  // Bloqueado por CORS policy
+  getWhatsAppToken() {
+    this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
+      this.whatsAppQuerysService.whatsAppToken = response;
+      console.log(this.whatsAppQuerysService.whatsAppToken);
+    });
+  }
 }
