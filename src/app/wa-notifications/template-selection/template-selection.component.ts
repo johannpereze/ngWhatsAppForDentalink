@@ -39,8 +39,12 @@ export class TemplateSelectionComponent {
     this.dentalinkQuerysService
       .getAppointments(this.appointmentsUrl)
       .subscribe((response) => {
-        this.allAppointments.appointments.push(...response.data);
-        console.log(this.allAppointments);
+        response.data.forEach((appointment) => {
+          if (appointment.nombre_sucursal === 'Almacén') { //Esta validación es para hacer pruebas con almacen. Luego debo validar que solo estoy guardando las citas de las sede seleccionadas por el usuario
+            this.allAppointments.appointments.push(appointment);
+          }
+        });
+        console.log('this.allAppointments: ',this.allAppointments);
         console.log('Linea 1', response);
         // this.dentalinkQuerysService
         //   .getAppointments(response.links.next)

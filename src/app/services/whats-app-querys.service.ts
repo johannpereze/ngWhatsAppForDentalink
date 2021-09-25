@@ -27,12 +27,12 @@ export class WhatsAppQuerysService {
     return this.dentalinkQuerysService.allAppointments;
   }
 
-  whatsAppToken: B2ChatToken = {
-    access_token: 'b',
-    token_type: '',
-    expires_in: 0,
-    scope: '',
-  };
+  // whatsAppToken: B2ChatToken = {
+  //   access_token: 'b',
+  //   token_type: '',
+  //   expires_in: 0,
+  //   scope: '',
+  // };
 
   // broadcastData: BroadcastData = {
   // from:`+${this.dentalinkQuerysService.mainParams.selectedLine}`,
@@ -58,12 +58,27 @@ export class WhatsAppQuerysService {
 
   sendWhatsAppBroadcast() {
     const headers = new HttpHeaders()
-      
-      .set('Content-Type', 'application/json');
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`)
     console.log(headers);
 
+    const body = {
+      "from": "+573137544892",
+      "to": "+573192161411",
+      "contact_name": "",
+      "template_name": "recordatorio_cita_vigente_3",
+      "campaign_name": "este es body enviado desde angular",
+      "values": [
+        "Johann Sebastian",
+        "Prevenga Caldas",
+        "01/08/2021",
+        "10:00:00",
+        "Juan Camilo Ramos"
+      ]
+    }
+
     return this.http.post<B2ChatToken>(
-      'http://localhost:8084/broadcast',
+      'http://localhost:8084/broadcast', body,
       { headers }
     );
   }

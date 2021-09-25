@@ -25,7 +25,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: '2021-09-15',
+    appointmentsDate: '2022-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
   };
 
   //Estas keys en el futuro se debería almacenar en el backend
@@ -34,6 +34,7 @@ export class DentalinkQuerysService {
     dentalinkKey: '',
     b2chatUser: '',
     b2ChatPass: '',
+    b2ChatToken: '',
   };
 
   //Cuando tenga un backend las actualizo en el backend

@@ -30,8 +30,9 @@ export class SecretKeysComponent {
   // Bloqueado por CORS policy
   getWhatsAppToken() {
     this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-      this.whatsAppQuerysService.whatsAppToken = response;
-      console.log(this.whatsAppQuerysService.whatsAppToken);
+      // this.whatsAppQuerysService.whatsAppToken = response;
+      this.dentalinkQuerysService.secretKeys.b2ChatToken = response.access_token
+      console.log(this.dentalinkQuerysService.secretKeys.b2ChatToken);
     });
   }
 }
