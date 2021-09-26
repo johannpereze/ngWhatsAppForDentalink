@@ -29,15 +29,14 @@ export class SummaryComponent {
   get allAppointments() {
     return this.dentalinkQuerysService.allAppointments;
   }
-  get templatesWithData() {
-    return this.dentalinkQuerysService.templatesWithData;
-  }
   get getBodyParams() {
     return this.whatsAppQuerysService.getBodyParams;
   }
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
+  
+  templatesWithData: string[] = [];
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
@@ -78,8 +77,6 @@ export class SummaryComponent {
       this.templatesWithData.push(templateWithData);
       this.getBroadcastResponse(element);
     });
-
-    //console.log('templatesWithData', this.templatesWithData);
   }
 
   getBroadcastResponse(appointment: Appointment) {
