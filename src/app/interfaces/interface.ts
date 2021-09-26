@@ -172,6 +172,7 @@ export interface Appointment {
   duracion?: number;
   comentarios?: string;
   fecha_actualizacion?: any;
+  whatsApp?: number,
   links?: Link[];
 }
 

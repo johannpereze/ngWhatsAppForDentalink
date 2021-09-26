@@ -79,20 +79,6 @@ export class DentalinkQuerysService {
 
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
-  //Función para el componente de secretKeys
-  saveKeys() {
-    if (
-      this.secretKeys.dentalinkKey.trim().length === 81 &&
-      this.secretKeys.b2chatUser.trim().length === 36 && //poner este valor en 36 cuando las empiece a usar
-      this.secretKeys.b2ChatPass.trim().length === 36 //poner este valor en 36 cuando las empiece a usar
-    ) {
-      this.mainParams.secretKeysCompleted = true;
-    } else {
-      alert('Claves incompletas');
-    }
-    console.log(this.secretKeys); //borrar por seguridad
-  }
-
   getClinics() {
     const headers = new HttpHeaders().set(
       'Authorization',

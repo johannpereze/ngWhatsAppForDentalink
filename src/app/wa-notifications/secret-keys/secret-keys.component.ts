@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Appointment, BroadcastData } from 'src/app/interfaces/interface';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 import { DentalinkQuerysService } from '../../services/dentalink-querys.service';
 
@@ -20,19 +19,22 @@ export class SecretKeysComponent {
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
   }
-  get saveKeys() {
-    return this.dentalinkQuerysService.saveKeys;
-  }
-  get allAppointments() {
-    return this.dentalinkQuerysService.allAppointments;
+
+  //Con este método nos aseguramos que ingresaron una clave de dentalink de una longitud adecuada y al cambiar secretKeysCompleted a true se oculta el componente
+  saveKeys() {
+    if (this.secretKeys.dentalinkKey.trim().length === 81) {
+      this.mainParams.secretKeysCompleted = true;
+    } else {
+      alert('Clave no ingresada');
+    }
+    console.log(this.secretKeys); //borrar por seguridad
   }
 
-  // Bloqueado por CORS policy
+  //Obtenemos el token de whatsapp desde nuestro backend
   getWhatsAppToken() {
     this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-      // this.whatsAppQuerysService.whatsAppToken = response;
-      this.dentalinkQuerysService.secretKeys.b2ChatToken = response.access_token
-      console.log(this.dentalinkQuerysService.secretKeys.b2ChatToken);
+      this.secretKeys.b2ChatToken = response.access_token;
+      console.log(this.secretKeys.b2ChatToken);
     });
   }
 }
