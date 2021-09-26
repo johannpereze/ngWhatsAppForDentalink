@@ -23,12 +23,14 @@ export class SecretKeysComponent {
   //Con este método nos aseguramos que ingresaron una clave de dentalink de una longitud adecuada y al cambiar secretKeysCompleted a true se oculta el componente
   //Me fustaría refactorizar y no usar ngModels sino eventos pero aun no estoy seguro como
   saveKeys() {
+    this.getWhatsAppToken();
     if (this.secretKeys.dentalinkKey.trim().length === 81) {
+      //Aquí me falta validar que la contraseña sea coreecta. Una forma sería haciendo una peticion http a un endpoint muy ligero de dentalink y si retorna con exito, validar, si no, decir que contraseña incorrecta
       this.mainParams.secretKeysCompleted = true;
     } else {
-      alert('Clave no ingresada');
+      alert('Contraseña no ingresada correctamente'); //Este no debería ser un alert sino un popup de material design o algo así
     }
-    console.log(this.secretKeys); //borrar por seguridad
+    // console.log(this.secretKeys); //borrar por seguridad
   }
 
   //Obtenemos el token de whatsapp desde nuestro backend
