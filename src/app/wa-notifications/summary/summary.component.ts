@@ -130,37 +130,3 @@ export class SummaryComponent {
     });
   }
 }
-
-// sendWhatsAppBroadcast(){
-
-//   this.allAppointments.appointments.forEach((appointment) => {
-//     const headers = new HttpHeaders()
-//       .set('Content-Type', 'application/json')
-//       .set(
-//         'Authorization',
-//         `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`
-//       );
-//     console.log(headers);
-
-//     const body = {
-//       from: `+57${this.mainParams.selectedLine}`,
-//       to: '+573192161411', //este todavía no lo tengo
-//       contact_name: appointment.nombre_paciente,
-//       template_name: this.mainParams.selectedTemplateName,
-//       campaign_name: this.mainParams,
-//       values: [
-//         appointment.nombre_paciente,
-//         appointment.nombre_sucursal,
-//         appointment.fecha,
-//         appointment.hora_inicio,
-//         appointment.nombre_dentista,
-//       ],
-//     };
-
-//     return this.http.post<B2ChatToken>(
-//       'http://localhost:8084/broadcast',
-//       body,
-//       { headers }
-//     );
-//   });
-// }

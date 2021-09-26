@@ -7,6 +7,7 @@ import {
   SecretKeys,
 } from '../interfaces/interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,8 @@ export class WhatsAppQuerysService {
     private dentalinkQuerysService: DentalinkQuerysService,
     private http: HttpClient
   ) {}
+
+  private proxyUrl: string = environment.proxyUrl
 
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
@@ -46,40 +49,28 @@ export class WhatsAppQuerysService {
   getWhatsAppToken() {
     const headers = new HttpHeaders()
       // .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
-      
+
       .set('Content-Type', 'application/x-www-form-urlencoded');
     console.log(headers);
 
     return this.http.post<B2ChatToken>(
-      'http://localhost:8084/oauth/token?grant_type=client_credentials',
+      `  ${this.proxyUrl}/oauth/token?grant_type=client_credentials`,
       { headers }
     );
   }
 
-  sendWhatsAppBroadcast(body:BroadcastData) {
+  sendWhatsAppBroadcast(body: BroadcastData) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`)
+      .set(
+        'Authorization',
+        `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`
+      );
     console.log(headers);
-
-    // const body2 = {
-    //   "from": "+573137544892",
-    //   "to": "+573192161411",
-    //   "contact_name": "",
-    //   "template_name": "recordatorio_cita_vigente_3",
-    //   "campaign_name": "este es body enviado desde angular",
-    //   "values": [
-    //     "Johann Sebastian",
-    //     "Prevenga Caldas",
-    //     "01/08/2021",
-    //     "10:00:00",
-    //     "Juan Camilo Ramos"
-    //   ]
-    // }
     console.log(body);
-    
     return this.http.post<B2ChatToken>(
-      'http://localhost:8084/broadcast', JSON.stringify(body),
+        `${this.proxyUrl}/broadcast`,
+      JSON.stringify(body),
       { headers }
     );
   }
@@ -109,8 +100,6 @@ export class WhatsAppQuerysService {
     console.log('broadcastData', broadcastData);
     return broadcastData;
   }
-
-
 }
 
 //Debo seguir avanzando tomando el token desde postman

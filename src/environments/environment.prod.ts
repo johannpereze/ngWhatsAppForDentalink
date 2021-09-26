@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  proxyUrl: 'https://b2chat-proxy.herokuapp.com',
 };
