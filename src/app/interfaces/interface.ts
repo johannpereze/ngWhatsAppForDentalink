@@ -1,7 +1,5 @@
 export interface SecretKeys {
   dentalinkKey: string;
-  b2chatUser: string;
-  b2ChatPass: string;
   b2ChatToken: string;
 
 }

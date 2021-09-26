@@ -32,8 +32,6 @@ export class DentalinkQuerysService {
   //Se guardan desde secret keys component con el método savekeys
   secretKeys: SecretKeys = {
     dentalinkKey: '',
-    b2chatUser: '',
-    b2ChatPass: '',
     b2ChatToken: '',
   };
 

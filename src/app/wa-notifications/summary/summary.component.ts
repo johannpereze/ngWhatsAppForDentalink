@@ -1,15 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
-  AllAppointments,
   Appointment,
   BroadcastData,
   BroadcastResponse,
-  MainParams,
 } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
-import { Appointments } from '../../interfaces/interface';
 
 @Component({
   selector: 'app-summary',
@@ -95,7 +92,7 @@ export class SummaryComponent {
   sendBroadcast(appointment: Appointment) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${this.secretKeys.b2ChatPass}`);
+      .set('Authorization', `Bearer ${this.secretKeys.b2ChatToken}`);
     const body = JSON.stringify(this.getBodyParams(appointment));
     console.log('body', body);
 

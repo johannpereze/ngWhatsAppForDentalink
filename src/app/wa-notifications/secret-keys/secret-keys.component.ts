@@ -21,6 +21,7 @@ export class SecretKeysComponent {
   }
 
   //Con este método nos aseguramos que ingresaron una clave de dentalink de una longitud adecuada y al cambiar secretKeysCompleted a true se oculta el componente
+  //Me fustaría refactorizar y no usar ngModels sino eventos pero aun no estoy seguro como
   saveKeys() {
     if (this.secretKeys.dentalinkKey.trim().length === 81) {
       this.mainParams.secretKeysCompleted = true;
