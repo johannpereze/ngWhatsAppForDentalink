@@ -35,14 +35,14 @@ export class SummaryComponent {
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
-  
+
   templatesWithData: string[] = [];
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
 
-    // Convierto el template en un array con split y le incrusto los valores con splice y kinto todo en un string con join
+    // Convierto el template en un array con split y le incrusto los valores con splice y junto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
     const var1 = appointment.nombre_paciente;
     const var2 = appointment.nombre_sucursal;
@@ -75,13 +75,6 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
-      this.getBroadcastResponse(element);
-    });
-  }
-
-  getBroadcastResponse(appointment: Appointment) {
-    this.sendBroadcast(appointment).subscribe((response) => {
-      console.log(response);
     });
   }
 
