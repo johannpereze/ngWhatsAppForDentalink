@@ -76,10 +76,11 @@ export class DentalinkQuerysService {
     },
   ];
 
-  clinicsApiResponse: DentalinkClinics = {
-    links: '',
-    data: [],
-  };
+  // clinicsApiResponse: DentalinkClinics = {
+  //   links: '',
+  //   data: [],
+  // }; ESTE ESTA EN CLINICS-LIST
+  
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
   getClinics() {
