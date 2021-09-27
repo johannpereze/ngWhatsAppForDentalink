@@ -58,7 +58,7 @@ export class DentalinkQuerysService {
         fecha: "'Fecha de Cita'",
         hora_inicio: "'Hora de Cita'",
         nombre_dentista: "'Nombre odontólogo'",
-        whatsApp: 0
+        whatsApp: 0,
       },
     ],
   };
@@ -76,6 +76,10 @@ export class DentalinkQuerysService {
     },
   ];
 
+  clinicsApiResponse: DentalinkClinics = {
+    links: '',
+    data: [],
+  };
   appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
   getClinics() {

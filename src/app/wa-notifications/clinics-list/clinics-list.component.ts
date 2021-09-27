@@ -26,9 +26,9 @@ export class ClinicsListComponent {
     });
   }
 
-  saveClinics(event: any) {
+  saveClinics(event: any) { //no estoy seguro del tipado
     for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
-      if (event.srcElement[i].checked) {
+      if (event.srcElement[i].checked) { //srcElement está deprecado
         this.mainParams.selectedClinics.push(event.srcElement[i].name);
       }
     }

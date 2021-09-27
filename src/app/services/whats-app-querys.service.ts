@@ -51,7 +51,7 @@ export class WhatsAppQuerysService {
       // .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
 
       .set('Content-Type', 'application/x-www-form-urlencoded');
-    console.log(headers);
+    console.log('Obteniendo token de whatsapp.... Recuerda que si no se hacen peticiones al backend por más de 30 minutos, entra en estado de hibernación y la siguiente petición tardará más. Por favor espera...');
 
     return this.http.post<B2ChatToken>(
       `  ${this.proxyUrl}/oauth/token?grant_type=client_credentials`,

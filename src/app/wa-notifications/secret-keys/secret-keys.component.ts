@@ -37,7 +37,7 @@ export class SecretKeysComponent {
   getWhatsAppToken() {
     this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
       this.secretKeys.b2ChatToken = response.access_token;
-      console.log(this.secretKeys.b2ChatToken);
+      console.log(this.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token qque se vence
     });
   }
 }
