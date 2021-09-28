@@ -110,7 +110,7 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((appointment) => {
       const body: BroadcastData = {
         from: `+${this.mainParams.selectedLine}`,
-        to: '+573192161411', //este todavía no lo tengo
+        to: `+57${appointment.whatsApp}`, 
         contact_name: appointment.nombre_paciente,
         template_name: this.mainParams.selectedTemplateName,
         campaign_name: this.mainParams.campaignNote,
