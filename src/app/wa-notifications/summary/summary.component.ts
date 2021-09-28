@@ -72,11 +72,14 @@ export class SummaryComponent {
       }
     });
 
-    await this.getWANumbers();
-
-    console.log('this.allAppointments', this.allAppointments);
     //ojo. Descomentar la siguiente linea si voy a usar datos reales
     this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
+    
+    //Antes de mostrar en pantalla descargamos los whatsapps
+    await this.getWANumbers();
+
+
+    console.log('this.allAppointments', this.allAppointments);
     this.allAppointments.appointments.forEach((element) => {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
@@ -137,7 +140,7 @@ export class SummaryComponent {
       
       this.dentalinkQuerysService
         .getWANumbers(this.allAppointments.appointments[i].id_paciente!)
-        .subscribe(async (response) => {
+        .subscribe((response) => {  //Creo que aquó no va async
           
           this.allAppointments.appointments[i].whatsApp = this.parseWANumber(response.data.celular);
           console.log(
