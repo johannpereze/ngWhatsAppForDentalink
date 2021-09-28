@@ -6,6 +6,7 @@ import {
   DentalinkAppointments,
   DentalinkClinics,
   MainParams,
+  Patient,
   SecretKeys,
   WhatsAppLine,
   WhatsAppTemplate,
@@ -70,7 +71,7 @@ export class DentalinkQuerysService {
         fecha: "'Fecha de Cita'",
         hora_inicio: "'Hora de Cita'",
         nombre_dentista: "'Nombre odontólogo'",
-        whatsApp: 0,
+        whatsApp: '0',//Ojo, debe ser numero
       },
     ],
   };
@@ -113,11 +114,11 @@ export class DentalinkQuerysService {
     );
     return this.http.get<DentalinkAppointments>(url, { headers });
   }
-  getWANumbers(url: string) {
+  getWANumbers(id: number) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get<DentalinkAppointments>(url, { headers });
+    return this.http.get<Patient>(`https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`, { headers });
   }
 }

@@ -169,7 +169,7 @@ export interface Appointment {
   duracion?: number;
   comentarios?: string;
   fecha_actualizacion?: any;
-  whatsApp?: number;
+  whatsApp?: string; //OJO, DEBE SER NUMBER
   links?: Link[];
 }
 
@@ -197,4 +197,33 @@ export interface BroadcastResponse {
 export interface AppointmentsIds {
   id: number;
   appointmentState: string;
+}
+
+export interface Patient {
+  data: PatientData;
+}
+
+export interface PatientData {
+  id: number;
+  rut: string;
+  tipo_documento: number;
+  nombre: string;
+  apellidos: string;
+  fecha_nacimiento: string;
+  fecha_afiliacion: string;
+  telefono: string;
+  celular: string;
+  ciudad: string;
+  comuna: string;
+  direccion: string;
+  email: string;
+  sexo: string;
+  numero_ficha: string;
+  observaciones: string;
+  tiene_cargas: number;
+  es_carga: number;
+  fecha_deshabilitacion: string;
+  id_usuario_deshabilitacion: string;
+  habilitado: number;
+  links: Link[];
 }

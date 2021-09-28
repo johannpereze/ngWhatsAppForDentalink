@@ -76,6 +76,8 @@ export class SummaryComponent {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
     });
+
+    this.getWANumbers();
   }
 
   // sendBroadcast(appointment: Appointment) {
@@ -116,4 +118,40 @@ export class SummaryComponent {
         });
     });
   }
+
+  sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async getWANumbers() {
+    console.log(this.allAppointments.appointments);
+
+    for (let i = 0; i < this.allAppointments.appointments.length; i++) {
+      console.log('Contando', i);
+      await this.sleep(3000);
+      
+      this.dentalinkQuerysService
+        .getWANumbers(this.allAppointments.appointments[i].id_paciente!)
+        .subscribe(async (response) => {
+          this.allAppointments.appointments[i].whatsApp = response.data.celular;
+          console.log(
+            `WhatsApp: ${this.allAppointments.appointments[i].whatsApp}, Id: ${this.allAppointments.appointments[i].id_paciente}`
+          );
+        });
+    }
+  }
+
+  // getWANumbers() {
+  //   console.log(this.allAppointments.appointments);
+  //   this.allAppointments.appointments.forEach((appointment) => {
+  //     this.dentalinkQuerysService
+  //       .getWANumbers(appointment.id_paciente!)
+  //       .subscribe((response) => {
+  //         appointment.whatsApp = response.data.celular;
+  //         console.log(
+  //           `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+  //         );
+  //       });
+  //   });
+  // }
 }
