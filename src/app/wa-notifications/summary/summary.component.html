@@ -1,22 +1,24 @@
-<p>Resumen:</p>
+<div *ngIf="componentVisibility.summary">
+  <p>Resumen:</p>
 
-<div>
-  <div>Línea de WhatsApp: +{{ mainParams.selectedLine }}:</div>
-  <div>Plantilla: {{ mainParams.selectedTemplateName }}</div>
-  <div>Nota del envío: {{ mainParams.campaignNote }}</div>
-  <div>Fecha de las citas: {{ mainParams.appointmentsDate }}</div>
-</div>
-<div>
-  <button (click)="showTemplateWithData()">Cargar Ejemplos</button>
-</div>
+  <div>
+    <div>Línea de WhatsApp: +{{ mainParams.selectedLine }}:</div>
+    <div>Plantilla: {{ mainParams.selectedTemplateName }}</div>
+    <div>Nota del envío: {{ mainParams.campaignNote }}</div>
+    <div>Fecha de las citas: {{ mainParams.appointmentsDate }}</div>
+  </div>
+  <div>
+    <button (click)="showTemplateWithData()">Cargar Ejemplos</button>
+  </div>
 
-<button (click)="sendWhatsAppBroadcast()">Enviar Mensajes</button>
+  <button (click)="sendWhatsAppBroadcast()">Enviar Mensajes</button>
 
-<!-- Template con datos -->
-<div>Aquí van los templates con la data</div>
-<br />
-<hr />
-<div *ngFor="let template of templatesWithData">
-  {{ template }} <br />
+  <!-- Template con datos -->
+  <div>Aquí van los templates con la data</div>
+  <br />
   <hr />
+  <div *ngFor="let template of templatesWithData">
+    {{ template }} <br />
+    <hr />
+  </div>
 </div>

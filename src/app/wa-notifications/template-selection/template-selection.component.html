@@ -1,4 +1,8 @@
-<form action="" (ngSubmit)="selectTemplate()">
+<form
+  *ngIf="componentVisibility.templateSelection"
+  action=""
+  (ngSubmit)="selectTemplate()"
+>
   <label for="templateSelection"
     >Selecciona una plantilla
     <select

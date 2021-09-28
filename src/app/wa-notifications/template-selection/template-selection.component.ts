@@ -25,6 +25,10 @@ export class TemplateSelectionComponent {
   get validAppointmentIds() {
     return this.dentalinkQuerysService.validAppointmentIds;
   }
+  get componentVisibility() {
+    return this.dentalinkQuerysService.componentVisibility;
+  }
+  
 
   // allAppointments: AllAppointments = {
   //   appointments: [],
@@ -33,6 +37,8 @@ export class TemplateSelectionComponent {
   selectTemplate() {
     console.log(this.mainParams.selectedTemplateName);
     this.getAppointments();
+    this.componentVisibility.templateSelection = false;
+      this.componentVisibility.summary = true;
   }
 
   validateAppointment(appointment: Appointment): boolean {

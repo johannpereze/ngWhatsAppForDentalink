@@ -13,6 +13,9 @@ export class ClinicsListComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
+  get componentVisibility() {
+    return this.dentalinkQuerysService.componentVisibility;
+  }
 
   clinicsApiResponse: DentalinkClinics = {
     links: '',
@@ -26,14 +29,18 @@ export class ClinicsListComponent {
     });
   }
 
-  saveClinics(event: any) { //no estoy seguro del tipado
+  saveClinics(event: any) {
+    //no estoy seguro del tipado
     for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
-      if (event.srcElement[i].checked) { //srcElement está deprecado
+      if (event.srcElement[i].checked) {
+        //srcElement está deprecado
         this.mainParams.selectedClinics.push(event.srcElement[i].name);
       }
     }
     console.log(this.mainParams.appointmentsDate);
     console.log(this.mainParams.selectedClinics);
     console.log(this.mainParams);
+    this.componentVisibility.clinicsList = false;
+    this.componentVisibility.templateSelection = true;
   }
 }

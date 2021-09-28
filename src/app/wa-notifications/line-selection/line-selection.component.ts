@@ -17,10 +17,15 @@ export class LineSelectionComponent {
   get whatsAppLines() {
     return this.dentalinkQuerysService.whatsAppLines;
   }
+  get componentVisibility() {
+    return this.dentalinkQuerysService.componentVisibility;
+  }
 
   //Esta función no se necesita. Simplemente es para ver que sí se guardó la info en mainparams pero la puedo borrar para producción
   selectLine() {
     console.log(this.mainParams.selectedLine);
     console.log(this.mainParams.campaignNote);
+    this.componentVisibility.lineSelection = false;
+    this.componentVisibility.clinicsList = true;
   }
 }

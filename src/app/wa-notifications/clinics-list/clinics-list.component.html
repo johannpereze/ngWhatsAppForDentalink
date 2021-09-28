@@ -1,4 +1,4 @@
-<form (ngSubmit)="saveClinics($event)">
+<form *ngIf="componentVisibility.clinicsList" (ngSubmit)="saveClinics($event)">
   <label
     >Selecciona la fecha de las citas
     <input
@@ -7,12 +7,12 @@
       name="appointmentsDate"
     />
   </label>
-  <button (click)="getClinics()">Guardar Fecha</button>
+  <button type="button" (click)="getClinics()">Guardar Fecha</button>
   <hr />
   <label *ngFor="let clinic of clinicsApiResponse.data">
     <input [checked]="false" name="{{ clinic.nombre }}" type="checkbox" />{{
       clinic.nombre
     }}
   </label>
-  <button>Siguiente</button>
+  <button type="submit">Siguiente</button>
 </form>

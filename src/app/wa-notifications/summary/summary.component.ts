@@ -35,6 +35,9 @@ export class SummaryComponent {
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
+  get componentVisibility() {
+    return this.dentalinkQuerysService.componentVisibility;
+  }
 
   templatesWithData: string[] = [];
 
@@ -131,30 +134,6 @@ export class SummaryComponent {
       }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados
     });
   }
-  // sendWhatsAppBroadcast() {
-  //   this.allAppointments.appointments.forEach((appointment) => {
-  //     const body: BroadcastData = {
-  //       from: `+${this.mainParams.selectedLine}`,
-  //       to: `+57${appointment.whatsApp}`,
-  //       contact_name: appointment.nombre_paciente,
-  //       template_name: this.mainParams.selectedTemplateName,
-  //       campaign_name: this.mainParams.campaignNote,
-  //       values: [
-  //         appointment.nombre_paciente,
-  //         appointment.nombre_sucursal,
-  //         appointment.fecha.split('-').reverse().join('/'),
-  //         appointment.hora_inicio,
-  //         appointment.nombre_dentista,
-  //       ],
-  //     };
-  //     this.whatsAppQuerysService
-  //       .sendWhatsAppBroadcast(body)
-  //       .subscribe((response) => {
-  //         // this.whatsAppQuerysService.whatsAppToken = response;
-  //         console.log('response sendWhatsAppBroadcast', response);
-  //       });
-  //   });
-  // }
 
   sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));

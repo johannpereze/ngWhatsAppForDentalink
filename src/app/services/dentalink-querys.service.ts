@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   AllAppointments,
   AppointmentsIds,
+  ComponentVisibility,
   DentalinkAppointments,
   DentalinkClinics,
   MainParams,
@@ -29,6 +30,14 @@ export class DentalinkQuerysService {
     selectedClinics: [],
     appointmentsDate: '2022-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
   };
+
+  componentVisibility: ComponentVisibility ={
+    secretKeys: true,
+    lineSelection: false,
+    clinicsList: false,
+    templateSelection: false,
+    summary: false,
+  }
 
   validAppointmentIds: AppointmentsIds[] = [
     { id: 3, appointmentState: 'Confirmado por teléfono' },

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 import { DentalinkQuerysService } from '../../services/dentalink-querys.service';
+import { ComponentVisibility, SecretKeys } from '../../interfaces/interface';
 
 @Component({
   selector: 'app-secret-keys',
@@ -19,6 +20,9 @@ export class SecretKeysComponent {
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
   }
+  get componentVisibility() {
+    return this.dentalinkQuerysService.componentVisibility;
+  }
 
   //Con este método nos aseguramos que ingresaron una clave de dentalink de una longitud adecuada y al cambiar secretKeysCompleted a true se oculta el componente
   //Me fustaría refactorizar y no usar ngModels sino eventos pero aun no estoy seguro como
@@ -26,7 +30,8 @@ export class SecretKeysComponent {
     this.getWhatsAppToken();
     if (this.secretKeys.dentalinkKey.trim().length === 81) {
       //Aquí me falta validar que la contraseña sea coreecta. Una forma sería haciendo una peticion http a un endpoint muy ligero de dentalink y si retorna con exito, validar, si no, decir que contraseña incorrecta
-      this.mainParams.secretKeysCompleted = true;
+      this.componentVisibility.secretKeys = false;
+      this.componentVisibility.lineSelection = true;
     } else {
       alert('Contraseña no ingresada correctamente'); //Este no debería ser un alert sino un popup de material design o algo así
     }

@@ -227,3 +227,11 @@ export interface PatientData {
   habilitado: number;
   links: Link[];
 }
+
+export interface ComponentVisibility {
+  secretKeys: boolean;
+  lineSelection: boolean;
+  clinicsList: boolean;
+  templateSelection: boolean;
+  summary: boolean;
+}
