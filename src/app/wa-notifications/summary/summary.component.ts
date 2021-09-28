@@ -42,7 +42,7 @@ export class SummaryComponent {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
 
-      console.log("arrayOfTemplate sin split",arrayOfTemplate);
+    console.log('arrayOfTemplate sin split', arrayOfTemplate);
 
     // Convierto el template en un array con split y le incrusto los valores con splice y junto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
@@ -54,7 +54,7 @@ export class SummaryComponent {
     const var5 = appointment.nombre_dentista;
     const var6 = appointment.whatsApp;
 
-    console.log("arrayOfTemplate antes",arrayOfTemplate);
+    console.log('arrayOfTemplate antes', arrayOfTemplate);
 
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
@@ -63,8 +63,7 @@ export class SummaryComponent {
     arrayOfTemplate.splice(9, 1, var5);
     arrayOfTemplate.splice(11, 1, var6!);
 
-    console.log("arrayOfTemplate despues",arrayOfTemplate);
-    
+    console.log('arrayOfTemplate despues', arrayOfTemplate);
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -107,29 +106,55 @@ export class SummaryComponent {
   // }
 
   sendWhatsAppBroadcast() {
-    this.allAppointments.appointments.forEach((appointment) => {
-      const body: BroadcastData = {
-        from: `+${this.mainParams.selectedLine}`,
-        to: `+57${appointment.whatsApp}`, 
-        contact_name: appointment.nombre_paciente,
-        template_name: this.mainParams.selectedTemplateName,
-        campaign_name: this.mainParams.campaignNote,
-        values: [
-          appointment.nombre_paciente,
-          appointment.nombre_sucursal,
-          appointment.fecha.split('-').reverse().join('/'),
-          appointment.hora_inicio,
-          appointment.nombre_dentista,
-        ],
-      };
-      this.whatsAppQuerysService
-        .sendWhatsAppBroadcast(body)
-        .subscribe((response) => {
-          // this.whatsAppQuerysService.whatsAppToken = response;
-          console.log('response sendWhatsAppBroadcast', response);
-        });
+    this.allAppointments.appointments.forEach((appointment, i) => {
+      setTimeout(() => {
+        const body: BroadcastData = {
+          from: `+${this.mainParams.selectedLine}`,
+          to: `+57${appointment.whatsApp}`,
+          contact_name: appointment.nombre_paciente,
+          template_name: this.mainParams.selectedTemplateName,
+          campaign_name: this.mainParams.campaignNote,
+          values: [
+            appointment.nombre_paciente,
+            appointment.nombre_sucursal,
+            appointment.fecha.split('-').reverse().join('/'),
+            appointment.hora_inicio,
+            appointment.nombre_dentista,
+          ],
+        };
+        this.whatsAppQuerysService
+          .sendWhatsAppBroadcast(body)
+          .subscribe((response) => {
+            // this.whatsAppQuerysService.whatsAppToken = response;
+            console.log('response sendWhatsAppBroadcast', response);
+          });
+      }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados
     });
   }
+  // sendWhatsAppBroadcast() {
+  //   this.allAppointments.appointments.forEach((appointment) => {
+  //     const body: BroadcastData = {
+  //       from: `+${this.mainParams.selectedLine}`,
+  //       to: `+57${appointment.whatsApp}`,
+  //       contact_name: appointment.nombre_paciente,
+  //       template_name: this.mainParams.selectedTemplateName,
+  //       campaign_name: this.mainParams.campaignNote,
+  //       values: [
+  //         appointment.nombre_paciente,
+  //         appointment.nombre_sucursal,
+  //         appointment.fecha.split('-').reverse().join('/'),
+  //         appointment.hora_inicio,
+  //         appointment.nombre_dentista,
+  //       ],
+  //     };
+  //     this.whatsAppQuerysService
+  //       .sendWhatsAppBroadcast(body)
+  //       .subscribe((response) => {
+  //         // this.whatsAppQuerysService.whatsAppToken = response;
+  //         console.log('response sendWhatsAppBroadcast', response);
+  //       });
+  //   });
+  // }
 
   sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
