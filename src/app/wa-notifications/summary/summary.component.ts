@@ -44,30 +44,35 @@ export class SummaryComponent {
 
     // Convierto el template en un array con split y le incrusto los valores con splice y junto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
+
     const var1 = appointment.nombre_paciente;
     const var2 = appointment.nombre_sucursal;
     const var3 = appointment.fecha;
     const var4 = appointment.hora_inicio;
     const var5 = appointment.nombre_dentista;
+    const var6 = appointment.whatsApp;
 
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
     arrayOfTemplate.splice(5, 1, var3);
     arrayOfTemplate.splice(7, 1, var4);
     arrayOfTemplate.splice(9, 1, var5);
+    arrayOfTemplate.splice(11, 1, var6!);
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
     return arrayOfTemplate;
   }
 
-  showTemplateWithData() {
+  async showTemplateWithData() {
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
       if (value.name === this.mainParams.selectedTemplateName) {
         this.mainParams.selectedTemplateTemplate = value.template;
       }
     });
+
+    await this.getWANumbers();
 
     console.log('this.allAppointments', this.allAppointments);
     //ojo. Descomentar la siguiente linea si voy a usar datos reales
@@ -77,7 +82,7 @@ export class SummaryComponent {
       this.templatesWithData.push(templateWithData);
     });
 
-    this.getWANumbers();
+    // this.getWANumbers();
   }
 
   // sendBroadcast(appointment: Appointment) {
@@ -133,7 +138,8 @@ export class SummaryComponent {
       this.dentalinkQuerysService
         .getWANumbers(this.allAppointments.appointments[i].id_paciente!)
         .subscribe(async (response) => {
-          this.allAppointments.appointments[i].whatsApp = response.data.celular;
+          
+          this.allAppointments.appointments[i].whatsApp = this.parseWANumber(response.data.celular);
           console.log(
             `WhatsApp: ${this.allAppointments.appointments[i].whatsApp}, Id: ${this.allAppointments.appointments[i].id_paciente}`
           );
@@ -141,17 +147,8 @@ export class SummaryComponent {
     }
   }
 
-  // getWANumbers() {
-  //   console.log(this.allAppointments.appointments);
-  //   this.allAppointments.appointments.forEach((appointment) => {
-  //     this.dentalinkQuerysService
-  //       .getWANumbers(appointment.id_paciente!)
-  //       .subscribe((response) => {
-  //         appointment.whatsApp = response.data.celular;
-  //         console.log(
-  //           `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
-  //         );
-  //       });
-  //   });
-  // }
+  parseWANumber(cellphone:string){
+    return cellphone.replace(/\D+/g, '').slice(0,10)
+  }
+  
 }
