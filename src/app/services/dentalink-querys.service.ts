@@ -66,12 +66,13 @@ export class DentalinkQuerysService {
   allAppointments: AllAppointments = {
     appointments: [
       {
+        //Los tengo enttre comillas dobles y luego simples para facilitar el splice
         nombre_paciente: "'Nombre Paciente'",
         nombre_sucursal: "'Sede Prevenga'",
         fecha: "'Fecha de Cita'",
         hora_inicio: "'Hora de Cita'",
         nombre_dentista: "'Nombre odontólogo'",
-        whatsApp: '0',//Ojo, debe ser numero
+        whatsApp: "'0'",//Ojo, debe ser numero
       },
     ],
   };
@@ -85,7 +86,7 @@ export class DentalinkQuerysService {
     // },
     {
       name: 'recordatorio_cita_vigente_4',
-      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.* | WhatsApp: ${this.allAppointments.appointments[0].whatsApp}`,
+      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.* ${'|'} WhatsApp: ${this.allAppointments.appointments[0].whatsApp}`,
     },
   ];
 

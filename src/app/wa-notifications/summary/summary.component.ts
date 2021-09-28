@@ -42,6 +42,8 @@ export class SummaryComponent {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
 
+      console.log("arrayOfTemplate sin split",arrayOfTemplate);
+
     // Convierto el template en un array con split y le incrusto los valores con splice y junto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
 
@@ -52,12 +54,17 @@ export class SummaryComponent {
     const var5 = appointment.nombre_dentista;
     const var6 = appointment.whatsApp;
 
+    console.log("arrayOfTemplate antes",arrayOfTemplate);
+
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
     arrayOfTemplate.splice(5, 1, var3);
     arrayOfTemplate.splice(7, 1, var4);
     arrayOfTemplate.splice(9, 1, var5);
     arrayOfTemplate.splice(11, 1, var6!);
+
+    console.log("arrayOfTemplate despues",arrayOfTemplate);
+    
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -83,7 +90,6 @@ export class SummaryComponent {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
     });
-
   }
 
   // sendBroadcast(appointment: Appointment) {
@@ -133,30 +139,27 @@ export class SummaryComponent {
     console.log(this.allAppointments.appointments);
 
     for (let i = 0; i < this.allAppointments.appointments.length; i++) {
-      // debugger
       console.log('Contando', i);
       // await this.sleep(3000);
-      // debugger
-      
+
       this.dentalinkQuerysService
         .getWANumbers(this.allAppointments.appointments[i].id_paciente!)
-        .subscribe((response) => {  //Creo que aquí no va async
-          // debugger
-          
-          this.allAppointments.appointments[i].whatsApp = this.parseWANumber(response.data.celular);
-          // debugger
+        .subscribe((response) => {
+          //Creo que aquí no va async
+
+          this.allAppointments.appointments[i].whatsApp = this.parseWANumber(
+            response.data.celular
+          );
+
           console.log(
             `WhatsApp: ${this.allAppointments.appointments[i].whatsApp}, Id: ${this.allAppointments.appointments[i].id_paciente}`
           );
-          // debugger
         });
-        await this.sleep(3000);
-        // debugger
+      await this.sleep(3000);
     }
   }
 
-  parseWANumber(cellphone:string){
-    return cellphone.replace(/\D+/g, '').slice(0,10)
+  parseWANumber(cellphone: string) {
+    return cellphone.replace(/\D+/g, '').slice(0, 10);
   }
-  
 }
