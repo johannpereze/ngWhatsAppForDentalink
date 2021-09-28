@@ -1,4 +1,3 @@
-
 <form (ngSubmit)="saveClinics($event)">
   <label
     >Selecciona la fecha de las citas
@@ -11,7 +10,7 @@
   <button (click)="getClinics()">Guardar Fecha</button>
   <hr />
   <label *ngFor="let clinic of clinicsApiResponse.data">
-    <input checked name="{{ clinic.nombre }}" type="checkbox" />{{
+    <input [checked]="false" name="{{ clinic.nombre }}" type="checkbox" />{{
       clinic.nombre
     }}
   </label>

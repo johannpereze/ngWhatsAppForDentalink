@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   AllAppointments,
+  AppointmentsIds,
   DentalinkAppointments,
   DentalinkClinics,
   MainParams,
@@ -27,6 +28,17 @@ export class DentalinkQuerysService {
     selectedClinics: [],
     appointmentsDate: '2022-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
   };
+
+  validAppointmentIds: AppointmentsIds[] = [
+    { id: 3, appointmentState: 'Confirmado por teléfono' },
+    { id: 7, appointmentState: 'No confirmado' },
+    { id: 11, appointmentState: 'Confirmado por email' },
+    { id: 12, appointmentState: 'Notificado via email' },
+    { id: 13, appointmentState: 'Agenda Online' },
+    { id: 15, appointmentState: 'Confirmado por WhatsApp' },
+    { id: 17, appointmentState: 'Confirmado 8 días' },
+    { id: 19, appointmentState: 'Confirmado en Sede' },
+  ];
 
   //Estas keys en el futuro se debería almacenar en el backend
   //dentalinkKey Se guarda desde secret keys component con el método savekeys
@@ -80,8 +92,8 @@ export class DentalinkQuerysService {
   //   links: '',
   //   data: [],
   // }; ESTE ESTA EN CLINICS-LIST
-  
-  appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
+
+  // appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
   getClinics() {
     const headers = new HttpHeaders().set(
@@ -95,6 +107,13 @@ export class DentalinkQuerysService {
   }
 
   getAppointments(url: string) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Token ${this.secretKeys.dentalinkKey}`
+    );
+    return this.http.get<DentalinkAppointments>(url, { headers });
+  }
+  getWANumbers(url: string) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`

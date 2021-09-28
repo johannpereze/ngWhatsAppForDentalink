@@ -1,7 +1,6 @@
 export interface SecretKeys {
   dentalinkKey: string;
   b2ChatToken: string;
-
 }
 
 export interface WhatsAppLine {
@@ -170,7 +169,7 @@ export interface Appointment {
   duracion?: number;
   comentarios?: string;
   fecha_actualizacion?: any;
-  whatsApp?: number,
+  whatsApp?: number;
   links?: Link[];
 }
 
@@ -193,4 +192,9 @@ export interface BroadcastData {
 export interface BroadcastResponse {
   message: string;
   trace_id: string;
+}
+
+export interface AppointmentsIds {
+  id: number;
+  appointmentState: string;
 }
