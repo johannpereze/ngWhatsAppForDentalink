@@ -29,9 +29,9 @@ export class SummaryComponent {
   get allAppointments() {
     return this.dentalinkQuerysService.allAppointments;
   }
-  get getBodyParams() {
-    return this.whatsAppQuerysService.getBodyParams;
-  }
+  // get getBodyParams() {
+  //   return this.whatsAppQuerysService.getBodyParams;
+  // }
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
@@ -93,18 +93,18 @@ export class SummaryComponent {
   }
 
   // sendBroadcast(appointment: Appointment) {
-  sendBroadcast(appointment: Appointment) {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${this.secretKeys.b2ChatToken}`);
-    const body = JSON.stringify(this.getBodyParams(appointment));
-    console.log('body', body);
+  // sendBroadcast(appointment: Appointment) {
+  //   const headers = new HttpHeaders()
+  //     .set('Content-Type', 'application/json')
+  //     .set('Authorization', `Bearer ${this.secretKeys.b2ChatToken}`);
+  //   const body = JSON.stringify(this.getBodyParams(appointment));
+  //   console.log('body', body);
 
-    return this.http.post<BroadcastResponse>(
-      'https://api.b2chat.io/broadcast',
-      { headers, body }
-    );
-  }
+  //   return this.http.post<BroadcastResponse>(
+  //     'https://api.b2chat.io/broadcast',
+  //     { headers, body }
+  //   );
+  // }
 
   sendWhatsAppBroadcast() {
     this.allAppointments.appointments.forEach((appointment) => {
@@ -117,7 +117,7 @@ export class SummaryComponent {
         values: [
           appointment.nombre_paciente,
           appointment.nombre_sucursal,
-          appointment.fecha,
+          appointment.fecha.split('-').reverse().join('/'),
           appointment.hora_inicio,
           appointment.nombre_dentista,
         ],

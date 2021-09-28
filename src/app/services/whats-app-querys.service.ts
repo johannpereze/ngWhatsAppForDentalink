@@ -18,7 +18,7 @@ export class WhatsAppQuerysService {
     private http: HttpClient
   ) {}
 
-  private proxyUrl: string = environment.proxyUrl
+  private proxyUrl: string = environment.proxyUrl;
 
   get secretKeys() {
     return this.dentalinkQuerysService.secretKeys;
@@ -51,7 +51,9 @@ export class WhatsAppQuerysService {
       // .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
 
       .set('Content-Type', 'application/x-www-form-urlencoded');
-    console.log('Obteniendo token de whatsapp.... Recuerda que si no se hacen peticiones al backend por más de 30 minutos, entra en estado de hibernación y la siguiente petición tardará más. Por favor espera...');
+    console.log(
+      'Obteniendo token de whatsapp.... Recuerda que si no se hacen peticiones al backend por más de 30 minutos, entra en estado de hibernación y la siguiente petición tardará más. Por favor espera...'
+    );
 
     return this.http.post<B2ChatToken>(
       `  ${this.proxyUrl}/oauth/token?grant_type=client_credentials`,
@@ -69,37 +71,42 @@ export class WhatsAppQuerysService {
     console.log(headers);
     console.log(body);
     return this.http.post<B2ChatToken>(
-        `${this.proxyUrl}/broadcast`,
+      `${this.proxyUrl}/broadcast`,
       JSON.stringify(body),
       { headers }
     );
   }
 
-  static getBroadcastValues(appointment: Appointment) {
-    const valuesArray: string[] = [];
-    valuesArray.push(appointment.nombre_paciente);
-    valuesArray.push(appointment.nombre_sucursal);
-    valuesArray.push(appointment.fecha);
-    valuesArray.push(appointment.hora_inicio);
-    valuesArray.push(appointment.nombre_dentista);
-    console.log('valuesArray', valuesArray);
-
-    return valuesArray;
+  static dateFormatting(date: string) {
+    return date.split('-').reverse().join('/');
   }
 
-  getBodyParams(appointment: Appointment) {
-    //primero obtenemos todos los parámetros
-    const broadcastData: BroadcastData = {
-      from: `+${this.mainParams.selectedLine}`,
-      to: `+${'573192161411'}`,
-      contact_name: appointment.nombre_paciente,
-      template_name: this.mainParams.selectedTemplateName,
-      campaign_name: this.mainParams.campaignNote,
-      values: [...WhatsAppQuerysService.getBroadcastValues(appointment)],
-    };
-    console.log('broadcastData', broadcastData);
-    return broadcastData;
-  }
+  // static getBroadcastValues(appointment: Appointment) {
+  //   debugger
+  //   const valuesArray: string[] = [];
+  //   valuesArray.push(appointment.nombre_paciente);
+  //   valuesArray.push(appointment.nombre_sucursal);
+  //   valuesArray.push(this.dateFormatting(appointment.fecha));
+  //   valuesArray.push(appointment.hora_inicio);
+  //   valuesArray.push(appointment.nombre_dentista);
+  //   console.log('valuesArray', valuesArray);
+
+  //   return valuesArray;
+  // }
+
+  // getBodyParams(appointment: Appointment) {
+  //   //primero obtenemos todos los parámetros
+  //   const broadcastData: BroadcastData = {
+  //     from: `+${this.mainParams.selectedLine}`,
+  //     to: `+${''}`,
+  //     contact_name: appointment.nombre_paciente,
+  //     template_name: this.mainParams.selectedTemplateName,
+  //     campaign_name: this.mainParams.campaignNote,
+  //     values: [...WhatsAppQuerysService.getBroadcastValues(appointment)],
+  //   };
+  //   console.log('broadcastData', broadcastData);
+  //   return broadcastData;
+  // }
 }
 
 //Debo seguir avanzando tomando el token desde postman
