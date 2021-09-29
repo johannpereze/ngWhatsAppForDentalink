@@ -159,7 +159,7 @@ export class SummaryComponent {
             `WhatsApp: ${this.allAppointments.appointments[i].whatsApp}, Id: ${this.allAppointments.appointments[i].id_paciente}`
           );
         });
-      await this.sleep(3000);
+      await this.sleep(5000);
     }
   }
 

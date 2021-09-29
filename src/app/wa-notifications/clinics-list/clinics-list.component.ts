@@ -31,12 +31,20 @@ export class ClinicsListComponent {
 
   saveClinics(event: any) {
     //no estoy seguro del tipado
-    for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
-      if (event.srcElement[i].checked) {
-        //srcElement está deprecado
-        this.mainParams.selectedClinics.push(event.srcElement[i].name);
+    console.log(event);
+    
+    this.clinicsApiResponse.data.forEach((clinic, i)=>{
+      if (event.srcElement[i+2].checked){
+        this.mainParams.selectedClinics.push(event.srcElement[i+2].name)
       }
-    }
+    })
+
+    // for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
+    //   if (event.srcElement[i].checked) {
+    //     //srcElement está deprecado
+    //     this.mainParams.selectedClinics.push(event.srcElement[i].name);
+    //   }
+    // }
     console.log(this.mainParams.appointmentsDate);
     console.log(this.mainParams.selectedClinics);
     console.log(this.mainParams);
