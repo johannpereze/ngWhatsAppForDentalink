@@ -13,9 +13,6 @@ export class TemplateSelectionComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
-  // get appointmentsUrl() {
-  //   return this.dentalinkQuerysService.appointmentsUrl;
-  // }
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }

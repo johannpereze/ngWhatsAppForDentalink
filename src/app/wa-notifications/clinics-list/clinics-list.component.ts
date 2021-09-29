@@ -22,22 +22,38 @@ export class ClinicsListComponent {
     data: [],
   };
 
+  clinicsButtons = {
+    save: {
+      text: 'Guardar Fecha',
+      enabled: true,
+    },
+    next: {
+      text: 'Siguiente',
+      enabled: true,
+    },
+  };
+
   getClinics() {
     this.dentalinkQuerysService.getClinics().subscribe((response) => {
       this.clinicsApiResponse = response;
       console.log(this.clinicsApiResponse);
     });
+    this.clinicsButtons.save.text = 'Guardando...';
+    setTimeout(() => {
+      this.clinicsButtons.next.enabled = false;
+      this.clinicsButtons.save.text = 'Guardar Fecha';
+    }, 1000);
   }
 
   saveClinics(event: any) {
     //no estoy seguro del tipado
     console.log(event);
-    
-    this.clinicsApiResponse.data.forEach((clinic, i)=>{
-      if (event.srcElement[i+2].checked){
-        this.mainParams.selectedClinics.push(event.srcElement[i+2].name)
+
+    this.clinicsApiResponse.data.forEach((clinic, i) => {
+      if (event.srcElement[i + 2].checked) {
+        this.mainParams.selectedClinics.push(event.srcElement[i + 2].name);
       }
-    })
+    });
 
     // for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
     //   if (event.srcElement[i].checked) {

@@ -7,12 +7,16 @@
       name="appointmentsDate"
     />
   </label>
-  <button type="button" (click)="getClinics()">Guardar Fecha</button>
+  <button type="button" (click)="getClinics()">{{clinicsButtons.save.text}}</button>
   <hr />
   <label *ngFor="let clinic of clinicsApiResponse.data">
     <input [checked]="false" name="{{ clinic.nombre }}" type="checkbox" />{{
       clinic.nombre
     }}
   </label>
-  <button type="submit">Siguiente</button>
+  <div>
+    <button [disabled]="clinicsButtons.next.enabled" type="submit">
+      {{clinicsButtons.next.text}}
+    </button>
+  </div>
 </form>
