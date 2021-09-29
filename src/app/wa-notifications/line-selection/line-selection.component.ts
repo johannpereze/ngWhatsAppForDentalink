@@ -23,9 +23,16 @@ export class LineSelectionComponent {
 
   //Esta función no se necesita. Simplemente es para ver que sí se guardó la info en mainparams pero la puedo borrar para producción
   selectLine() {
-    console.log(this.mainParams.selectedLine);
-    console.log(this.mainParams.campaignNote);
-    this.componentVisibility.lineSelection = false;
-    this.componentVisibility.clinicsList = true;
+    if (
+      this.mainParams.selectedLine !== 0 &&
+      this.mainParams.campaignNote !== ''
+    ) {
+      console.log(this.mainParams.selectedLine);
+      console.log(this.mainParams.campaignNote);
+      this.componentVisibility.lineSelection = false;
+      this.componentVisibility.clinicsList = true;
+    } else {
+      alert('Selecciona una línea de WhatsApp y escribe una nota');
+    }
   }
 }
