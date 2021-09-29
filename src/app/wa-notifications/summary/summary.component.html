@@ -7,14 +7,30 @@
     <div>Nota del envío: {{ mainParams.campaignNote }}</div>
     <div>Fecha de las citas: {{ mainParams.appointmentsDate }}</div>
   </div>
+  <br />
   <div>
-    <button (click)="showTemplateWithData()">Cargar Ejemplos</button>
+    <button [disabled]="loadButtonDisabled" (click)="showTemplateWithData()">
+      {{ loadButtonText }}
+    </button>
+    <span> </span>
+    <button [disabled]="sendButtonDisabled" (click)="sendWhatsAppBroadcast()">
+      Enviar Mensajes
+    </button>
+    <br />
+    <div *ngIf="componentVisibility.progressBar">
+      <label for="loadingAppointments">Descargando Citas: </label>
+      <progress
+        id="loadingAppointments"
+        [value]="progressBar.downloadedAppointments"
+        [max]="allAppointments.appointments.length"
+      ></progress>
+    </div>
   </div>
 
-  <button (click)="sendWhatsAppBroadcast()">Enviar Mensajes</button>
-
   <!-- Template con datos -->
-  <div>Aquí van los templates con la data</div>
+  <hr />
+  <br />
+  <div>Aquí van los templates con la data:</div>
   <br />
   <hr />
   <div *ngFor="let template of templatesWithData">

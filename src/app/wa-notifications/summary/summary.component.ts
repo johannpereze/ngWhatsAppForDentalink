@@ -41,6 +41,13 @@ export class SummaryComponent {
 
   templatesWithData: string[] = [];
 
+  sendButtonDisabled = true;
+  loadButtonText = 'Cargar Mensajes';
+  loadButtonDisabled = false;
+  progressBar = {
+    downloadedAppointments: 0,
+  };
+
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
@@ -74,6 +81,9 @@ export class SummaryComponent {
   }
 
   async showTemplateWithData() {
+    this.loadButtonText = 'Cargando mensajes...';
+    this.loadButtonDisabled = true;
+    this.componentVisibility.progressBar = true
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
       if (value.name === this.mainParams.selectedTemplateName) {
@@ -92,6 +102,8 @@ export class SummaryComponent {
       const templateWithData: string = this.putDataIntoTemplate(element);
       this.templatesWithData.push(templateWithData);
     });
+    this.sendButtonDisabled = false;
+    this.loadButtonText = 'Cargados';
   }
 
   // sendBroadcast(appointment: Appointment) {
@@ -144,6 +156,7 @@ export class SummaryComponent {
 
     for (let i = 0; i < this.allAppointments.appointments.length; i++) {
       console.log('Contando', i);
+      this.progressBar.downloadedAppointments = i + 1;
       // await this.sleep(3000);
 
       this.dentalinkQuerysService

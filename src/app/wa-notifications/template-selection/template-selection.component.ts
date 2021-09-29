@@ -13,6 +13,7 @@ export class TemplateSelectionComponent {
   get mainParams() {
     return this.dentalinkQuerysService.mainParams;
   }
+
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
@@ -25,7 +26,6 @@ export class TemplateSelectionComponent {
   get componentVisibility() {
     return this.dentalinkQuerysService.componentVisibility;
   }
-  
 
   // allAppointments: AllAppointments = {
   //   appointments: [],
@@ -33,9 +33,14 @@ export class TemplateSelectionComponent {
 
   selectTemplate() {
     console.log(this.mainParams.selectedTemplateName);
-    this.getAppointments();
-    this.componentVisibility.templateSelection = false;
+    if (this.mainParams.selectedTemplateName !== '') {
+      this.getAppointments();
+      this.componentVisibility.templateSelection = false;
       this.componentVisibility.summary = true;
+    }
+    else{
+      alert('Debes elegir una plantilla para continuar')
+    }
   }
 
   validateAppointment(appointment: Appointment): boolean {

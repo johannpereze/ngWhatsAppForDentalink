@@ -37,6 +37,7 @@ export class DentalinkQuerysService {
     clinicsList: false,
     templateSelection: false,
     summary: false,
+    progressBar: false
   }
 
   validAppointmentIds: AppointmentsIds[] = [

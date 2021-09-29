@@ -234,4 +234,5 @@ export interface ComponentVisibility {
   clinicsList: boolean;
   templateSelection: boolean;
   summary: boolean;
+  progressBar: boolean;
 }
