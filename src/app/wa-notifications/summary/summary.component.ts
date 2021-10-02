@@ -16,8 +16,7 @@ import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service
 export class SummaryComponent {
   constructor(
     private dentalinkQuerysService: DentalinkQuerysService,
-    private whatsAppQuerysService: WhatsAppQuerysService,
-    private http: HttpClient
+    private whatsAppQuerysService: WhatsAppQuerysService
   ) {}
 
   get mainParams() {
@@ -29,9 +28,6 @@ export class SummaryComponent {
   get allAppointments() {
     return this.dentalinkQuerysService.allAppointments;
   }
-  // get getBodyParams() {
-  //   return this.whatsAppQuerysService.getBodyParams;
-  // }
   get secretKeys() {
     return this.whatsAppQuerysService.secretKeys;
   }
@@ -52,19 +48,22 @@ export class SummaryComponent {
     let arrayOfTemplate: string[] | string =
       this.mainParams.selectedTemplateTemplate;
 
-    console.log('arrayOfTemplate sin split', arrayOfTemplate);
+    //console.log('arrayOfTemplate sin split', arrayOfTemplate); //Depronto me sirve este log si voy a agregar más plantillas, para asegurarme que estoy haciendo bien el split
 
     // Convierto el template en un array con split y le incrusto los valores con splice y junto todo en un string con join
     arrayOfTemplate = arrayOfTemplate.split("'");
 
     const var1 = appointment.nombre_paciente;
     const var2 = appointment.nombre_sucursal;
-    const var3 = appointment.fecha;
+    const var3 = appointment.fecha.split('-').reverse().join('/'); //Organizamos la fecha a yn formato local
     const var4 = appointment.hora_inicio;
     const var5 = appointment.nombre_dentista;
     const var6 = appointment.whatsApp;
 
-    console.log('arrayOfTemplate antes', arrayOfTemplate);
+    console.log(
+      'arrayOfTemplate antes de ponerle valores reales: ',
+      arrayOfTemplate
+    );
 
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
@@ -73,7 +72,10 @@ export class SummaryComponent {
     arrayOfTemplate.splice(9, 1, var5);
     arrayOfTemplate.splice(11, 1, var6!);
 
-    console.log('arrayOfTemplate despues', arrayOfTemplate);
+    console.log(
+      'arrayOfTemplate despues de ponerle valores reales: ',
+      arrayOfTemplate
+    );
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -83,7 +85,8 @@ export class SummaryComponent {
   async showTemplateWithData() {
     this.loadButtonText = 'Cargando mensajes...';
     this.loadButtonDisabled = true;
-    this.componentVisibility.progressBar = true
+    this.componentVisibility.progressBar = true;
+
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
       if (value.name === this.mainParams.selectedTemplateName) {
@@ -91,8 +94,9 @@ export class SummaryComponent {
       }
     });
 
-    //ojo. Descomentar la siguiente linea si voy a usar datos reales
+    //ojo. Descomentar la siguiente linea se shift si voy a usar datos reales
     this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
+
     //Antes de mostrar en pantalla descargamos los whatsapps
     await this.getWANumbers();
 
@@ -106,20 +110,6 @@ export class SummaryComponent {
     this.loadButtonText = 'Cargados';
   }
 
-  // sendBroadcast(appointment: Appointment) {
-  // sendBroadcast(appointment: Appointment) {
-  //   const headers = new HttpHeaders()
-  //     .set('Content-Type', 'application/json')
-  //     .set('Authorization', `Bearer ${this.secretKeys.b2ChatToken}`);
-  //   const body = JSON.stringify(this.getBodyParams(appointment));
-  //   console.log('body', body);
-
-  //   return this.http.post<BroadcastResponse>(
-  //     'https://api.b2chat.io/broadcast',
-  //     { headers, body }
-  //   );
-  // }
-
   sendWhatsAppBroadcast() {
     this.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
@@ -132,7 +122,7 @@ export class SummaryComponent {
           values: [
             appointment.nombre_paciente,
             appointment.nombre_sucursal,
-            appointment.fecha.split('-').reverse().join('/'),
+            appointment.fecha,
             appointment.hora_inicio,
             appointment.nombre_dentista,
           ],
@@ -140,7 +130,6 @@ export class SummaryComponent {
         this.whatsAppQuerysService
           .sendWhatsAppBroadcast(body)
           .subscribe((response) => {
-            // this.whatsAppQuerysService.whatsAppToken = response;
             console.log('response sendWhatsAppBroadcast', response);
           });
       }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados
@@ -155,15 +144,12 @@ export class SummaryComponent {
     console.log(this.allAppointments.appointments);
 
     for (let i = 0; i < this.allAppointments.appointments.length; i++) {
-      console.log('Contando', i);
+      console.log('Descargando el whatsapp #', i);
       this.progressBar.downloadedAppointments = i + 1;
-      // await this.sleep(3000);
 
       this.dentalinkQuerysService
         .getWANumbers(this.allAppointments.appointments[i].id_paciente!)
         .subscribe((response) => {
-          //Creo que aquí no va async
-
           this.allAppointments.appointments[i].whatsApp = this.parseWANumber(
             response.data.celular
           );
@@ -177,6 +163,7 @@ export class SummaryComponent {
   }
 
   parseWANumber(cellphone: string) {
+    //Por aquí debería retornar un array con los whatsapp que no cumplan el formato de 10 numeros para ver cuales son y qué hacer con ellos. Por lo menos imprimirlos en pantalla
     return cellphone.replace(/\D+/g, '').slice(0, 10);
   }
 }
