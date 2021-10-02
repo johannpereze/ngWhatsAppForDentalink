@@ -12,6 +12,7 @@ import {
   WhatsAppLine,
   WhatsAppTemplate,
 } from '../interfaces/interface';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +32,14 @@ export class DentalinkQuerysService {
     appointmentsDate: '2022-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
   };
 
-  componentVisibility: ComponentVisibility ={
+  componentVisibility: ComponentVisibility = {
     secretKeys: true,
     lineSelection: false,
     clinicsList: false,
     templateSelection: false,
     summary: false,
-    progressBar: false
-  }
+    progressBar: false,
+  };
 
   validAppointmentIds: AppointmentsIds[] = [
     { id: 3, appointmentState: 'Confirmado por teléfono' },
@@ -52,7 +53,6 @@ export class DentalinkQuerysService {
     { id: 24, appointmentState: 'Notificado vía WhatsApp' },
   ];
 
-  //Estas keys en el futuro se debería almacenar en el backend
   //dentalinkKey Se guarda desde secret keys component con el método savekeys
   //b2ChatToken Se obtiene desde el backend
   secretKeys: SecretKeys = {
@@ -77,36 +77,34 @@ export class DentalinkQuerysService {
   allAppointments: AllAppointments = {
     appointments: [
       {
-        //Los tengo enttre comillas dobles y luego simples para facilitar el splice
+        //Los tengo entre comillas dobles y luego simples para facilitar el splice
         nombre_paciente: "'Nombre Paciente'",
         nombre_sucursal: "'Sede Prevenga'",
         fecha: "'Fecha de Cita'",
         hora_inicio: "'Hora de Cita'",
         nombre_dentista: "'Nombre odontólogo'",
-        whatsApp: "'0'",//Ojo, debe ser numero
+        whatsApp: "'0'", //Ojo, debe ser numero
       },
     ],
   };
 
   whatsAppTemplates: WhatsAppTemplate[] = [
-    //este template ya está en desuso
-    // {
-    //   name: 'recordatorio_cita_vigente_3',
-    //   template:
-    //     'Hola, ${Var1}. Recuerda que tienes una cita odontológica en  ${Var2} el día  ${Var3} a las  ${Var4} con el/la Dr(a).  ${Var5}. No respondas a este WhatsApp, es sólo de notificaciones. Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales',
-    // },
+    //Para agregar nuevos templates se debe agregar como el siguiente:
     {
       name: 'recordatorio_cita_vigente_4',
-      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.* ${'|'} WhatsApp: ${this.allAppointments.appointments[0].whatsApp}`,
+      template: `Hola, ${
+        this.allAppointments.appointments[0].nombre_paciente
+      }. Recuerda que tienes una cita odontológica en ${
+        this.allAppointments.appointments[0].nombre_sucursal
+      } el día ${this.allAppointments.appointments[0].fecha} a las  ${
+        this.allAppointments.appointments[0].hora_inicio
+      } con el/la Dr(a). ${
+        this.allAppointments.appointments[0].nombre_dentista
+      }.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.* ${'|'} WhatsApp: ${
+        this.allAppointments.appointments[0].whatsApp
+      }`,
     },
   ];
-
-  // clinicsApiResponse: DentalinkClinics = {
-  //   links: '',
-  //   data: [],
-  // }; ESTE ESTA EN CLINICS-LIST
-
-  // appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
   getClinics() {
     const headers = new HttpHeaders().set(
@@ -126,11 +124,15 @@ export class DentalinkQuerysService {
     );
     return this.http.get<DentalinkAppointments>(url, { headers });
   }
+
   getWANumbers(id: number) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get<Patient>(`https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`, { headers });
+    return this.http.get<Patient>(
+      `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
+      { headers }
+    );
   }
 }
