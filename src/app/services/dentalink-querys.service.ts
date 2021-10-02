@@ -49,6 +49,7 @@ export class DentalinkQuerysService {
     { id: 15, appointmentState: 'Confirmado por WhatsApp' },
     { id: 17, appointmentState: 'Confirmado 8 días' },
     { id: 19, appointmentState: 'Confirmado en Sede' },
+    { id: 24, appointmentState: 'Notificado vía WhatsApp' },
   ];
 
   //Estas keys en el futuro se debería almacenar en el backend
