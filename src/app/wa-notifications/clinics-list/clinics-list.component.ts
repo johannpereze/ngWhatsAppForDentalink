@@ -22,27 +22,42 @@ export class ClinicsListComponent {
     data: [],
   };
 
-  clinicsButtons = {
+  clinicsInputs = {
     save: {
       text: 'Guardar Fecha',
-      enabled: true,
+      disabled: true,
     },
     next: {
       text: 'Siguiente',
-      enabled: true,
+      disabled: true,
+    },
+    toggle: {
+      text: 'Deseleccionar todo',
+      disabled: true,
+    },
+    checkboxes: {
+      text: '',
+      checked: true,
     },
   };
 
+  toggleClinics() {
+    this.clinicsInputs.checkboxes.checked =
+      !this.clinicsInputs.checkboxes.checked;
+    this.clinicsInputs.toggle.text === 'Deseleccionar todo'
+      ? (this.clinicsInputs.toggle.text = 'Seleccionar todo')
+      : (this.clinicsInputs.toggle.text = 'Deseleccionar todo');
+  }
+
   getClinics() {
+    this.clinicsInputs.save.text = 'Guardando...';
     this.dentalinkQuerysService.getClinics().subscribe((response) => {
       this.clinicsApiResponse = response;
       console.log(this.clinicsApiResponse);
+      this.clinicsInputs.next.disabled = false;
+      this.clinicsInputs.toggle.disabled = false;
+      this.clinicsInputs.save.text = 'Guardar Fecha';
     });
-    this.clinicsButtons.save.text = 'Guardando...';
-    setTimeout(() => {
-      this.clinicsButtons.next.enabled = false;
-      this.clinicsButtons.save.text = 'Guardar Fecha';
-    }, 1000);
   }
 
   saveClinics(event: any) {

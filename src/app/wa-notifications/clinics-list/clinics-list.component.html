@@ -7,16 +7,29 @@
       name="appointmentsDate"
     />
   </label>
-  <button type="button" (click)="getClinics()">{{clinicsButtons.save.text}}</button>
+  <button type="button" (click)="getClinics()">
+    {{ clinicsInputs.save.text }}
+  </button>
   <hr />
+  <div>
+    <button
+      [disabled]="clinicsInputs.toggle.disabled"
+      type="button"
+      (click)="toggleClinics()"
+    >
+      {{ clinicsInputs.toggle.text }}
+    </button>
+  </div>
   <label *ngFor="let clinic of clinicsApiResponse.data">
-    <input [checked]="false" name="{{ clinic.nombre }}" type="checkbox" />{{
-      clinic.nombre
-    }}
+    <input
+      [checked]="clinicsInputs.checkboxes.checked"
+      name="{{ clinic.nombre }}"
+      type="checkbox"
+    />{{ clinic.nombre }}
   </label>
   <div>
-    <button [disabled]="clinicsButtons.next.enabled" type="submit">
-      {{clinicsButtons.next.text}}
+    <button [disabled]="clinicsInputs.next.disabled" type="submit">
+      {{ clinicsInputs.next.text }}
     </button>
   </div>
 </form>
