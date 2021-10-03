@@ -30,7 +30,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: '2022-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
+    appointmentsDate: '2021-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
   };
 
   componentVisibility: ComponentVisibility = {
@@ -134,6 +134,6 @@ export class DentalinkQuerysService {
     return this.http.get<Patient>(
       `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
       { headers }
-    ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
-  }
+    // ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
+    )}
 }

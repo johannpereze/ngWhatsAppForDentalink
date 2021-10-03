@@ -146,7 +146,7 @@ export class SummaryComponent {
               `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
             );
           });
-      }, 3000 * (i + 1));
+      }, 5000 * (i + 1));
     });
   }
 
