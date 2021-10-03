@@ -13,6 +13,7 @@ import {
   WhatsAppTemplate,
 } from '../interfaces/interface';
 import { Observable, of } from 'rxjs';
+import { retryWhen, delay, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -133,6 +134,6 @@ export class DentalinkQuerysService {
     return this.http.get<Patient>(
       `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
       { headers }
-    );
+    ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
   }
 }
