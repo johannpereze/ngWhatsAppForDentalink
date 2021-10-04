@@ -65,8 +65,8 @@ export class ClinicsListComponent {
     console.log(event);
 
     this.clinicsApiResponse.data.forEach((clinic, i) => {
-      if (event.srcElement[i + 2].checked) {
-        this.mainParams.selectedClinics.push(event.srcElement[i + 2].name);
+      if (event.srcElement[i + 3].checked) {
+        this.mainParams.selectedClinics.push(event.srcElement[i + 3].name);
       }
     });
 
