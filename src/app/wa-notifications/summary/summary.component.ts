@@ -63,10 +63,10 @@ export class SummaryComponent {
     arrayOfTemplate.splice(9, 1, var5);
     arrayOfTemplate.splice(11, 1, var6!);
 
-    console.log(
-      'arrayOfTemplate despues de ponerle valores reales: ',
-      arrayOfTemplate
-    );
+    // console.log(
+    //   'arrayOfTemplate despues de ponerle valores reales: ',
+    //   arrayOfTemplate
+    // ); // Activar si quiero ver los templates completos en la consola (Es demasiado texto)
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -88,7 +88,7 @@ export class SummaryComponent {
     this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
 
     //Antes de mostrar en pantalla descargamos los whatsapps
-    await this.getWANumbers();
+    await this.getWANumbers([1]);//le pasamos un array con todas las sedes
 
     console.log('this.allAppointments :', this.allAppointments);
 
@@ -126,28 +126,40 @@ export class SummaryComponent {
     });
   }
 
-  async getWANumbers() {
+  async getWANumbers(clinics: number[]) {
     console.log(
       'Estas son las citas a las cuales les vamos a buscar el WhatsApp: ',
       this.allAppointments.appointments
     );
 
-    this.allAppointments.appointments.forEach((appointment, i) => {
-      setTimeout(() => {
-        console.log('Descargando el whatsapp #', i);
-        this.progressBar.downloadedAppointments = i + 1;
-
-        this.dentalinkQuerysService
-          .getWANumbers(appointment.id_paciente!)
+clinics.forEach((clinic, i)=>{
+  console.log('Descargando los whatsapps de la sucursa; #', clinic);
+  this.progressBar.downloadedAppointments = i + 1;
+      this.dentalinkQuerysService
+          .getWANumbers(clinic)
           .subscribe((response) => {
-            appointment.whatsApp = this.parseWANumber(response.data.celular);
-
-            console.log(
-              `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
-            );
+            console.log(response);
+            
           });
-      }, 5000 * (i + 1));
-    });
+
+})
+
+    // this.allAppointments.appointments.forEach((appointment, i) => {
+    //   setTimeout(() => {
+    //     console.log('Descargando el whatsapp #', i);
+    //     this.progressBar.downloadedAppointments = i + 1;
+
+    //     this.dentalinkQuerysService
+    //       .getWANumbers(appointment.id_paciente!)
+    //       .subscribe((response) => {
+    //         appointment.whatsApp = this.parseWANumber(response.data.celular);
+
+    //         console.log(
+    //           `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+    //         );
+    //       });
+    //   }, 5000 * (i + 1));
+    // });
   }
 
   parseWANumber(cellphone: string) {

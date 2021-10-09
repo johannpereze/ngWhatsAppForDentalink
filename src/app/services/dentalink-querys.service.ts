@@ -51,7 +51,7 @@ export class DentalinkQuerysService {
     { id: 15, appointmentState: 'Confirmado por WhatsApp' },
     { id: 17, appointmentState: 'Confirmado 8 días' },
     { id: 19, appointmentState: 'Confirmado en Sede' },
-    { id: 24, appointmentState: 'Notificado vía WhatsApp' },
+    { id: 24, appointmentState: 'Notificado vía WhatsApp' }, //este no debería existir porque si se hace el put de este estado, daría error.
   ];
 
   //dentalinkKey Se guarda desde secret keys component con el método savekeys
@@ -107,6 +107,33 @@ export class DentalinkQuerysService {
     },
   ];
 
+  clinicsIds = [
+    { id: 1, nombre: "Prevenga La Ceja" },
+    { id: 2, nombre: "Prevenga Barbosa" },
+    { id: 3, nombre: "Prevenga Itagüí" },
+    { id: 4, nombre: "Prevenga Belén La Villa" },
+    { id: 5, nombre: "Prevenga Sabaneta" },
+    { id: 6, nombre: "Prevenga Prosalco Floresta" },
+    { id: 7, nombre: "Prevenga Éxito San Antonio" },
+    { id: 8, nombre: "Prevenga Caldas" },
+    { id: 9, nombre: "Coopsana Centro" },
+    { id: 10, nombre: "Coopsana Norte" },
+    { id: 11, nombre: "Coopsana Av. Oriental" },
+    { id: 12, nombre: "Coopsana Calasanz" },
+    { id: 13, nombre: "Almacén" },
+    { id: 14, nombre: "Prevenga Bello" },
+    { id: 15, nombre: "Prevenga VIVA Envigado" },
+    { id: 16, nombre: "Prevenga López de Mesa" },
+    { id: 17, nombre: "Videoconsulta" },
+    { id: 18, nombre: "Prevenga La Unión" },
+    { id: 19, nombre: "Prevenga Buenos Aires" },
+    { id: 20, nombre: "Prevenga San Antonio de Prado" },
+    { id: 21, nombre: "Prevenga Caldas Parque" },
+    { id: 22, nombre: "Prevenga El porvenir Rionegro" },
+    { id: 23, nombre: "Insumos Laboratorio" },
+    { id: 24, nombre: "Prevenga El Retiro" },
+  ];
+
   getClinics() {
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -132,8 +159,19 @@ export class DentalinkQuerysService {
       `Token ${this.secretKeys.dentalinkKey}`
     );
     return this.http.get<Patient>(
-      `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
+      `http://localhost:8080/getappointments?clinicId=${id}`,
       { headers }
-    // ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
-    )}
+    );
+  }
+
+  // getWANumbers(id: number) {
+  //   const headers = new HttpHeaders().set(
+  //     'Authorization',
+  //     `Token ${this.secretKeys.dentalinkKey}`
+  //   );
+  //   return this.http.get<Patient>(
+  //     `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
+  //     { headers }
+  //   // ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
+  //   )}
 }
