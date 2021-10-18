@@ -7,7 +7,10 @@
       name="appointmentsDate"
     />
   </label>
-  <button type="button" (click)="getClinics()">
+  <button
+    type="button"
+    (click)="getClinics()"
+  >
     {{ clinicsInputs.save.text }}
   </button>
   <hr />
@@ -28,7 +31,7 @@
     />{{ clinic.nombre }}
   </label>
   <div>
-    <button [disabled]="clinicsInputs.next.disabled" type="submit">
+    <button [disabled]="clinicsInputs.next.disabled || mainParams.appointmentsDate === ''" type="submit">
       {{ clinicsInputs.next.text }}
     </button>
   </div>

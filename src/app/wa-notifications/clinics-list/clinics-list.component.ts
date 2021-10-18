@@ -63,6 +63,8 @@ export class ClinicsListComponent {
   saveClinics(event: any) {
     //no estoy seguro del tipado
     console.log(event);
+    console.log("mainParams.appointmentsDate", this.mainParams.appointmentsDate);
+    
 
     this.clinicsApiResponse.data.forEach((clinic, i) => {
       if (event.srcElement[i + 3].checked) {

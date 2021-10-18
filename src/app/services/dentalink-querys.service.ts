@@ -21,6 +21,7 @@ import { retryWhen, delay, take } from 'rxjs/operators';
 export class DentalinkQuerysService {
   constructor(private http: HttpClient) {}
 
+  date = new Date()
   //Con estos parámetros voy a hacer la query a los endpoints
   //Lo usa secretKeys
   mainParams: MainParams = {
@@ -30,7 +31,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: '2021-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
+    appointmentsDate: ""//2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
   componentVisibility: ComponentVisibility = {
@@ -59,6 +60,7 @@ export class DentalinkQuerysService {
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2ChatToken: '',
+    b2ChatExpiration: '0'
   };
 
   //Cuando tenga una base de datos las paso de aquí al backend
