@@ -51,10 +51,10 @@ export class SummaryComponent {
     const var5 = appointment.nombre_dentista;
     const var6 = appointment.whatsApp;
 
-    console.log(
-      'arrayOfTemplate antes de ponerle valores reales: ',
-      arrayOfTemplate
-    );
+    // console.log(
+    //   'arrayOfTemplate antes de ponerle valores reales: ',
+    //   arrayOfTemplate
+    // ); // Activar si quiero ver los templates antes de estar completos en la consola (Es demasiado texto)
 
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
@@ -88,7 +88,7 @@ export class SummaryComponent {
     this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
 
     //Antes de mostrar en pantalla descargamos los whatsapps
-    await this.getWANumbers([1]);//le pasamos un array con todas las sedes
+    await this.getWANumbers([1, 2, 3]); //le pasamos un array con todas las sedes
 
     console.log('this.allAppointments :', this.allAppointments);
 
@@ -132,17 +132,13 @@ export class SummaryComponent {
       this.allAppointments.appointments
     );
 
-clinics.forEach((clinic, i)=>{
-  console.log('Descargando los whatsapps de la sucursa; #', clinic);
-  this.progressBar.downloadedAppointments = i + 1;
-      this.dentalinkQuerysService
-          .getWANumbers(clinic)
-          .subscribe((response) => {
-            console.log(response);
-            
-          });
-
-})
+    clinics.forEach((clinic, i) => {
+      console.log('Descargando los whatsapps de la sucursa; #', clinic);
+      this.progressBar.downloadedAppointments = i + 1;
+      this.dentalinkQuerysService.getWANumbers(clinic).subscribe((response) => {
+        console.log(response);
+      });
+    });
 
     // this.allAppointments.appointments.forEach((appointment, i) => {
     //   setTimeout(() => {
