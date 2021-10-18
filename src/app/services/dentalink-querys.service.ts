@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   AllAppointments,
+  Appointment,
   AppointmentsIds,
   ComponentVisibility,
   DentalinkAppointments,
@@ -12,8 +13,17 @@ import {
   WhatsAppLine,
   WhatsAppTemplate,
 } from '../interfaces/interface';
-import { Observable, of } from 'rxjs';
-import { retryWhen, delay, take } from 'rxjs/operators';
+import { merge, Observable, of } from 'rxjs';
+import {
+  retryWhen,
+  delay,
+  take,
+  switchMap,
+  mergeAll,
+  map,
+  concatMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +31,7 @@ import { retryWhen, delay, take } from 'rxjs/operators';
 export class DentalinkQuerysService {
   constructor(private http: HttpClient) {}
 
-  date = new Date()
+  date = new Date();
   //Con estos parámetros voy a hacer la query a los endpoints
   //Lo usa secretKeys
   mainParams: MainParams = {
@@ -31,7 +41,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: ""//2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
+    appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
   componentVisibility: ComponentVisibility = {
@@ -60,7 +70,7 @@ export class DentalinkQuerysService {
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2ChatToken: '',
-    b2ChatExpiration: '0'
+    b2ChatExpiration: '0',
   };
 
   //Cuando tenga una base de datos las paso de aquí al backend
@@ -91,6 +101,9 @@ export class DentalinkQuerysService {
     ],
   };
 
+  loadButtonDisabled = true;
+  loadButtonText = 'Espera mientras se descargan las citas';
+
   whatsAppTemplates: WhatsAppTemplate[] = [
     //Para agregar nuevos templates se debe agregar como el siguiente:
     {
@@ -110,31 +123,50 @@ export class DentalinkQuerysService {
   ];
 
   clinicsIds = [
-    { id: 1, nombre: "Prevenga La Ceja" },
-    { id: 2, nombre: "Prevenga Barbosa" },
-    { id: 3, nombre: "Prevenga Itagüí" },
-    { id: 4, nombre: "Prevenga Belén La Villa" },
-    { id: 5, nombre: "Prevenga Sabaneta" },
-    { id: 6, nombre: "Prevenga Prosalco Floresta" },
-    { id: 7, nombre: "Prevenga Éxito San Antonio" },
-    { id: 8, nombre: "Prevenga Caldas" },
-    { id: 9, nombre: "Coopsana Centro" },
-    { id: 10, nombre: "Coopsana Norte" },
-    { id: 11, nombre: "Coopsana Av. Oriental" },
-    { id: 12, nombre: "Coopsana Calasanz" },
-    { id: 13, nombre: "Almacén" },
-    { id: 14, nombre: "Prevenga Bello" },
-    { id: 15, nombre: "Prevenga VIVA Envigado" },
-    { id: 16, nombre: "Prevenga López de Mesa" },
-    { id: 17, nombre: "Videoconsulta" },
-    { id: 18, nombre: "Prevenga La Unión" },
-    { id: 19, nombre: "Prevenga Buenos Aires" },
-    { id: 20, nombre: "Prevenga San Antonio de Prado" },
-    { id: 21, nombre: "Prevenga Caldas Parque" },
-    { id: 22, nombre: "Prevenga El porvenir Rionegro" },
-    { id: 23, nombre: "Insumos Laboratorio" },
-    { id: 24, nombre: "Prevenga El Retiro" },
+    { id: 1, nombre: 'Prevenga La Ceja' },
+    { id: 2, nombre: 'Prevenga Barbosa' },
+    { id: 3, nombre: 'Prevenga Itagüí' },
+    { id: 4, nombre: 'Prevenga Belén La Villa' },
+    { id: 5, nombre: 'Prevenga Sabaneta' },
+    { id: 6, nombre: 'Prevenga Prosalco Floresta' },
+    { id: 7, nombre: 'Prevenga Éxito San Antonio' },
+    { id: 8, nombre: 'Prevenga Caldas' },
+    { id: 9, nombre: 'Coopsana Centro' },
+    { id: 10, nombre: 'Coopsana Norte' },
+    { id: 11, nombre: 'Coopsana Av. Oriental' },
+    { id: 12, nombre: 'Coopsana Calasanz' },
+    { id: 13, nombre: 'Almacén' },
+    { id: 14, nombre: 'Prevenga Bello' },
+    { id: 15, nombre: 'Prevenga VIVA Envigado' },
+    { id: 16, nombre: 'Prevenga López de Mesa' },
+    { id: 17, nombre: 'Videoconsulta' },
+    { id: 18, nombre: 'Prevenga La Unión' },
+    { id: 19, nombre: 'Prevenga Buenos Aires' },
+    { id: 20, nombre: 'Prevenga San Antonio de Prado' },
+    { id: 21, nombre: 'Prevenga Caldas Parque' },
+    { id: 22, nombre: 'Prevenga El porvenir Rionegro' },
+    { id: 23, nombre: 'Insumos Laboratorio' },
+    { id: 24, nombre: 'Prevenga El Retiro' },
   ];
+
+  validateAppointment(appointment: Appointment): boolean {
+    let existsInSelectedClinics: boolean = true;
+    //Sucursal seleccionada
+    if (
+      !this.mainParams.selectedClinics.includes(appointment.nombre_sucursal)
+    ) {
+      existsInSelectedClinics = false;
+    }
+
+    let isValidAppointmentId: boolean = false;
+    //Cita vigente
+    this.validAppointmentIds.forEach((validAppointmentId) => {
+      if (validAppointmentId.id === appointment.id_estado) {
+        isValidAppointmentId = true;
+      }
+    });
+    return existsInSelectedClinics && isValidAppointmentId ? true : false;
+  }
 
   getClinics() {
     const headers = new HttpHeaders().set(
@@ -147,12 +179,26 @@ export class DentalinkQuerysService {
     );
   }
 
-  getAppointments(url: string) {
+  getAppointments(url: string): any {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get<DentalinkAppointments>(url, { headers });
+    return this.http.get<DentalinkAppointments>(url, { headers }).pipe(
+      tap(console.log),
+      switchMap((resp: DentalinkAppointments) => {
+        if (resp.links.next) {
+          resp.data.forEach((appointment) => {
+            if (this.validateAppointment(appointment)) {
+              this.allAppointments.appointments.push(appointment);
+            }
+          });
+          return this.getAppointments(resp.links.next);
+        } else {
+          return this.allAppointments.appointments;
+        }
+      })
+    );
   }
 
   getWANumbers(id: number) {

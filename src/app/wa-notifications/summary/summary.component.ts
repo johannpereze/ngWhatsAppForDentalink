@@ -26,11 +26,17 @@ export class SummaryComponent {
   get componentVisibility() {
     return this.dentalinkQuerysService.componentVisibility;
   }
+  get loadButtonDisabled() {
+    return this.dentalinkQuerysService.loadButtonDisabled;
+  }
+  get loadButtonText() {
+    return this.dentalinkQuerysService.loadButtonText;
+  }
 
   templatesWithData: string[] = [];
   sendButtonDisabled = true;
-  loadButtonText = 'Cargar Mensajes';
-  loadButtonDisabled = false;
+  
+ 
   progressBar = {
     downloadedAppointments: 0,
   };
@@ -74,8 +80,8 @@ export class SummaryComponent {
   }
 
   async showTemplateWithData() {
-    this.loadButtonText = 'Cargando mensajes...';
-    this.loadButtonDisabled = true;
+    this.dentalinkQuerysService.loadButtonText = 'Cargando mensajes...';
+    this.dentalinkQuerysService.loadButtonDisabled = true;
     this.componentVisibility.progressBar = true;
 
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
@@ -97,7 +103,7 @@ export class SummaryComponent {
       this.templatesWithData.push(templateWithData);
     });
     this.sendButtonDisabled = false;
-    this.loadButtonText = 'Cargados';
+    this.dentalinkQuerysService.loadButtonText = 'Cargados';
   }
 
   sendWhatsAppBroadcast() {

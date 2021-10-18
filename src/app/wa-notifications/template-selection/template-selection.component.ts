@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Appointment } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
+import { Appointments } from '../../interfaces/interface';
 
 @Component({
   selector: 'app-template-selection',
@@ -37,30 +38,29 @@ export class TemplateSelectionComponent {
       this.getAppointments();
       this.componentVisibility.templateSelection = false;
       this.componentVisibility.summary = true;
-    }
-    else{
-      alert('Debes elegir una plantilla para continuar')
+    } else {
+      alert('Debes elegir una plantilla para continuar');
     }
   }
 
-  validateAppointment(appointment: Appointment): boolean {
-    let existsInSelectedClinics: boolean = true;
-    //Sucursal seleccionada
-    if (
-      !this.mainParams.selectedClinics.includes(appointment.nombre_sucursal)
-    ) {
-      existsInSelectedClinics = false;
-    }
+  // validateAppointment(appointment: Appointment): boolean {
+  //   let existsInSelectedClinics: boolean = true;
+  //   //Sucursal seleccionada
+  //   if (
+  //     !this.mainParams.selectedClinics.includes(appointment.nombre_sucursal)
+  //   ) {
+  //     existsInSelectedClinics = false;
+  //   }
 
-    let isValidAppointmentId: boolean = false;
-    //Cita vigente
-    this.validAppointmentIds.forEach((validAppointmentId) => {
-      if (validAppointmentId.id === appointment.id_estado) {
-        isValidAppointmentId = true;
-      }
-    });
-    return existsInSelectedClinics && isValidAppointmentId ? true : false;
-  }
+  //   let isValidAppointmentId: boolean = false;
+  //   //Cita vigente
+  //   this.validAppointmentIds.forEach((validAppointmentId) => {
+  //     if (validAppointmentId.id === appointment.id_estado) {
+  //       isValidAppointmentId = true;
+  //     }
+  //   });
+  //   return existsInSelectedClinics && isValidAppointmentId ? true : false;
+  // }
 
   getAppointments() {
     console.log(
@@ -70,415 +70,437 @@ export class TemplateSelectionComponent {
     let appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
 
     console.log('this.appointmentsUrl', appointmentsUrl);
-    this.dentalinkQuerysService
-      .getAppointments(appointmentsUrl)
-      .subscribe((response) => {
-        console.log(response);
-
-        response.data.forEach((appointment) => {
-          if (this.validateAppointment(appointment)) {
-            this.allAppointments.appointments.push(appointment);
-          }
-        });
-        console.log('this.allAppointments: ', this.allAppointments);
-        console.log('Linea 0', response);
-        this.dentalinkQuerysService
-          .getAppointments(response.links.next)
-          .subscribe((response) => {
-            response.data.forEach((appointment) => {
-              if (this.validateAppointment(appointment)) {
-                this.allAppointments.appointments.push(appointment);
-              }
-            });
-            console.log('this.allAppointments: ', this.allAppointments);
-            console.log('Linea 1', response);
-            this.dentalinkQuerysService
-              .getAppointments(response.links.next)
-              .subscribe((response) => {
-                response.data.forEach((appointment) => {
-                  if (this.validateAppointment(appointment)) {
-                    this.allAppointments.appointments.push(appointment);
-                  }
-                });
-                console.log('this.allAppointments: ', this.allAppointments);
-                console.log('Linea 2', response);
-                this.dentalinkQuerysService
-                  .getAppointments(response.links.next)
-                  .subscribe((response) => {
-                    response.data.forEach((appointment) => {
-                      if (this.validateAppointment(appointment)) {
-                        this.allAppointments.appointments.push(appointment);
-                      }
-                    });
-                    console.log('this.allAppointments: ', this.allAppointments);
-                    console.log('Linea 3', response);
-                    this.dentalinkQuerysService
-                      .getAppointments(response.links.next)
-                      .subscribe((response) => {
-                        response.data.forEach((appointment) => {
-                          if (this.validateAppointment(appointment)) {
-                            this.allAppointments.appointments.push(appointment);
-                          }
-                        });
-                        console.log(
-                          'this.allAppointments: ',
-                          this.allAppointments
-                        );
-                        console.log('Linea 4', response);
-                        this.dentalinkQuerysService
-                          .getAppointments(response.links.next)
-                          .subscribe((response) => {
-                            response.data.forEach((appointment) => {
-                              if (this.validateAppointment(appointment)) {
-                                this.allAppointments.appointments.push(
-                                  appointment
-                                );
-                              }
-                            });
-                            console.log(
-                              'this.allAppointments: ',
-                              this.allAppointments
-                            );
-                            console.log('Linea 5', response);
-                            this.dentalinkQuerysService
-                              .getAppointments(response.links.next)
-                              .subscribe((response) => {
-                                response.data.forEach((appointment) => {
-                                  if (this.validateAppointment(appointment)) {
-                                    this.allAppointments.appointments.push(
-                                      appointment
-                                    );
-                                  }
-                                });
-                                console.log(
-                                  'this.allAppointments: ',
-                                  this.allAppointments
-                                );
-                                console.log('Linea 6', response);
-                                this.dentalinkQuerysService
-                                  .getAppointments(response.links.next)
-                                  .subscribe((response) => {
-                                    response.data.forEach((appointment) => {
-                                      if (
-                                        this.validateAppointment(appointment)
-                                      ) {
-                                        this.allAppointments.appointments.push(
-                                          appointment
-                                        );
-                                      }
-                                    });
-                                    console.log(
-                                      'this.allAppointments: ',
-                                      this.allAppointments
-                                    );
-                                    console.log('Linea 7', response);
-                                    this.dentalinkQuerysService
-                                      .getAppointments(response.links.next)
-                                      .subscribe((response) => {
-                                        response.data.forEach((appointment) => {
-                                          if (
-                                            this.validateAppointment(
-                                              appointment
-                                            )
-                                          ) {
-                                            this.allAppointments.appointments.push(
-                                              appointment
-                                            );
-                                          }
-                                        });
-                                        console.log(
-                                          'this.allAppointments: ',
-                                          this.allAppointments
-                                        );
-                                        console.log('Linea 8', response);
-                                        this.dentalinkQuerysService
-                                          .getAppointments(response.links.next)
-                                          .subscribe((response) => {
-                                            response.data.forEach(
-                                              (appointment) => {
-                                                if (
-                                                  this.validateAppointment(
-                                                    appointment
-                                                  )
-                                                ) {
-                                                  this.allAppointments.appointments.push(
-                                                    appointment
-                                                  );
-                                                }
-                                              }
-                                            );
-                                            console.log(
-                                              'this.allAppointments: ',
-                                              this.allAppointments
-                                            );
-                                            console.log('Linea 9', response);
-                                            this.dentalinkQuerysService
-                                              .getAppointments(
-                                                response.links.next
-                                              )
-                                              .subscribe((response) => {
-                                                response.data.forEach(
-                                                  (appointment) => {
-                                                    if (
-                                                      this.validateAppointment(
-                                                        appointment
-                                                      )
-                                                    ) {
-                                                      this.allAppointments.appointments.push(
-                                                        appointment
-                                                      );
-                                                    }
-                                                  }
-                                                );
-                                                console.log(
-                                                  'this.allAppointments: ',
-                                                  this.allAppointments
-                                                );
-                                                console.log(
-                                                  'Linea 10',
-                                                  response
-                                                );
-                                                this.dentalinkQuerysService
-                                                  .getAppointments(
-                                                    response.links.next
-                                                  )
-                                                  .subscribe((response) => {
-                                                    response.data.forEach(
-                                                      (appointment) => {
-                                                        if (
-                                                          this.validateAppointment(
-                                                            appointment
-                                                          )
-                                                        ) {
-                                                          this.allAppointments.appointments.push(
-                                                            appointment
-                                                          );
-                                                        }
-                                                      }
-                                                    );
-                                                    console.log(
-                                                      'this.allAppointments: ',
-                                                      this.allAppointments
-                                                    );
-                                                    console.log(
-                                                      'Linea 11',
-                                                      response
-                                                    );
-                                                    this.dentalinkQuerysService
-                                                      .getAppointments(
-                                                        response.links.next
-                                                      )
-                                                      .subscribe((response) => {
-                                                        response.data.forEach(
-                                                          (appointment) => {
-                                                            if (
-                                                              this.validateAppointment(
-                                                                appointment
-                                                              )
-                                                            ) {
-                                                              this.allAppointments.appointments.push(
-                                                                appointment
-                                                              );
-                                                            }
-                                                          }
-                                                        );
-                                                        console.log(
-                                                          'this.allAppointments: ',
-                                                          this.allAppointments
-                                                        );
-                                                        console.log(
-                                                          'Linea 12',
-                                                          response
-                                                        );
-                                                        this.dentalinkQuerysService
-                                                          .getAppointments(
-                                                            response.links.next
-                                                          )
-                                                          .subscribe(
-                                                            (response) => {
-                                                              response.data.forEach(
-                                                                (
-                                                                  appointment
-                                                                ) => {
-                                                                  if (
-                                                                    this.validateAppointment(
-                                                                      appointment
-                                                                    )
-                                                                  ) {
-                                                                    this.allAppointments.appointments.push(
-                                                                      appointment
-                                                                    );
-                                                                  }
-                                                                }
-                                                              );
-                                                              console.log(
-                                                                'this.allAppointments: ',
-                                                                this
-                                                                  .allAppointments
-                                                              );
-                                                              console.log(
-                                                                'Linea 13',
-                                                                response
-                                                              );
-                                                              this.dentalinkQuerysService
-                                                                .getAppointments(
-                                                                  response.links
-                                                                    .next
-                                                                )
-                                                                .subscribe(
-                                                                  (
-                                                                    response
-                                                                  ) => {
-                                                                    response.data.forEach(
-                                                                      (
-                                                                        appointment
-                                                                      ) => {
-                                                                        if (
-                                                                          this.validateAppointment(
-                                                                            appointment
-                                                                          )
-                                                                        ) {
-                                                                          this.allAppointments.appointments.push(
-                                                                            appointment
-                                                                          );
-                                                                        }
-                                                                      }
-                                                                    );
-                                                                    console.log(
-                                                                      'this.allAppointments: ',
-                                                                      this
-                                                                        .allAppointments
-                                                                    );
-                                                                    console.log(
-                                                                      'Linea 14',
-                                                                      response
-                                                                    );
-                                                                    this.dentalinkQuerysService
-                                                                      .getAppointments(
-                                                                        response
-                                                                          .links
-                                                                          .next
-                                                                      )
-                                                                      .subscribe(
-                                                                        (
-                                                                          response
-                                                                        ) => {
-                                                                          response.data.forEach(
-                                                                            (
-                                                                              appointment
-                                                                            ) => {
-                                                                              if (
-                                                                                this.validateAppointment(
-                                                                                  appointment
-                                                                                )
-                                                                              ) {
-                                                                                this.allAppointments.appointments.push(
-                                                                                  appointment
-                                                                                );
-                                                                              }
-                                                                            }
-                                                                          );
-                                                                          console.log(
-                                                                            'this.allAppointments: ',
-                                                                            this
-                                                                              .allAppointments
-                                                                          );
-                                                                          console.log(
-                                                                            'Linea 15',
-                                                                            response
-                                                                          );
-                                                                          this.dentalinkQuerysService
-                                                                            .getAppointments(
-                                                                              response
-                                                                                .links
-                                                                                .next
-                                                                            )
-                                                                            .subscribe(
-                                                                              (
-                                                                                response
-                                                                              ) => {
-                                                                                response.data.forEach(
-                                                                                  (
-                                                                                    appointment
-                                                                                  ) => {
-                                                                                    if (
-                                                                                      this.validateAppointment(
-                                                                                        appointment
-                                                                                      )
-                                                                                    ) {
-                                                                                      this.allAppointments.appointments.push(
-                                                                                        appointment
-                                                                                      );
-                                                                                    }
-                                                                                  }
-                                                                                );
-                                                                                console.log(
-                                                                                  'this.allAppointments: ',
-                                                                                  this
-                                                                                    .allAppointments
-                                                                                );
-                                                                                console.log(
-                                                                                  'Linea 16',
-                                                                                  response
-                                                                                );
-                                                                                this.dentalinkQuerysService
-                                                                                  .getAppointments(
-                                                                                    response
-                                                                                      .links
-                                                                                      .next
-                                                                                  )
-                                                                                  .subscribe(
-                                                                                    (
-                                                                                      response
-                                                                                    ) => {
-                                                                                      response.data.forEach(
-                                                                                        (
-                                                                                          appointment
-                                                                                        ) => {
-                                                                                          if (
-                                                                                            this.validateAppointment(
-                                                                                              appointment
-                                                                                            )
-                                                                                          ) {
-                                                                                            this.allAppointments.appointments.push(
-                                                                                              appointment
-                                                                                            );
-                                                                                          }
-                                                                                        }
-                                                                                      );
-                                                                                      console.log(
-                                                                                        'this.allAppointments: ',
-                                                                                        this
-                                                                                          .allAppointments
-                                                                                      );
-                                                                                      console.log(
-                                                                                        'Linea 17',
-                                                                                        response
-                                                                                      );
-                                                                                    }
-                                                                                  );
-                                                                              }
-                                                                            );
-                                                                        }
-                                                                      );
-                                                                  }
-                                                                );
-                                                            }
-                                                          );
-                                                      });
-                                                  });
-                                              });
-                                          });
-                                      });
-                                  });
-                              });
-                          });
-                      });
-                  });
-              });
-          });
-      });
+    this.dentalinkQuerysService.getAppointments(appointmentsUrl).subscribe(
+      (response: Appointments[]) => {
+        this.dentalinkQuerysService.loadButtonDisabled = false;
+        this.dentalinkQuerysService.loadButtonText = 'Cargar plantillas';
+      }
+      //   (response: Appointments[]) => {
+      //   console.log(
+      //     'Aquí deben estar todas las citas que necesito: ',
+      //     this.allAppointments.appointments
+      //   );
+      // } //TODO: ME FALTA APLANAR ESTA RESPUESTA PORQUE ESTÁN VOLVIENDO MUCHAS RESPUESTAS Y SÓLO NECESITO UNA
+    );
   }
+
+  // getAppointments() {
+  //   console.log(
+  //     'this.mainParams.appointmentsDate',
+  //     this.mainParams.appointmentsDate
+  //   );
+  //   let appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
+
+  //   console.log('this.appointmentsUrl', appointmentsUrl);
+  //   this.dentalinkQuerysService
+  //     .getAppointments(appointmentsUrl)
+  //     .subscribe((response) => {
+  //       console.log(response);
+
+  //       response.data.forEach((appointment) => {
+  //         if (this.validateAppointment(appointment)) {
+  //           this.allAppointments.appointments.push(appointment);
+  //         }
+  //       });
+  //       console.log('this.allAppointments: ', this.allAppointments);
+  //       console.log('Linea 0', response);
+  //       this.dentalinkQuerysService
+  //         .getAppointments(response.links.next)
+  //         .subscribe((response) => {
+  //           response.data.forEach((appointment) => {
+  //             if (this.validateAppointment(appointment)) {
+  //               this.allAppointments.appointments.push(appointment);
+  //             }
+  //           });
+  //           console.log('this.allAppointments: ', this.allAppointments);
+  //           console.log('Linea 1', response);
+  //           this.dentalinkQuerysService
+  //             .getAppointments(response.links.next)
+  //             .subscribe((response) => {
+  //               response.data.forEach((appointment) => {
+  //                 if (this.validateAppointment(appointment)) {
+  //                   this.allAppointments.appointments.push(appointment);
+  //                 }
+  //               });
+  //               console.log('this.allAppointments: ', this.allAppointments);
+  //               console.log('Linea 2', response);
+  //               this.dentalinkQuerysService
+  //                 .getAppointments(response.links.next)
+  //                 .subscribe((response) => {
+  //                   response.data.forEach((appointment) => {
+  //                     if (this.validateAppointment(appointment)) {
+  //                       this.allAppointments.appointments.push(appointment);
+  //                     }
+  //                   });
+  //                   console.log('this.allAppointments: ', this.allAppointments);
+  //                   console.log('Linea 3', response);
+  //                   this.dentalinkQuerysService
+  //                     .getAppointments(response.links.next)
+  //                     .subscribe((response) => {
+  //                       response.data.forEach((appointment) => {
+  //                         if (this.validateAppointment(appointment)) {
+  //                           this.allAppointments.appointments.push(appointment);
+  //                         }
+  //                       });
+  //                       console.log(
+  //                         'this.allAppointments: ',
+  //                         this.allAppointments
+  //                       );
+  //                       console.log('Linea 4', response);
+  //                       this.dentalinkQuerysService
+  //                         .getAppointments(response.links.next)
+  //                         .subscribe((response) => {
+  //                           response.data.forEach((appointment) => {
+  //                             if (this.validateAppointment(appointment)) {
+  //                               this.allAppointments.appointments.push(
+  //                                 appointment
+  //                               );
+  //                             }
+  //                           });
+  //                           console.log(
+  //                             'this.allAppointments: ',
+  //                             this.allAppointments
+  //                           );
+  //                           console.log('Linea 5', response);
+  //                           this.dentalinkQuerysService
+  //                             .getAppointments(response.links.next)
+  //                             .subscribe((response) => {
+  //                               response.data.forEach((appointment) => {
+  //                                 if (this.validateAppointment(appointment)) {
+  //                                   this.allAppointments.appointments.push(
+  //                                     appointment
+  //                                   );
+  //                                 }
+  //                               });
+  //                               console.log(
+  //                                 'this.allAppointments: ',
+  //                                 this.allAppointments
+  //                               );
+  //                               console.log('Linea 6', response);
+  //                               this.dentalinkQuerysService
+  //                                 .getAppointments(response.links.next)
+  //                                 .subscribe((response) => {
+  //                                   response.data.forEach((appointment) => {
+  //                                     if (
+  //                                       this.validateAppointment(appointment)
+  //                                     ) {
+  //                                       this.allAppointments.appointments.push(
+  //                                         appointment
+  //                                       );
+  //                                     }
+  //                                   });
+  //                                   console.log(
+  //                                     'this.allAppointments: ',
+  //                                     this.allAppointments
+  //                                   );
+  //                                   console.log('Linea 7', response);
+  //                                   this.dentalinkQuerysService
+  //                                     .getAppointments(response.links.next)
+  //                                     .subscribe((response) => {
+  //                                       response.data.forEach((appointment) => {
+  //                                         if (
+  //                                           this.validateAppointment(
+  //                                             appointment
+  //                                           )
+  //                                         ) {
+  //                                           this.allAppointments.appointments.push(
+  //                                             appointment
+  //                                           );
+  //                                         }
+  //                                       });
+  //                                       console.log(
+  //                                         'this.allAppointments: ',
+  //                                         this.allAppointments
+  //                                       );
+  //                                       console.log('Linea 8', response);
+  //                                       this.dentalinkQuerysService
+  //                                         .getAppointments(response.links.next)
+  //                                         .subscribe((response) => {
+  //                                           response.data.forEach(
+  //                                             (appointment) => {
+  //                                               if (
+  //                                                 this.validateAppointment(
+  //                                                   appointment
+  //                                                 )
+  //                                               ) {
+  //                                                 this.allAppointments.appointments.push(
+  //                                                   appointment
+  //                                                 );
+  //                                               }
+  //                                             }
+  //                                           );
+  //                                           console.log(
+  //                                             'this.allAppointments: ',
+  //                                             this.allAppointments
+  //                                           );
+  //                                           console.log('Linea 9', response);
+  //                                           this.dentalinkQuerysService
+  //                                             .getAppointments(
+  //                                               response.links.next
+  //                                             )
+  //                                             .subscribe((response) => {
+  //                                               response.data.forEach(
+  //                                                 (appointment) => {
+  //                                                   if (
+  //                                                     this.validateAppointment(
+  //                                                       appointment
+  //                                                     )
+  //                                                   ) {
+  //                                                     this.allAppointments.appointments.push(
+  //                                                       appointment
+  //                                                     );
+  //                                                   }
+  //                                                 }
+  //                                               );
+  //                                               console.log(
+  //                                                 'this.allAppointments: ',
+  //                                                 this.allAppointments
+  //                                               );
+  //                                               console.log(
+  //                                                 'Linea 10',
+  //                                                 response
+  //                                               );
+  //                                               this.dentalinkQuerysService
+  //                                                 .getAppointments(
+  //                                                   response.links.next
+  //                                                 )
+  //                                                 .subscribe((response) => {
+  //                                                   response.data.forEach(
+  //                                                     (appointment) => {
+  //                                                       if (
+  //                                                         this.validateAppointment(
+  //                                                           appointment
+  //                                                         )
+  //                                                       ) {
+  //                                                         this.allAppointments.appointments.push(
+  //                                                           appointment
+  //                                                         );
+  //                                                       }
+  //                                                     }
+  //                                                   );
+  //                                                   console.log(
+  //                                                     'this.allAppointments: ',
+  //                                                     this.allAppointments
+  //                                                   );
+  //                                                   console.log(
+  //                                                     'Linea 11',
+  //                                                     response
+  //                                                   );
+  //                                                   this.dentalinkQuerysService
+  //                                                     .getAppointments(
+  //                                                       response.links.next
+  //                                                     )
+  //                                                     .subscribe((response) => {
+  //                                                       response.data.forEach(
+  //                                                         (appointment) => {
+  //                                                           if (
+  //                                                             this.validateAppointment(
+  //                                                               appointment
+  //                                                             )
+  //                                                           ) {
+  //                                                             this.allAppointments.appointments.push(
+  //                                                               appointment
+  //                                                             );
+  //                                                           }
+  //                                                         }
+  //                                                       );
+  //                                                       console.log(
+  //                                                         'this.allAppointments: ',
+  //                                                         this.allAppointments
+  //                                                       );
+  //                                                       console.log(
+  //                                                         'Linea 12',
+  //                                                         response
+  //                                                       );
+  //                                                       this.dentalinkQuerysService
+  //                                                         .getAppointments(
+  //                                                           response.links.next
+  //                                                         )
+  //                                                         .subscribe(
+  //                                                           (response) => {
+  //                                                             response.data.forEach(
+  //                                                               (
+  //                                                                 appointment
+  //                                                               ) => {
+  //                                                                 if (
+  //                                                                   this.validateAppointment(
+  //                                                                     appointment
+  //                                                                   )
+  //                                                                 ) {
+  //                                                                   this.allAppointments.appointments.push(
+  //                                                                     appointment
+  //                                                                   );
+  //                                                                 }
+  //                                                               }
+  //                                                             );
+  //                                                             console.log(
+  //                                                               'this.allAppointments: ',
+  //                                                               this
+  //                                                                 .allAppointments
+  //                                                             );
+  //                                                             console.log(
+  //                                                               'Linea 13',
+  //                                                               response
+  //                                                             );
+  //                                                             this.dentalinkQuerysService
+  //                                                               .getAppointments(
+  //                                                                 response.links
+  //                                                                   .next
+  //                                                               )
+  //                                                               .subscribe(
+  //                                                                 (
+  //                                                                   response
+  //                                                                 ) => {
+  //                                                                   response.data.forEach(
+  //                                                                     (
+  //                                                                       appointment
+  //                                                                     ) => {
+  //                                                                       if (
+  //                                                                         this.validateAppointment(
+  //                                                                           appointment
+  //                                                                         )
+  //                                                                       ) {
+  //                                                                         this.allAppointments.appointments.push(
+  //                                                                           appointment
+  //                                                                         );
+  //                                                                       }
+  //                                                                     }
+  //                                                                   );
+  //                                                                   console.log(
+  //                                                                     'this.allAppointments: ',
+  //                                                                     this
+  //                                                                       .allAppointments
+  //                                                                   );
+  //                                                                   console.log(
+  //                                                                     'Linea 14',
+  //                                                                     response
+  //                                                                   );
+  //                                                                   this.dentalinkQuerysService
+  //                                                                     .getAppointments(
+  //                                                                       response
+  //                                                                         .links
+  //                                                                         .next
+  //                                                                     )
+  //                                                                     .subscribe(
+  //                                                                       (
+  //                                                                         response
+  //                                                                       ) => {
+  //                                                                         response.data.forEach(
+  //                                                                           (
+  //                                                                             appointment
+  //                                                                           ) => {
+  //                                                                             if (
+  //                                                                               this.validateAppointment(
+  //                                                                                 appointment
+  //                                                                               )
+  //                                                                             ) {
+  //                                                                               this.allAppointments.appointments.push(
+  //                                                                                 appointment
+  //                                                                               );
+  //                                                                             }
+  //                                                                           }
+  //                                                                         );
+  //                                                                         console.log(
+  //                                                                           'this.allAppointments: ',
+  //                                                                           this
+  //                                                                             .allAppointments
+  //                                                                         );
+  //                                                                         console.log(
+  //                                                                           'Linea 15',
+  //                                                                           response
+  //                                                                         );
+  //                                                                         this.dentalinkQuerysService
+  //                                                                           .getAppointments(
+  //                                                                             response
+  //                                                                               .links
+  //                                                                               .next
+  //                                                                           )
+  //                                                                           .subscribe(
+  //                                                                             (
+  //                                                                               response
+  //                                                                             ) => {
+  //                                                                               response.data.forEach(
+  //                                                                                 (
+  //                                                                                   appointment
+  //                                                                                 ) => {
+  //                                                                                   if (
+  //                                                                                     this.validateAppointment(
+  //                                                                                       appointment
+  //                                                                                     )
+  //                                                                                   ) {
+  //                                                                                     this.allAppointments.appointments.push(
+  //                                                                                       appointment
+  //                                                                                     );
+  //                                                                                   }
+  //                                                                                 }
+  //                                                                               );
+  //                                                                               console.log(
+  //                                                                                 'this.allAppointments: ',
+  //                                                                                 this
+  //                                                                                   .allAppointments
+  //                                                                               );
+  //                                                                               console.log(
+  //                                                                                 'Linea 16',
+  //                                                                                 response
+  //                                                                               );
+  //                                                                               this.dentalinkQuerysService
+  //                                                                                 .getAppointments(
+  //                                                                                   response
+  //                                                                                     .links
+  //                                                                                     .next
+  //                                                                                 )
+  //                                                                                 .subscribe(
+  //                                                                                   (
+  //                                                                                     response
+  //                                                                                   ) => {
+  //                                                                                     response.data.forEach(
+  //                                                                                       (
+  //                                                                                         appointment
+  //                                                                                       ) => {
+  //                                                                                         if (
+  //                                                                                           this.validateAppointment(
+  //                                                                                             appointment
+  //                                                                                           )
+  //                                                                                         ) {
+  //                                                                                           this.allAppointments.appointments.push(
+  //                                                                                             appointment
+  //                                                                                           );
+  //                                                                                         }
+  //                                                                                       }
+  //                                                                                     );
+  //                                                                                     console.log(
+  //                                                                                       'this.allAppointments: ',
+  //                                                                                       this
+  //                                                                                         .allAppointments
+  //                                                                                     );
+  //                                                                                     console.log(
+  //                                                                                       'Linea 17',
+  //                                                                                       response
+  //                                                                                     );
+  //                                                                                   }
+  //                                                                                 );
+  //                                                                             }
+  //                                                                           );
+  //                                                                       }
+  //                                                                     );
+  //                                                                 }
+  //                                                               );
+  //                                                           }
+  //                                                         );
+  //                                                     });
+  //                                                 });
+  //                                             });
+  //                                         });
+  //                                     });
+  //                                 });
+  //                             });
+  //                         });
+  //                     });
+  //                 });
+  //             });
+  //         });
+  //     });
+  // }
 
   // getAppointments() {
   //   this.dentalinkQuerysService
