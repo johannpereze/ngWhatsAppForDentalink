@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   AllAppointments,
+  Appointment,
   AppointmentsIds,
   ComponentVisibility,
   DentalinkAppointments,
@@ -12,8 +13,8 @@ import {
   WhatsAppLine,
   WhatsAppTemplate,
 } from '../interfaces/interface';
-import { Observable, of } from 'rxjs';
-import { retryWhen, delay, take } from 'rxjs/operators';
+import { Observable, of, timer } from 'rxjs';
+import { retryWhen, delay, take, tap, switchMap, delayWhen } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: '2021-10-01', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas
+    appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
   componentVisibility: ComponentVisibility = {
@@ -41,6 +42,9 @@ export class DentalinkQuerysService {
     summary: false,
     progressBar: false,
   };
+
+  loadButtonDisabled = true;
+  loadButtonText = 'Espera mientras se descargan las citas';
 
   validAppointmentIds: AppointmentsIds[] = [
     { id: 3, appointmentState: 'Confirmado por teléfono' },
@@ -107,6 +111,25 @@ export class DentalinkQuerysService {
     },
   ];
 
+  validateAppointment(appointment: Appointment): boolean {
+    let existsInSelectedClinics: boolean = true;
+    //Sucursal seleccionada
+    if (
+      !this.mainParams.selectedClinics.includes(appointment.nombre_sucursal)
+    ) {
+      existsInSelectedClinics = false;
+    }
+
+    let isValidAppointmentId: boolean = false;
+    //Cita vigente
+    this.validAppointmentIds.forEach((validAppointmentId) => {
+      if (validAppointmentId.id === appointment.id_estado) {
+        isValidAppointmentId = true;
+      }
+    });
+    return existsInSelectedClinics && isValidAppointmentId ? true : false;
+  }
+
   getClinics() {
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -118,12 +141,29 @@ export class DentalinkQuerysService {
     );
   }
 
-  getAppointments(url: string) {
+  delayForDentalink = () => timer(1500);
+
+  getAppointments(url: string): any {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    return this.http.get<DentalinkAppointments>(url, { headers });
+    return this.http.get<DentalinkAppointments>(url, { headers }).pipe(
+      delayWhen(this.delayForDentalink),
+      tap(console.log),
+      switchMap((resp: DentalinkAppointments) => {
+        if (resp.links.next) {
+          resp.data.forEach((appointment) => {
+            if (this.validateAppointment(appointment)) {
+              this.allAppointments.appointments.push(appointment);
+            }
+          });
+          return this.getAppointments(resp.links.next);
+        } else {
+          return this.allAppointments.appointments;
+        }
+      })
+    );
   }
 
   getWANumbers(id: number) {
@@ -134,6 +174,7 @@ export class DentalinkQuerysService {
     return this.http.get<Patient>(
       `https://api.dentalink.healthatom.com/api/v1/pacientes/${id}`,
       { headers }
-    // ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
-    )}
+      // ).pipe(retryWhen((errors) => errors.pipe(delay(40000), take(10))));//Esta línea es la única diferencia con la versión 1// Lo debería hacer con puppeteer
+    );
+  }
 }
