@@ -63,6 +63,7 @@ export class DentalinkQuerysService {
   secretKeys: SecretKeys = {
     dentalinkKey: '',
     b2ChatToken: '',
+    b2ChatExpiration: '0',
   };
 
   //Cuando tenga una base de datos las paso de aquí al backend

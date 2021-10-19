@@ -1,6 +1,7 @@
 export interface SecretKeys {
   dentalinkKey: string;
   b2ChatToken: string;
+  b2ChatExpiration: string;
 }
 
 export interface WhatsAppLine {

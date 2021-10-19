@@ -28,7 +28,7 @@
     />{{ clinic.nombre }}
   </label>
   <div>
-    <button [disabled]="clinicsInputs.next.disabled" type="submit">
+    <button [disabled]="clinicsInputs.next.disabled || mainParams.appointmentsDate === ''" type="submit">
       {{ clinicsInputs.next.text }}
     </button>
   </div>
