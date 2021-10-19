@@ -27,10 +27,6 @@ export class TemplateSelectionComponent {
     return this.dentalinkQuerysService.componentVisibility;
   }
 
-  // allAppointments: AllAppointments = {
-  //   appointments: [],
-  // };
-
   selectTemplate() {
     console.log(this.mainParams.selectedTemplateName);
     if (this.mainParams.selectedTemplateName !== '') {
