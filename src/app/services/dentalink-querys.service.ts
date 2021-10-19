@@ -142,7 +142,7 @@ export class DentalinkQuerysService {
     );
   }
 
-  delayForDentalink = () => timer(1500);
+  delayForDentalink = () => timer(2000);
 
   getAppointments(url: string): any {
     const headers = new HttpHeaders().set(
