@@ -1,40 +1,47 @@
-<div *ngIf="componentVisibility.summary">
-  <p>Resumen:</p>
-
-  <div>
-    <div>Línea de WhatsApp: +57{{ mainParams.selectedLine }}:</div>
-    <div>Plantilla: {{ mainParams.selectedTemplateName }}</div>
-    <div>Nota del envío: {{ mainParams.campaignNote }}</div>
-    <div>Fecha de las citas: {{ mainParams.appointmentsDate }}</div>
-  </div>
-  <br />
-  <div>
-    <button [disabled]="loadButtonDisabled" (click)="showTemplateWithData()">
-      {{ loadButtonText }}
-    </button>
-    <span> </span>
-    <button [disabled]="sendButtonDisabled" (click)="sendWhatsAppBroadcast()">
-      Enviar Mensajes
-    </button>
-    <br />
-    <div *ngIf="componentVisibility.progressBar">
-      <label for="loadingAppointments">Descargando Citas: </label>
-      <progress
-        id="loadingAppointments"
-        [value]="progressBar.downloadedAppointments"
-        [max]="allAppointments.appointments.length"
-      ></progress>
+<div class="mt-6" *ngIf="componentVisibility.summary">
+  <p-card>
+    <h3>Resumen del envío:</h3>
+    <div>
+      <div><b>Línea de WhatsApp: </b>+57{{ mainParams.selectedLine }}:</div>
+      <div><b>Plantilla: </b>{{ mainParams.selectedTemplateName }}</div>
+      <div><b>Nota del envío: </b>{{ mainParams.campaignNote }}</div>
+      <div><b>Fecha de las citas: </b>{{ mainParams.appointmentsDate }}</div>
     </div>
-  </div>
+    <br />
+    <div>
+      <button
+        pButton
+        label="{{ loadButtonText }}"
+        [disabled]="loadButtonDisabled"
+        (click)="showTemplateWithData()"
+      ></button>
+      <span> </span>
+      <button
+        pButton
+        label="Enviar Mensajes"
+        [disabled]="sendButtonDisabled"
+        (click)="sendWhatsAppBroadcast()"
+      ></button>
+      <br />
+      <div *ngIf="componentVisibility.progressBar">
+        <label for="loadingAppointments">Descargando Citas: </label>
+        <progress
+          id="loadingAppointments"
+          [value]="progressBar.downloadedAppointments"
+          [max]="allAppointments.appointments.length"
+        ></progress>
+      </div>
+    </div>
 
-  <!-- Template con datos -->
-  <hr />
-  <br />
-  <div>Aquí van los templates con la data:</div>
-  <br />
-  <hr />
-  <div *ngFor="let template of templatesWithData">
-    {{ template }} <br />
+    <!-- Template con datos -->
     <hr />
-  </div>
+    <br />
+    <div>Aquí van los templates con la data:</div>
+    <br />
+    <hr />
+    <div *ngFor="let template of templatesWithData">
+      {{ template }} <br />
+      <hr />
+    </div>
+  </p-card>
 </div>

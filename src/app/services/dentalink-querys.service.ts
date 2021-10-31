@@ -41,22 +41,23 @@ export class DentalinkQuerysService {
     appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
-  // componentVisibility: ComponentVisibility = {
-  //   secretKeys: false,
-  //   lineSelection: false,
-  //   clinicsList: false,
-  //   templateSelection: true,
-  //   summary: false,
-  //   progressBar: false,
-  // };
   componentVisibility: ComponentVisibility = {
-    secretKeys: true,
+    secretKeys: false,
     lineSelection: false,
     clinicsList: false,
     templateSelection: false,
-    summary: false,
+    summary: true,
     progressBar: false,
   };
+
+  // componentVisibility: ComponentVisibility = {
+  //   secretKeys: true,
+  //   lineSelection: false,
+  //   clinicsList: false,
+  //   templateSelection: false,
+  //   summary: false,
+  //   progressBar: false,
+  // };
 
   loadButtonDisabled = true;
   loadButtonText = 'Espera mientras se descargan las citas';
