@@ -8,6 +8,7 @@ import { TemplateSelectionComponent } from './template-selection/template-select
 import { SummaryComponent } from './summary/summary.component';
 import { WaNotificationsPageComponent } from './wa-notifications-page/wa-notifications-page.component';
 import { ClinicsListComponent } from './clinics-list/clinics-list.component';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 
 
@@ -23,7 +24,8 @@ import { ClinicsListComponent } from './clinics-list/clinics-list.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    PrimeNgModule
   ],
   exports:[
     WaNotificationsPageComponent

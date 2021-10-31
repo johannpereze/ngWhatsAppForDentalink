@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { WANotificationsModule } from './wa-notifications/wa-notifications.module';
+import { PrimeNgModule } from './prime-ng/prime-ng.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +14,7 @@ import { WANotificationsModule } from './wa-notifications/wa-notifications.modul
     HttpClientModule,
     FormsModule,
     WANotificationsModule,
+    PrimeNgModule
   ],
   providers: [],
   bootstrap: [AppComponent],
