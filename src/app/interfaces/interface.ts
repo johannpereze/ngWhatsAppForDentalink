@@ -145,6 +145,7 @@ export interface Links {
 // }
 
 export interface AllAppointments {
+  appointmentsWitoutValidation: Appointment[];
   appointments: Appointment[];
 }
 

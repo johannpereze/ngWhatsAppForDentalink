@@ -14,7 +14,14 @@ import {
   WhatsAppTemplate,
 } from '../interfaces/interface';
 import { Observable, of, timer } from 'rxjs';
-import { retryWhen, delay, take, tap, switchMap, delayWhen } from 'rxjs/operators';
+import {
+  retryWhen,
+  delay,
+  take,
+  tap,
+  switchMap,
+  delayWhen,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -89,6 +96,17 @@ export class DentalinkQuerysService {
   ];
 
   allAppointments: AllAppointments = {
+    appointmentsWitoutValidation: [
+      {
+        //Los tengo entre comillas dobles y luego simples para facilitar el splice
+        nombre_paciente: "'Nombre SIN VALIDAR'",
+        nombre_sucursal: "'Sede SIN VALIDAR'",
+        fecha: "'Fecha de Cita'",
+        hora_inicio: "'Hora de Cita'",
+        nombre_dentista: "'Nombre odontólogo'",
+        whatsApp: "'0'", //Ojo, debe ser numero
+      },
+    ],
     appointments: [
       {
         //Los tengo entre comillas dobles y luego simples para facilitar el splice
@@ -162,6 +180,7 @@ export class DentalinkQuerysService {
       tap(console.log),
       switchMap((resp: DentalinkAppointments) => {
         if (resp.links.next) {
+          this.allAppointments.appointmentsWitoutValidation.push(...resp.data);
           resp.data.forEach((appointment) => {
             if (this.validateAppointment(appointment)) {
               this.allAppointments.appointments.push(appointment);
@@ -169,6 +188,12 @@ export class DentalinkQuerysService {
           });
           return this.getAppointments(resp.links.next);
         } else {
+          this.allAppointments.appointmentsWitoutValidation.push(...resp.data);
+          resp.data.forEach((appointment) => {
+            if (this.validateAppointment(appointment)) {
+              this.allAppointments.appointments.push(appointment);
+            }
+          });
           return this.allAppointments.appointments;
         }
       })

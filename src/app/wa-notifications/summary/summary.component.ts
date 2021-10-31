@@ -35,7 +35,7 @@ export class SummaryComponent {
 
   templatesWithData: string[] = [];
   sendButtonDisabled = true;
- 
+
   progressBar = {
     downloadedAppointments: 0,
   };
@@ -56,11 +56,10 @@ export class SummaryComponent {
     const var5 = appointment.nombre_dentista;
     const var6 = appointment.whatsApp;
 
-// console.log(
+    // console.log(
     //   'arrayOfTemplate antes de ponerle valores reales: ',
     //   arrayOfTemplate
     // ); // Activar si quiero ver los templates antes de estar completos en la consola (Es demasiado texto)
-
 
     arrayOfTemplate.splice(1, 1, var1);
     arrayOfTemplate.splice(3, 1, var2);
@@ -68,11 +67,10 @@ export class SummaryComponent {
     arrayOfTemplate.splice(7, 1, var4);
     arrayOfTemplate.splice(9, 1, var5);
     arrayOfTemplate.splice(11, 1, var6!);
-// console.log(
+    // console.log(
     //   'arrayOfTemplate despues de ponerle valores reales: ',
     //   arrayOfTemplate
     // ); // Activar si quiero ver los templates completos en la consola (Es demasiado texto)
-
 
     arrayOfTemplate = arrayOfTemplate.join('');
 
@@ -83,6 +81,11 @@ export class SummaryComponent {
     this.dentalinkQuerysService.loadButtonText = 'Cargando mensajes...';
     this.dentalinkQuerysService.loadButtonDisabled = true;
     this.componentVisibility.progressBar = true;
+
+    console.log(
+      'this.allAppointments luego de cargar el progressbar:',
+      this.allAppointments
+    );
 
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
@@ -110,7 +113,7 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
         const body: BroadcastData = {
-          from: `+${this.mainParams.selectedLine}`,
+          from: `+57${this.mainParams.selectedLine}`,
           to: `+57${appointment.whatsApp}`,
           contact_name: appointment.nombre_paciente,
           template_name: this.mainParams.selectedTemplateName,
@@ -133,6 +136,10 @@ export class SummaryComponent {
   }
 
   async getWANumbers() {
+    console.log(
+      'Estas son las citas sin validar ',
+      this.allAppointments.appointmentsWitoutValidation
+    );
     console.log(
       'Estas son las citas a las cuales les vamos a buscar el WhatsApp: ',
       this.allAppointments.appointments
