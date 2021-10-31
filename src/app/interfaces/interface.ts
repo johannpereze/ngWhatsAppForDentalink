@@ -21,7 +21,7 @@ export interface MainParams {
   selectedTemplateName: string;
   selectedTemplateTemplate: string;
   selectedClinics: string[];
-  appointmentsDate: string;
+  appointmentsDate: string | Date;
 }
 
 // To parse this data:

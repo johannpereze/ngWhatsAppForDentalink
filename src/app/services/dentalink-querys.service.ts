@@ -35,13 +35,21 @@ export class DentalinkQuerysService {
   };
 
   componentVisibility: ComponentVisibility = {
-    secretKeys: true,
+    secretKeys: false,
     lineSelection: false,
-    clinicsList: false,
+    clinicsList: true,
     templateSelection: false,
     summary: false,
     progressBar: false,
   };
+  // componentVisibility: ComponentVisibility = {
+  //   secretKeys: true,
+  //   lineSelection: false,
+  //   clinicsList: false,
+  //   templateSelection: false,
+  //   summary: false,
+  //   progressBar: false,
+  // };
 
   loadButtonDisabled = true;
   loadButtonText = 'Espera mientras se descargan las citas';

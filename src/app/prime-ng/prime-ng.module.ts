@@ -5,6 +5,7 @@ import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
 import {MenubarModule} from 'primeng/menubar';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,7 @@ import {MenubarModule} from 'primeng/menubar';
     CardModule,
     DropdownModule,
     MenubarModule,
+    CalendarModule
 
   ]
 })

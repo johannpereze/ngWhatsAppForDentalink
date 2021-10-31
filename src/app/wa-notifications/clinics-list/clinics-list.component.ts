@@ -49,7 +49,32 @@ export class ClinicsListComponent {
       : (this.clinicsInputs.toggle.text = 'Deseleccionar todo');
   }
 
+  parseDateForMainParams(date: string) {
+    let splittedDate = date.split('-');
+    for (let i = 1; i <= 2; i++) {
+      if (splittedDate[i].length === 1) {
+        return;
+      } else {
+        splittedDate[i] = `0${splittedDate[i]}`;
+      }
+    }
+    return splittedDate;
+  }
+
   getClinics() {
+    console.log(this.mainParams.appointmentsDate);
+    const selectedDate = new Date(this.mainParams.appointmentsDate);
+    // this.mainParams.appointmentsDate = this.mainParams.appointmentsDate.split(' ').splice().join()
+    const selectedDateString = `${selectedDate.getFullYear()}-${
+      selectedDate.getMonth() + 1
+    }-${selectedDate.getDate()}`;
+    console.log(selectedDateString);
+
+    const selectedDateArray = selectedDateString.split('-');
+    console.log(selectedDateArray);
+
+    
+
     this.clinicsInputs.save.text = 'Guardando...';
     this.dentalinkQuerysService.getClinics().subscribe((response) => {
       this.clinicsApiResponse = response;
