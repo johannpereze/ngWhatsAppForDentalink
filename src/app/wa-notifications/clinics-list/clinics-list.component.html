@@ -3,29 +3,6 @@
     <h5>Selecciona la fecha de las citas</h5>
     <div class="fluid grid formgrid">
       <div class="p-field p-col-12 p-md-4">
-        <p-calendar
-          [(ngModel)]="mainParams.appointmentsDate"
-          [showIcon]="true"
-          inputId="icon"
-          dateFormat="dd.mm.y"
-        ></p-calendar>
-      </div>
-      <button
-        class="ml-2"
-        pButton
-        type="submit"
-        label="{{ clinicsInputs.save.text }}"
-        (click)="getClinics()"
-      ></button>
-    </div>
-  </p-card>
-</div>
-
-<div class="mt-6" *ngIf="componentVisibility.clinicsList">
-  <p-card>
-    <h5>Selecciona la fecha de las citas</h5>
-    <div class="fluid grid formgrid">
-      <div class="p-field p-col-12 p-md-4">
         <form (ngSubmit)="saveClinics($event)">
           <input
             [(ngModel)]="mainParams.appointmentsDate"
@@ -37,37 +14,42 @@
             ng-reflect-ng-class="p-inputtext p-component"
             id="icon"
           />
-          <button label="{{ clinicsInputs.save.text }}" class="ml-2" pButton type="button" (click)="getClinics()">
-            
-          </button>
-          <hr />
-          <div>
-            <button
-              [disabled]="clinicsInputs.toggle.disabled"
-              type="button"
-              (click)="toggleClinics()"
-            >
-              {{ clinicsInputs.toggle.text }}
-            </button>
-          </div>
-          <label *ngFor="let clinic of clinicsApiResponse.data">
-            <input
-              [checked]="clinicsInputs.checkboxes.checked"
-              name="{{ clinic.nombre }}"
-              type="checkbox"
-            />{{ clinic.nombre }}
-          </label>
-          <div>
-            <button
-              [disabled]="
-                clinicsInputs.next.disabled ||
-                mainParams.appointmentsDate === ''
-              "
-              type="submit"
-            >
-              {{ clinicsInputs.next.text }}
-            </button>
-          </div>
+          <button
+            label="{{ clinicsInputs.save.text }}"
+            class="ml-2"
+            pButton
+            type="button"
+            (click)="getClinics()"
+          ></button>
+          <p-card>
+            <div>
+              <button
+                [disabled]="clinicsInputs.toggle.disabled"
+                type="button"
+                (click)="toggleClinics()"
+              >
+                {{ clinicsInputs.toggle.text }}
+              </button>
+            </div>
+            <label *ngFor="let clinic of clinicsApiResponse.data">
+              <input
+                [checked]="clinicsInputs.checkboxes.checked"
+                name="{{ clinic.nombre }}"
+                type="checkbox"
+              />{{ clinic.nombre }}
+            </label>
+            <div>
+              <button
+                [disabled]="
+                  clinicsInputs.next.disabled ||
+                  mainParams.appointmentsDate === ''
+                "
+                type="submit"
+              >
+                {{ clinicsInputs.next.text }}
+              </button>
+            </div>
+          </p-card>
         </form>
       </div>
     </div>
