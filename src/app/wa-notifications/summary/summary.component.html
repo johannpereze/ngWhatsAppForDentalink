@@ -2,7 +2,7 @@
   <p-card>
     <h3>Resumen del envío:</h3>
     <div>
-      <div><b>Línea de WhatsApp: </b>+57{{ mainParams.selectedLine }}:</div>
+      <div><b>Línea de WhatsApp: </b>+57{{ mainParams.selectedLine }}</div>
       <div><b>Plantilla: </b>{{ mainParams.selectedTemplateName }}</div>
       <div><b>Nota del envío: </b>{{ mainParams.campaignNote }}</div>
       <div><b>Fecha de las citas: </b>{{ mainParams.appointmentsDate }}</div>
@@ -21,9 +21,9 @@
           mode="indeterminate"
         ></p-progressBar>
       </div>
-      <br>
+      <br />
       <button
-      class="mr-2"
+        class="mr-2"
         pButton
         label="{{ loadButtonText }}"
         [disabled]="loadButtonDisabled"
@@ -40,12 +40,13 @@
   </p-card>
 </div>
 
-<div *ngIf="componentVisibility.summary">
-  <div>Aquí van los templates con la data:</div>
-  <br />
-  <hr />
-  <div *ngFor="let template of templatesWithData">
-    {{ template }} <br />
-    <hr />
-  </div>
+<div class="mt-6" *ngIf="componentVisibility.summary">
+  <p-card>
+    <h3>Mensajes a enviar:</h3>
+    <div *ngFor="let template of templatesWithData" class="mt-2 mb-2">
+      <p-card >
+        {{ template }}
+      </p-card>
+    </div>
+  </p-card>
 </div>

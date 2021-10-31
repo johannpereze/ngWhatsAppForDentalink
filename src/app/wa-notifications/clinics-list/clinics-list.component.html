@@ -21,35 +21,41 @@
             type="button"
             (click)="getClinics()"
           ></button>
-          <p-card>
-            <div>
-              <button
-                pButton
-                [disabled]="clinicsInputs.toggle.disabled"
-                type="button"
-                (click)="toggleClinics()"
-                label="{{ clinicsInputs.toggle.text }}"
-              ></button>
-            </div>
-            <label *ngFor="let clinic of clinicsApiResponse.data">
-              <input
-                [checked]="clinicsInputs.checkboxes.checked"
-                name="{{ clinic.nombre }}"
-                type="checkbox"
-              />{{ clinic.nombre }}
-            </label>
-            <div>
-              <button
-                [disabled]="
-                  clinicsInputs.next.disabled ||
-                  mainParams.appointmentsDate === ''
-                "
-                pButton
-                type="submit"
-                label="{{ clinicsInputs.next.text }}"
-              ></button>
-            </div>
-          </p-card>
+          <div class="mt-4" *ngIf="clinicsLisVisibility">
+            <p-card>
+              <div>
+                <button
+                  class="p-button-sm mt-2 mb-2"
+                  pButton
+                  [disabled]="clinicsInputs.toggle.disabled"
+                  type="button"
+                  (click)="toggleClinics()"
+                  label="{{ clinicsInputs.toggle.text }}"
+                ></button>
+              </div>
+              <label *ngFor="let clinic of clinicsApiResponse.data">
+                <div>
+                  <input
+                    [checked]="clinicsInputs.checkboxes.checked"
+                    name="{{ clinic.nombre }}"
+                    type="checkbox"
+                  />{{ clinic.nombre }}
+                </div>
+              </label>
+              <div>
+                <button
+                  class="p-button-sm mt-2 mb-2"
+                  [disabled]="
+                    clinicsInputs.next.disabled ||
+                    mainParams.appointmentsDate === ''
+                  "
+                  pButton
+                  type="submit"
+                  label="{{ clinicsInputs.next.text }}"
+                ></button>
+              </div>
+            </p-card>
+          </div>
         </form>
       </div>
     </div>

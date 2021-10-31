@@ -41,6 +41,8 @@ export class ClinicsListComponent {
     },
   };
 
+  clinicsLisVisibility: boolean = false;
+
   toggleClinics() {
     this.clinicsInputs.checkboxes.checked =
       !this.clinicsInputs.checkboxes.checked;
@@ -56,6 +58,7 @@ export class ClinicsListComponent {
       console.log(this.clinicsApiResponse);
       this.clinicsInputs.next.disabled = false;
       this.clinicsInputs.toggle.disabled = false;
+      this.clinicsLisVisibility = true;
       this.clinicsInputs.save.text = 'Guardar Fecha';
     });
   }
