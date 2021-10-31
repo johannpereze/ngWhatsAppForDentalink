@@ -10,7 +10,7 @@
             name="mainParams"
             [(ngModel)]="mainParams.selectedLine"
             optionLabel="lineNumber"
-            optionValue= "lineNumber"
+            optionValue="lineNumber"
             placeholder="Selecciona una línea"
           ></p-dropdown>
         </div>
@@ -30,38 +30,4 @@
       </div>
     </form>
   </p-card>
-</div>
-
-<!-- TODO: No lo borro porque el numero está pasando sin el "57" y probablemente me rompa algo -->
-
-<div *ngIf="componentVisibility.lineSelection" class="line-form">
-  <form action="" (ngSubmit)="selectLine()">
-    <div>
-      <label for="lineSelection"
-        >Selecciona una línea de WhatsApp
-        <select
-          name="mainParams"
-          id="lineSelection"
-          [(ngModel)]="mainParams.selectedLine"
-        >
-          <option
-            *ngFor="let whatsAppLine of whatsAppLines"
-            value="{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}"
-          >
-            +{{ whatsAppLine.countryCode }}{{ whatsAppLine.lineNumber }}
-          </option>
-        </select>
-      </label>
-    </div>
-    <div>
-      <label for="campaignNote">Notas de la campaña</label>
-      <input
-        type="text"
-        id="campaignNote"
-        name="campaignNote"
-        [(ngModel)]="mainParams.campaignNote"
-      />
-    </div>
-    <div><button type="submit">Siguiente</button></div>
-  </form>
 </div>
