@@ -38,6 +38,7 @@ export class SummaryComponent {
 
   progressBar = {
     downloadedAppointments: 0,
+    progressBarValue: 0,
   };
 
   putDataIntoTemplate(appointment: Appointment): string {
@@ -78,9 +79,12 @@ export class SummaryComponent {
   }
 
   async showTemplateWithData() {
-    this.dentalinkQuerysService.loadButtonText = 'Cargando mensajes...';
+    this.dentalinkQuerysService.loadButtonText = 'Descargando citas...';
     this.dentalinkQuerysService.loadButtonDisabled = true;
-    this.componentVisibility.progressBar = true;
+    this.componentVisibility.progressBarDynamicShow = true;
+    this.componentVisibility.progressBarIndeterminatedShow = false;
+    this.dentalinkQuerysService.componentVisibility.progressBarLabel =
+      'Descargando citas';
 
     console.log(
       'this.allAppointments luego de cargar el progressbar:',
@@ -105,8 +109,7 @@ export class SummaryComponent {
       const templateWithData: string = this.putDataIntoTemplate(appointment);
       this.templatesWithData.push(templateWithData);
     });
-    this.sendButtonDisabled = false;
-    this.dentalinkQuerysService.loadButtonText = 'Cargados';
+    this.dentalinkQuerysService.loadButtonText = 'Citas descargadas';
   }
 
   sendWhatsAppBroadcast() {
@@ -149,6 +152,11 @@ export class SummaryComponent {
       setTimeout(() => {
         console.log('Descargando el whatsapp #', i);
         this.progressBar.downloadedAppointments = i + 1;
+        this.progressBar.progressBarValue = Math.ceil(
+          (this.progressBar.downloadedAppointments /
+            this.allAppointments.appointments.length) *
+            100
+        );
 
         this.dentalinkQuerysService
           .getWANumbers(appointment.id_paciente!)
@@ -158,6 +166,9 @@ export class SummaryComponent {
             console.log(
               `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
             );
+            if ((i === this.allAppointments.appointments.length - 1)) {
+              this.sendButtonDisabled = false;
+            }
           });
       }, 5000 * (i + 1));
     });

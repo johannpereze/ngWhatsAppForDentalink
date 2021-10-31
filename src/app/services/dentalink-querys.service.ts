@@ -41,26 +41,30 @@ export class DentalinkQuerysService {
     appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
-  componentVisibility: ComponentVisibility = {
-    secretKeys: false,
-    lineSelection: false,
-    clinicsList: false,
-    templateSelection: false,
-    summary: true,
-    progressBar: false,
-  };
-
   // componentVisibility: ComponentVisibility = {
-  //   secretKeys: true,
+  //   secretKeys: false,
   //   lineSelection: false,
   //   clinicsList: false,
   //   templateSelection: false,
-  //   summary: false,
-  //   progressBar: false,
+  //   summary: true,
+  //   progressBarIndeterminatedShow: true,
+  //   progressBarDynamicShow: false,
+  //   progressBarLabel: 'Buscando Citas',
   // };
 
+  componentVisibility: ComponentVisibility = {
+    secretKeys: true,
+    lineSelection: false,
+    clinicsList: false,
+    templateSelection: false,
+    summary: false,
+    progressBarIndeterminatedShow: true,
+    progressBarDynamicShow: false,
+    progressBarLabel: 'Buscando Citas',
+  };
+
   loadButtonDisabled = true;
-  loadButtonText = 'Espera mientras se descargan las citas';
+  loadButtonText = 'Buscando citas';
 
   validAppointmentIds: AppointmentsIds[] = [
     { id: 3, appointmentState: 'Confirmado por teléfono' },

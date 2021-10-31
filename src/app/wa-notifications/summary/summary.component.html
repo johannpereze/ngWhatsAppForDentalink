@@ -7,9 +7,23 @@
       <div><b>Nota del envío: </b>{{ mainParams.campaignNote }}</div>
       <div><b>Fecha de las citas: </b>{{ mainParams.appointmentsDate }}</div>
     </div>
-    <br />
     <div>
+      <h3>
+        {{ componentVisibility.progressBarLabel }}:
+        {{ allAppointments.appointments.length }}
+      </h3>
+      <div *ngIf="componentVisibility.progressBarDynamicShow">
+        <p-progressBar [value]="progressBar.progressBarValue"></p-progressBar>
+      </div>
+      <div>
+        <p-progressBar
+          *ngIf="componentVisibility.progressBarIndeterminatedShow"
+          mode="indeterminate"
+        ></p-progressBar>
+      </div>
+      <br>
       <button
+      class="mr-2"
         pButton
         label="{{ loadButtonText }}"
         [disabled]="loadButtonDisabled"
@@ -22,26 +36,16 @@
         [disabled]="sendButtonDisabled"
         (click)="sendWhatsAppBroadcast()"
       ></button>
-      <br />
-      <div *ngIf="componentVisibility.progressBar">
-        <label for="loadingAppointments">Descargando Citas: </label>
-        <progress
-          id="loadingAppointments"
-          [value]="progressBar.downloadedAppointments"
-          [max]="allAppointments.appointments.length"
-        ></progress>
-      </div>
-    </div>
-
-    <!-- Template con datos -->
-    <hr />
-    <br />
-    <div>Aquí van los templates con la data:</div>
-    <br />
-    <hr />
-    <div *ngFor="let template of templatesWithData">
-      {{ template }} <br />
-      <hr />
     </div>
   </p-card>
+</div>
+
+<div *ngIf="componentVisibility.summary">
+  <div>Aquí van los templates con la data:</div>
+  <br />
+  <hr />
+  <div *ngFor="let template of templatesWithData">
+    {{ template }} <br />
+    <hr />
+  </div>
 </div>

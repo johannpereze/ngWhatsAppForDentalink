@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { Appointment, Appointments, DentalinkAppointments } from 'src/app/interfaces/interface';
+import {
+  Appointment,
+  Appointments,
+  DentalinkAppointments,
+} from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 
 @Component({
@@ -50,6 +54,10 @@ export class TemplateSelectionComponent {
       (response: Appointments[]) => {
         this.dentalinkQuerysService.loadButtonDisabled = false;
         this.dentalinkQuerysService.loadButtonText = 'Cargar plantillas';
+        this.dentalinkQuerysService.componentVisibility.progressBarIndeterminatedShow =
+          false;
+        this.dentalinkQuerysService.componentVisibility.progressBarLabel =
+          'Citas descargadas';
       }
       //   (response: Appointments[]) => {
       //   console.log(
@@ -59,5 +67,4 @@ export class TemplateSelectionComponent {
       // } //TODO: ME FALTA APLANAR ESTA RESPUESTA PORQUE ESTÁN VOLVIENDO MUCHAS RESPUESTAS Y SÓLO NECESITO UNA
     );
   }
-
 }
