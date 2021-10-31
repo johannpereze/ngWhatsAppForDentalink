@@ -35,4 +35,6 @@ export class LineSelectionComponent {
       alert('Selecciona una línea de WhatsApp y escribe una nota');
     }
   }
+
+ 
 }

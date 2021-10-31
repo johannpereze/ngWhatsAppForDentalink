@@ -1,3 +1,39 @@
+<div class="mt-6" *ngIf="componentVisibility.lineSelection">
+  <p-card>
+    <h5>Selección de línea</h5>
+    <form class="grid fluid" action="" (ngSubmit)="selectLine()">
+      <div class="col-12 md-4">
+        <div class="p-inputgroup"></div>
+        <div class="mb-2">
+          <p-dropdown
+            [options]="whatsAppLines"
+            name="mainParams"
+            [(ngModel)]="mainParams.selectedLine"
+            optionLabel="lineNumber"
+            optionValue= "lineNumber"
+            placeholder="Selecciona una línea"
+          ></p-dropdown>
+        </div>
+
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-book"></i></span>
+          <input
+            type="text"
+            id="campaignNote"
+            name="campaignNote"
+            [(ngModel)]="mainParams.campaignNote"
+            pInputText
+            placeholder="Notas de la campaña..."
+          />
+        </div>
+        <button class="mt-2" pButton type="submit" label="Siguiente"></button>
+      </div>
+    </form>
+  </p-card>
+</div>
+
+<!-- TODO: No lo borro porque el numero está pasando sin el "57" y probablemente me rompa algo -->
+
 <div *ngIf="componentVisibility.lineSelection" class="line-form">
   <form action="" (ngSubmit)="selectLine()">
     <div>
