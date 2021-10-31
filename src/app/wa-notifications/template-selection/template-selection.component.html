@@ -1,8 +1,27 @@
-<form
-  *ngIf="componentVisibility.templateSelection"
-  action=""
-  (ngSubmit)="selectTemplate()"
->
+<div class="mt-6" *ngIf="componentVisibility.templateSelection">
+  <p-card>
+    <div>
+      <p-dropdown
+        [options]="whatsAppTemplates"
+        [(ngModel)]="mainParams.selectedTemplateName"
+        placeholder="Selecciona una plantilla"
+        optionLabel="template"
+        optionValue="name"
+        [showClear]="true"
+      ></p-dropdown>
+    </div>
+    <div class="mt-2">
+      <button
+        pButton
+        label="Siguiente"
+        type="button"
+        (click)="selectTemplate()"
+      ></button>
+    </div>
+  </p-card>
+</div>
+
+<!-- <form action="" (ngSubmit)="selectTemplate()">
   <label for="templateSelection"
     >Selecciona una plantilla
     <select
@@ -19,4 +38,4 @@
     </select>
   </label>
   <button type="submit">Siguiente</button>
-</form>
+</form> -->

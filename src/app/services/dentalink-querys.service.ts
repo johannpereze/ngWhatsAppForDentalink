@@ -44,8 +44,8 @@ export class DentalinkQuerysService {
   // componentVisibility: ComponentVisibility = {
   //   secretKeys: false,
   //   lineSelection: false,
-  //   clinicsList: true,
-  //   templateSelection: false,
+  //   clinicsList: false,
+  //   templateSelection: true,
   //   summary: false,
   //   progressBar: false,
   // };
