@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DentalinkClinics } from 'src/app/interfaces/interface';
+import { Clinics, DentalinkClinics } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 
 @Component({
@@ -85,4 +85,28 @@ export class ClinicsListComponent {
     this.componentVisibility.clinicsList = false;
     this.componentVisibility.templateSelection = true;
   }
+
+
+  saveClinics2() {
+    //no estoy seguro del tipado
+    console.log(this.selectedClinics);
+
+    this.selectedClinics.forEach(clinic=>{
+      this.mainParams.selectedClinics.push(clinic.nombre)
+    })
+
+    console.log(this.mainParams.appointmentsDate);
+    console.log(this.mainParams.selectedClinics);
+    console.log(this.mainParams);
+    this.componentVisibility.clinicsList = false;
+    this.componentVisibility.templateSelection = true;
+  }
+
+
+  selectedClinics:Clinics[] = [];
+
+  cols = [
+    { field: 'id', header: 'ID' },
+    { field: 'nombre', header: 'Nombre' },
+  ];
 }

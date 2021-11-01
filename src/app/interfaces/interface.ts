@@ -240,3 +240,4 @@ export interface ComponentVisibility {
   progressBarDynamicShow: boolean;
   progressBarLabel: string;
 }
+

@@ -61,3 +61,37 @@
     </div>
   </p-card>
 </div>
+
+<p-table
+  [columns]="cols"
+  [value]="clinicsApiResponse.data"
+  [(selection)]="selectedClinics"
+  dataKey="nombre"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 2.25em">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td *ngFor="let col of columns">
+        {{ rowData[col.field] }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<button pButton (click)='saveClinics2()' label="Siguiente"></button>
+
+
+{{selectedClinics | json}}
+{{clinicsApiResponse.data | json}}
