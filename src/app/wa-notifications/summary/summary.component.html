@@ -29,12 +29,17 @@
         [disabled]="loadButtonDisabled"
         (click)="showTemplateWithData()"
       ></button>
-      <span> </span>
       <button
         pButton
         label="Enviar Mensajes"
         [disabled]="sendButtonDisabled"
         (click)="sendWhatsAppBroadcast()"
+      ></button>
+      <button
+        pButton
+        label="Actualizar en dentalink"
+        [disabled]="false"
+        (click)="updateDentalinkAppointments()"
       ></button>
     </div>
   </p-card>
@@ -56,6 +61,8 @@
     </div>
   </p-card>
 </div>
+
+
 
 
 <!-- {{templatesWithData | json}} -->

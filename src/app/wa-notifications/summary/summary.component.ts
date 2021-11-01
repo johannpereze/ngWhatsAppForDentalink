@@ -148,7 +148,7 @@ export class SummaryComponent {
           .sendWhatsAppBroadcast(body)
           .subscribe((response) => {
             console.log('response sendWhatsAppBroadcast', response);
-            
+
             const templatesWithDataIndex = this.templatesWithData.findIndex(
               (template) => template.appointmentId === appointment.id
             );
@@ -212,6 +212,10 @@ export class SummaryComponent {
           });
       }, 5000 * (i + 1));
     });
+  }
+
+  updateDentalinkAppointments(){
+    
   }
 
   parseWANumber(cellphone: string) {
