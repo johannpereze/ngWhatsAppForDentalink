@@ -243,6 +243,7 @@ export interface ComponentVisibility {
 
 export interface TemplateWithData {
   template: string;
+  appointmentId: number;
   sendedLabel: string;
   sendedIcon: string;
   sendedSeverity: string;

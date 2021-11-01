@@ -113,6 +113,7 @@ export class SummaryComponent {
     this.allAppointments.appointments.forEach((appointment) => {
       const templateWithData: TemplateWithData = {
         template: this.putDataIntoTemplate(appointment),
+        appointmentId: appointment.id!,
         sendedLabel: 'Sin enviar',
         sendedIcon: 'pi pi-info-circle',
         sendedSeverity: 'warning',
@@ -147,12 +148,27 @@ export class SummaryComponent {
           .sendWhatsAppBroadcast(body)
           .subscribe((response) => {
             console.log('response sendWhatsAppBroadcast', response);
+            
+            const templatesWithDataIndex = this.templatesWithData.findIndex(
+              (template) => template.appointmentId === appointment.id
+            );
+
+            (this.templatesWithData[templatesWithDataIndex].sendedLabel =
+              'Enviado'),
+              (this.templatesWithData[templatesWithDataIndex].sendedIcon =
+                'pi pi-check-circle'),
+              (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
+                'success'),
+              console.log(
+                `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+              );
           });
       }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados //El foreach es síncrono, va a ejecutar todos los settimeaout de inmediato. lo que se puede hacer es volver el argumento de espera dinámico y que en todas las repeticiones tengan un valor de espera diferente
     });
   }
 
   async getWANumbers() {
+    //creo que no se necesita el async
     console.log(
       'Estas son las citas sin validar ',
       this.allAppointments.appointmentsWitoutValidation
@@ -176,10 +192,20 @@ export class SummaryComponent {
           .getWANumbers(appointment.id_paciente!)
           .subscribe((response) => {
             appointment.whatsApp = this.parseWANumber(response.data.celular);
+            // const templatesWithDataIndex = this.templatesWithData.findIndex(
+            //   (template) => template.appointmentId === appointment.id
+            // );
 
-            console.log(
-              `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
-            );
+            // (this.templatesWithData[templatesWithDataIndex].sendedLabel =
+            //   'Enviado'),
+            //   (this.templatesWithData[templatesWithDataIndex].sendedIcon =
+            //     'pi pi-check-circle'),
+            //   (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
+            //     'success'),
+            //   console.log(
+            //     `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+            //   );
+
             if (i === this.allAppointments.appointments.length - 1) {
               this.sendButtonDisabled = false;
             }
