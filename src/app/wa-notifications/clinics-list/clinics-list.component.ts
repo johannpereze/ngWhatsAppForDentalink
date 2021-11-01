@@ -63,47 +63,23 @@ export class ClinicsListComponent {
     });
   }
 
-  saveClinics(event: any) {
-    //no estoy seguro del tipado
-    console.log(event);
-
-    this.clinicsApiResponse.data.forEach((clinic, i) => {
-      if (event.srcElement[i + 3].checked) {
-        this.mainParams.selectedClinics.push(event.srcElement[i + 3].name);
-      }
-    });
-
-    // for (let i = 0; i < this.clinicsApiResponse.data.length; i++) {
-    //   if (event.srcElement[i].checked) {
-    //     //srcElement está deprecado
-    //     this.mainParams.selectedClinics.push(event.srcElement[i].name);
-    //   }
-    // }
-    console.log(this.mainParams.appointmentsDate);
-    console.log(this.mainParams.selectedClinics);
-    console.log(this.mainParams);
-    this.componentVisibility.clinicsList = false;
-    this.componentVisibility.templateSelection = true;
-  }
-
-
-  saveClinics2() {
+  saveClinics() {
     //no estoy seguro del tipado
     console.log(this.selectedClinics);
 
-    this.selectedClinics.forEach(clinic=>{
-      this.mainParams.selectedClinics.push(clinic.nombre)
-    })
+    this.selectedClinics.forEach((clinic) => {
+      this.mainParams.selectedClinics.push(clinic.nombre);
+    });
 
     console.log(this.mainParams.appointmentsDate);
     console.log(this.mainParams.selectedClinics);
     console.log(this.mainParams);
+    this.clinicsLisVisibility = false;
     this.componentVisibility.clinicsList = false;
     this.componentVisibility.templateSelection = true;
   }
 
-
-  selectedClinics:Clinics[] = [];
+  selectedClinics: Clinics[] = [];
 
   cols = [
     { field: 'id', header: 'ID' },
