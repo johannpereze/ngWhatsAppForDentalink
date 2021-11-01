@@ -44,9 +44,18 @@
   <p-card>
     <h3>Mensajes a enviar:</h3>
     <div *ngFor="let template of templatesWithData" class="mt-2 mb-2">
-      <p-card >
-        {{ template }}
+      <p-card class="card">
+        {{ template.template }}
+
+        <p-divider></p-divider>
+        <div>
+          <p-tag [value]="template.sendedLabel" [icon]="template.sendedIcon" [severity]="template.sendedSeverity" class="mr-2"></p-tag>
+          <p-tag [value]="template.updatedDentalinkLabel" [icon]="template.updatedDentalinkIcon" [severity]="template.updatedDentalinkSeverity"></p-tag>
+        </div>
       </p-card>
     </div>
   </p-card>
 </div>
+
+
+<!-- {{templatesWithData | json}} -->

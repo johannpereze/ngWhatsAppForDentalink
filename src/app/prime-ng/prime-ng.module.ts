@@ -8,6 +8,8 @@ import {MenubarModule} from 'primeng/menubar';
 import {CalendarModule} from 'primeng/calendar';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {TableModule} from 'primeng/table';
+import {DividerModule} from 'primeng/divider';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [],
@@ -19,7 +21,9 @@ import {TableModule} from 'primeng/table';
     MenubarModule,
     CalendarModule,
     ProgressBarModule,
-    TableModule
+    TableModule,
+    DividerModule,
+    TagModule
   ]
 })
 export class PrimeNgModule { }

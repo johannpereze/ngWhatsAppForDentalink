@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { Appointment, BroadcastData } from 'src/app/interfaces/interface';
+import {
+  Appointment,
+  BroadcastData,
+  TemplateWithData,
+} from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 
@@ -33,7 +37,8 @@ export class SummaryComponent {
     return this.dentalinkQuerysService.loadButtonText;
   }
 
-  templatesWithData: string[] = [];
+  templatesWithData: TemplateWithData[] = [];
+
   sendButtonDisabled = true;
 
   progressBar = {
@@ -106,7 +111,16 @@ export class SummaryComponent {
     console.log('this.allAppointments :', this.allAppointments);
 
     this.allAppointments.appointments.forEach((appointment) => {
-      const templateWithData: string = this.putDataIntoTemplate(appointment);
+      const templateWithData: TemplateWithData = {
+        template: this.putDataIntoTemplate(appointment),
+        sendedLabel: 'Sin enviar',
+        sendedIcon: 'pi pi-info-circle',
+        sendedSeverity: 'warning',
+        updatedDentalinkLabel: 'Sin actualizar en dentalink',
+        updatedDentalinkIcon: 'pi pi-info-circle',
+        updatedDentalinkSeverity: 'warning',
+      };
+      this.putDataIntoTemplate(appointment);
       this.templatesWithData.push(templateWithData);
     });
     this.dentalinkQuerysService.loadButtonText = 'Citas descargadas';
@@ -166,7 +180,7 @@ export class SummaryComponent {
             console.log(
               `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
             );
-            if ((i === this.allAppointments.appointments.length - 1)) {
+            if (i === this.allAppointments.appointments.length - 1) {
               this.sendButtonDisabled = false;
             }
           });

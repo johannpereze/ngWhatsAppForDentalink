@@ -241,3 +241,12 @@ export interface ComponentVisibility {
   progressBarLabel: string;
 }
 
+export interface TemplateWithData {
+  template: string;
+  sendedLabel: string;
+  sendedIcon: string;
+  sendedSeverity: string;
+  updatedDentalinkLabel: string;
+  updatedDentalinkIcon: string;
+  updatedDentalinkSeverity: string;
+}
