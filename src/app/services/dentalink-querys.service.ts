@@ -164,20 +164,33 @@ export class DentalinkQuerysService {
   }
 
   updateDentalinkAppointments(id: number) {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      `Token ${this.secretKeys.dentalinkKey}`
-    );
+    const headers = new HttpHeaders()
+      // .set('Content-Type', 'application/json')
+      .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`);
+    console.log(headers);
     const body = JSON.stringify({
       "id_estado": 24
-  });
-    console.log(body);
-    
-    return this.http.put<DentalinkClinics>(
+    });
+    return this.http.put<DentalinkAppointments>(
       `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
       body,
       { headers }
     );
+
+    //   const headers = new HttpHeaders().set(
+    //     'Authorization',
+    //     `Token ${this.secretKeys.dentalinkKey}`
+    //   );
+    //   const body = JSON.stringify({
+    //     "id_estado": 24
+    // });
+    //   console.log(body);
+
+    //   return this.http.put<DentalinkClinics>(
+    //     `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
+    //     body,
+    //     { headers }
+    //   );
   }
 
   delayForDentalink = () => timer(2000);
