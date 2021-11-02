@@ -222,6 +222,8 @@ export class SummaryComponent {
         this.dentalinkQuerysService
           .updateDentalinkAppointments(appointment.id!)
           .subscribe((response) => {
+            console.log(response);
+            
             const templatesWithDataIndex = this.templatesWithData.findIndex(
               (template) => template.appointmentId === appointment.id
             );

@@ -168,10 +168,14 @@ export class DentalinkQuerysService {
       'Authorization',
       `Token ${this.secretKeys.dentalinkKey}`
     );
-    const body = `{"id_estado": 24}`;
+    const body = JSON.stringify({
+      "id_estado": 24
+  });
+    console.log(body);
+    
     return this.http.put<DentalinkClinics>(
       `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
-      JSON.stringify(body),
+      body,
       { headers }
     );
   }
