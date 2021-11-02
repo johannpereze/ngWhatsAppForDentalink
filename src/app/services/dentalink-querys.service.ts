@@ -165,11 +165,11 @@ export class DentalinkQuerysService {
 
   updateDentalinkAppointments(id: number) {
     const headers = new HttpHeaders()
-      // .set('Content-Type', 'application/json')
-      .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`);
+      .set('Authorization', `Token ${this.secretKeys.dentalinkKey}`)
+      .set('Content-Type', 'application/json');
     console.log(headers);
     const body = JSON.stringify({
-      "id_estado": 24
+      id_estado: 24,
     });
     return this.http.put<DentalinkAppointments>(
       `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
