@@ -202,9 +202,9 @@ export class SummaryComponent {
             //     'pi pi-check-circle'),
             //   (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
             //     'success'),
-            //   console.log(
-            //     `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
-            //   );
+            console.log(
+              `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+            );
 
             if (i === this.allAppointments.appointments.length - 1) {
               this.sendButtonDisabled = false;
@@ -214,8 +214,35 @@ export class SummaryComponent {
     });
   }
 
-  updateDentalinkAppointments(){
-    
+  updateDentalinkAppointments() {
+    this.allAppointments.appointments.forEach((appointment, i) => {
+      setTimeout(() => {
+        console.log('Actualizando cita # ', i);
+
+        this.dentalinkQuerysService
+          .updateDentalinkAppointments(appointment.id!)
+          .subscribe((response) => {
+            const templatesWithDataIndex = this.templatesWithData.findIndex(
+              (template) => template.appointmentId === appointment.id
+            );
+
+            (this.templatesWithData[
+              templatesWithDataIndex
+            ].updatedDentalinkLabel = 'Actualizado'),
+              (this.templatesWithData[
+                templatesWithDataIndex
+              ].updatedDentalinkIcon = 'pi pi-check-circle'),
+              (this.templatesWithData[
+                templatesWithDataIndex
+              ].updatedDentalinkSeverity = 'success'),
+              console.log(`Cita #${appointment.id} actualizada`);
+
+            if (i === this.allAppointments.appointments.length - 1) {
+              this.sendButtonDisabled = false;
+            }
+          });
+      }, 3000 * (i + 1));
+    });
   }
 
   parseWANumber(cellphone: string) {

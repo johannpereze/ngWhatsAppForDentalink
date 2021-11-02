@@ -41,8 +41,6 @@ export class DentalinkQuerysService {
     appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
-
-
   // componentVisibility: ComponentVisibility = {
   //   secretKeys: false,
   //   lineSelection: false,
@@ -131,7 +129,7 @@ export class DentalinkQuerysService {
     //Para agregar nuevos templates se debe agregar como el siguiente:
     {
       name: 'recordatorio_cita_vigente_4',
-      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`
+      template: `Hola, ${this.allAppointments.appointments[0].nombre_paciente}. Recuerda que tienes una cita odontológica en ${this.allAppointments.appointments[0].nombre_sucursal} el día ${this.allAppointments.appointments[0].fecha} a las  ${this.allAppointments.appointments[0].hora_inicio} con el/la Dr(a). ${this.allAppointments.appointments[0].nombre_dentista}.  Si tienes dudas con tu cita, contáctanos por nuestro WhatsApp principal: 3137596945 o nuestras Redes Sociales. *NO RESPONDAS a este WhatsApp, es sólo de notificaciones y no recibiremos tu mensaje.*`,
     },
   ];
 
@@ -161,6 +159,19 @@ export class DentalinkQuerysService {
     );
     return this.http.get<DentalinkClinics>(
       'https://api.dentalink.healthatom.com/api/v1/sucursales/',
+      { headers }
+    );
+  }
+
+  updateDentalinkAppointments(id: number) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Token ${this.secretKeys.dentalinkKey}`
+    );
+    const body = `{"id_estado": 24}`;
+    return this.http.put<DentalinkClinics>(
+      `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
+      JSON.stringify(body),
       { headers }
     );
   }

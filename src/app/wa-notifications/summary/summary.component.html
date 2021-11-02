@@ -30,12 +30,19 @@
         (click)="showTemplateWithData()"
       ></button>
       <button
+        class="mr-2"
         pButton
         label="Enviar Mensajes"
         [disabled]="sendButtonDisabled"
         (click)="sendWhatsAppBroadcast()"
       ></button>
-      
+      <button
+        class="mr-2"
+        pButton
+        label="Actualizar en dentalink"
+        [disabled]="false"
+        (click)="updateDentalinkAppointments()"
+      ></button>
     </div>
   </p-card>
 </div>
@@ -49,15 +56,21 @@
 
         <p-divider></p-divider>
         <div>
-          <p-tag [value]="template.sendedLabel" [icon]="template.sendedIcon" [severity]="template.sendedSeverity" class="mr-2"></p-tag>
-          <p-tag [value]="template.updatedDentalinkLabel" [icon]="template.updatedDentalinkIcon" [severity]="template.updatedDentalinkSeverity"></p-tag>
+          <p-tag
+            [value]="template.sendedLabel"
+            [icon]="template.sendedIcon"
+            [severity]="template.sendedSeverity"
+            class="mr-2"
+          ></p-tag>
+          <p-tag
+            [value]="template.updatedDentalinkLabel"
+            [icon]="template.updatedDentalinkIcon"
+            [severity]="template.updatedDentalinkSeverity"
+          ></p-tag>
         </div>
       </p-card>
     </div>
   </p-card>
 </div>
-
-
-
 
 <!-- {{templatesWithData | json}} -->
