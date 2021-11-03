@@ -31,6 +31,7 @@ export class DentalinkQuerysService {
 
   //Con estos parámetros voy a hacer la query a los endpoints
   //Lo usa secretKeys
+  date = new Date
   mainParams: MainParams = {
     secretKeysCompleted: false,
     selectedLine: 0,
@@ -38,7 +39,7 @@ export class DentalinkQuerysService {
     selectedTemplateName: '',
     selectedTemplateTemplate: '',
     selectedClinics: [],
-    appointmentsDate: '', //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
+    appointmentsDate: this.date.toLocaleDateString("fr-CA") //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
   // componentVisibility: ComponentVisibility = {
