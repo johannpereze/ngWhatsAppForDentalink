@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Apps',
-        items: [{ label: 'Envío WhtsApp', icon: 'pi pi-send' }],
+        items: [{ label: 'Envío WhatsApp', icon: 'pi pi-send' }],
       },
     ];
   }
