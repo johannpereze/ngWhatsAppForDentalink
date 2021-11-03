@@ -36,10 +36,15 @@ export class SummaryComponent {
   get loadButtonText() {
     return this.dentalinkQuerysService.loadButtonText;
   }
+  get secretKeys() {
+    return this.dentalinkQuerysService.secretKeys;
+  }
 
   templatesWithData: TemplateWithData[] = [];
 
   sendButtonDisabled = true;
+  dentalinkUpdatedButtonDisabled = true;
+
 
   progressBar = {
     downloadedAppointments: 0,
@@ -127,43 +132,72 @@ export class SummaryComponent {
     this.dentalinkQuerysService.loadButtonText = 'Citas descargadas';
   }
 
+  // getWhatsAppToken() {
+  //   this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
+  //     this.secretKeys.b2ChatToken = response.access_token;
+  //     this.secretKeys.b2ChatExpiration = (
+  //       response.expires_in /
+  //       60 /
+  //       60
+  //     ).toFixed(2);
+  //     console.log('Token: ', this.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
+  //     console.log(`Expira en: ${this.secretKeys.b2ChatExpiration} Horas`);
+  //   });
+  // }
+
   sendWhatsAppBroadcast() {
-    this.allAppointments.appointments.forEach((appointment, i) => {
-      setTimeout(() => {
-        const body: BroadcastData = {
-          from: `+57${this.mainParams.selectedLine}`,
-          to: `+57${appointment.whatsApp}`,
-          contact_name: appointment.nombre_paciente,
-          template_name: this.mainParams.selectedTemplateName,
-          campaign_name: this.mainParams.campaignNote,
-          values: [
-            appointment.nombre_paciente,
-            appointment.nombre_sucursal,
-            appointment.fecha,
-            appointment.hora_inicio,
-            appointment.nombre_dentista,
-          ],
-        };
-        this.whatsAppQuerysService
-          .sendWhatsAppBroadcast(body)
-          .subscribe((response) => {
-            console.log('response sendWhatsAppBroadcast', response);
+    this.sendButtonDisabled = true;
+    this.dentalinkUpdatedButtonDisabled = false;
 
-            const templatesWithDataIndex = this.templatesWithData.findIndex(
-              (template) => template.appointmentId === appointment.id
-            );
+    //Primero obtenemos el token de b2chat
+    this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
+      this.secretKeys.b2ChatToken = response.access_token;
+      this.secretKeys.b2ChatExpiration = (
+        response.expires_in /
+        60 /
+        60
+      ).toFixed(2);
+      console.log('Token: ', this.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
+      console.log(`Expira en: ${this.secretKeys.b2ChatExpiration} Horas`);
 
-            (this.templatesWithData[templatesWithDataIndex].sendedLabel =
-              'Enviado'),
-              (this.templatesWithData[templatesWithDataIndex].sendedIcon =
-                'pi pi-check-circle'),
-              (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
-                'success'),
-              console.log(
-                `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+      //Luego enviamos los mensajes
+      this.allAppointments.appointments.forEach((appointment, i) => {
+        setTimeout(() => {
+          const body: BroadcastData = {
+            from: `+57${this.mainParams.selectedLine}`,
+            to: `+57${appointment.whatsApp}`,
+            contact_name: appointment.nombre_paciente,
+            template_name: this.mainParams.selectedTemplateName,
+            campaign_name: this.mainParams.campaignNote,
+            values: [
+              appointment.nombre_paciente,
+              appointment.nombre_sucursal,
+              appointment.fecha,
+              appointment.hora_inicio,
+              appointment.nombre_dentista,
+            ],
+          };
+          this.whatsAppQuerysService
+            .sendWhatsAppBroadcast(body)
+            .subscribe((response) => {
+              console.log('response sendWhatsAppBroadcast', response);
+
+              const templatesWithDataIndex = this.templatesWithData.findIndex(
+                (template) => template.appointmentId === appointment.id
               );
-          });
-      }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados //El foreach es síncrono, va a ejecutar todos los settimeaout de inmediato. lo que se puede hacer es volver el argumento de espera dinámico y que en todas las repeticiones tengan un valor de espera diferente
+
+              (this.templatesWithData[templatesWithDataIndex].sendedLabel =
+                'Enviado'),
+                (this.templatesWithData[templatesWithDataIndex].sendedIcon =
+                  'pi pi-check-circle'),
+                (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
+                  'success'),
+                console.log(
+                  `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
+                );
+            });
+        }, 200 * (i + 1)); //Mandamos 5 por segundo para no sobrecargar el servidor de whatsapp y ser baneados //El foreach es síncrono, va a ejecutar todos los settimeaout de inmediato. lo que se puede hacer es volver el argumento de espera dinámico y que en todas las repeticiones tengan un valor de espera diferente
+      });
     });
   }
 
@@ -223,7 +257,7 @@ export class SummaryComponent {
           .updateDentalinkAppointments(appointment.id!)
           .subscribe((response) => {
             console.log(response);
-            
+
             const templatesWithDataIndex = this.templatesWithData.findIndex(
               (template) => template.appointmentId === appointment.id
             );
@@ -236,12 +270,12 @@ export class SummaryComponent {
               ].updatedDentalinkIcon = 'pi pi-check-circle'),
               (this.templatesWithData[
                 templatesWithDataIndex
-              ].updatedDentalinkSeverity = 'success'),
+              ].updatedDentalinkSeverity = 'info'),
               console.log(`Cita #${appointment.id} actualizada`);
 
-            if (i === this.allAppointments.appointments.length - 1) {
-              this.sendButtonDisabled = false;
-            }
+            // if (i === this.allAppointments.appointments.length - 1) {
+            //   this.sendButtonDisabled = false;
+            // }
           });
       }, 3000 * (i + 1));
     });
