@@ -29,6 +29,15 @@ import {
 export class DentalinkQuerysService {
   constructor(private http: HttpClient) {}
 
+//TODO: HACER UN SERVICIO PARA ESTOS MAIN PARAMS Y SECRET KEYS
+  //dentalinkKey Se guarda desde secret keys component con el método savekeys
+  //b2ChatToken Se obtiene desde el backend
+  secretKeys: SecretKeys = {
+    dentalinkKey: '',
+    b2ChatToken: '',
+    b2ChatExpiration: '0',
+  };
+
   //Con estos parámetros voy a hacer la query a los endpoints
   //Lo usa secretKeys
   date = new Date
@@ -42,17 +51,21 @@ export class DentalinkQuerysService {
     appointmentsDate: this.date.toLocaleDateString("fr-CA") //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
-  // componentVisibility: ComponentVisibility = {
-  //   secretKeys: false,
-  //   lineSelection: false,
-  //   clinicsList: false,
-  //   templateSelection: false,
-  //   summary: true,
-  //   progressBarIndeterminatedShow: true,
-  //   progressBarDynamicShow: false,
-  //   progressBarLabel: 'Buscando Citas',
-  // };
+  //TODO: TAMPOCO PERTENECE A ESTE SERVICIO
+  validAppointmentIds: AppointmentsIds[] = [
+    { id: 3, appointmentState: 'Confirmado por teléfono' },
+    { id: 7, appointmentState: 'No confirmado' },
+    { id: 11, appointmentState: 'Confirmado por email' },
+    { id: 12, appointmentState: 'Notificado via email' },
+    { id: 13, appointmentState: 'Agenda Online' },
+    { id: 15, appointmentState: 'Confirmado por WhatsApp' },
+    { id: 17, appointmentState: 'Confirmado 8 días' },
+    { id: 19, appointmentState: 'Confirmado en Sede' },
+    { id: 24, appointmentState: 'Notificado vía WhatsApp' },
+  ];
 
+// TODO: Sacar todo lo relacionado con vistas a un servicio independiente
+//DESDE AQUÍ...
 
   componentVisibility: ComponentVisibility = {
     secretKeys: true,
@@ -68,25 +81,9 @@ export class DentalinkQuerysService {
   loadButtonDisabled = true;
   loadButtonText = 'Buscando citas';
 
-  validAppointmentIds: AppointmentsIds[] = [
-    { id: 3, appointmentState: 'Confirmado por teléfono' },
-    { id: 7, appointmentState: 'No confirmado' },
-    { id: 11, appointmentState: 'Confirmado por email' },
-    { id: 12, appointmentState: 'Notificado via email' },
-    { id: 13, appointmentState: 'Agenda Online' },
-    { id: 15, appointmentState: 'Confirmado por WhatsApp' },
-    { id: 17, appointmentState: 'Confirmado 8 días' },
-    { id: 19, appointmentState: 'Confirmado en Sede' },
-    { id: 24, appointmentState: 'Notificado vía WhatsApp' },
-  ];
+  //HASTA AQUÍ
 
-  //dentalinkKey Se guarda desde secret keys component con el método savekeys
-  //b2ChatToken Se obtiene desde el backend
-  secretKeys: SecretKeys = {
-    dentalinkKey: '',
-    b2ChatToken: '',
-    b2ChatExpiration: '0',
-  };
+
 
   //Cuando tenga una base de datos las paso de aquí al backend
   whatsAppLines: WhatsAppLine[] = [
@@ -178,21 +175,6 @@ export class DentalinkQuerysService {
       body,
       { headers }
     );
-
-    //   const headers = new HttpHeaders().set(
-    //     'Authorization',
-    //     `Token ${this.secretKeys.dentalinkKey}`
-    //   );
-    //   const body = JSON.stringify({
-    //     "id_estado": 24
-    // });
-    //   console.log(body);
-
-    //   return this.http.put<DentalinkClinics>(
-    //     `https://api.dentalink.healthatom.com/api/v1/citas/${id}`,
-    //     body,
-    //     { headers }
-    //   );
   }
 
   delayForDentalink = () => timer(2000);

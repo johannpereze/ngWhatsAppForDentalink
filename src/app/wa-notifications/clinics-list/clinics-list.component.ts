@@ -64,7 +64,6 @@ export class ClinicsListComponent {
   }
 
   saveClinics() {
-    //no estoy seguro del tipado
     console.log(this.selectedClinics);
 
     this.selectedClinics.forEach((clinic) => {

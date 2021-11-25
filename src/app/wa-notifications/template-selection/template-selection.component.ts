@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  Appointment,
-  Appointments,
-  DentalinkAppointments,
-} from 'src/app/interfaces/interface';
+import { Appointments } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 
 @Component({
@@ -21,12 +17,15 @@ export class TemplateSelectionComponent {
   get whatsAppTemplates() {
     return this.dentalinkQuerysService.whatsAppTemplates;
   }
+
   get allAppointments() {
     return this.dentalinkQuerysService.allAppointments;
   }
+
   get validAppointmentIds() {
     return this.dentalinkQuerysService.validAppointmentIds;
   }
+  
   get componentVisibility() {
     return this.dentalinkQuerysService.componentVisibility;
   }

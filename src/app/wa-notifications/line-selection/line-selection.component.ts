@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DentalinkQuerysService } from '../../services/dentalink-querys.service';
 
 @Component({
@@ -17,11 +17,11 @@ export class LineSelectionComponent {
   get whatsAppLines() {
     return this.dentalinkQuerysService.whatsAppLines;
   }
+
   get componentVisibility() {
     return this.dentalinkQuerysService.componentVisibility;
   }
 
-  //Esta función no se necesita. Simplemente es para ver que sí se guardó la info en mainparams pero la puedo borrar para producción
   selectLine() {
     if (
       this.mainParams.selectedLine !== 0 &&
@@ -35,6 +35,4 @@ export class LineSelectionComponent {
       alert('Selecciona una línea de WhatsApp y escribe una nota');
     }
   }
-
- 
 }
