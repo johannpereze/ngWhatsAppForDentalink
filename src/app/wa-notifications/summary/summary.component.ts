@@ -5,6 +5,7 @@ import {
   TemplateWithData,
 } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
+import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 
 @Component({
@@ -15,29 +16,30 @@ import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service
 export class SummaryComponent {
   constructor(
     private dentalinkQuerysService: DentalinkQuerysService,
-    private whatsAppQuerysService: WhatsAppQuerysService
+    private whatsAppQuerysService: WhatsAppQuerysService,
+    private globalVariablesService: GlobalVariablesService
   ) {}
 
   get mainParams() {
-    return this.dentalinkQuerysService.mainParams;
+    return this.globalVariablesService.mainParams;
   }
   get whatsAppTemplates() {
-    return this.dentalinkQuerysService.whatsAppTemplates;
+    return this.globalVariablesService.whatsAppTemplates;
   }
   get allAppointments() {
-    return this.dentalinkQuerysService.allAppointments;
+    return this.globalVariablesService.allAppointments;
   }
   get componentVisibility() {
-    return this.dentalinkQuerysService.componentVisibility;
+    return this.globalVariablesService.componentVisibility;
   }
   get loadButtonDisabled() {
-    return this.dentalinkQuerysService.loadButtonDisabled;
+    return this.globalVariablesService.loadButtonDisabled;
   }
   get loadButtonText() {
-    return this.dentalinkQuerysService.loadButtonText;
+    return this.globalVariablesService.loadButtonText;
   }
   get secretKeys() {
-    return this.dentalinkQuerysService.secretKeys;
+    return this.globalVariablesService.secretKeys;
   }
 
   templatesWithData: TemplateWithData[] = [];
@@ -53,7 +55,7 @@ export class SummaryComponent {
 
   putDataIntoTemplate(appointment: Appointment): string {
     let arrayOfTemplate: string[] | string =
-      this.mainParams.selectedTemplateTemplate;
+      this.globalVariablesService.mainParams.selectedTemplateTemplate;
 
     //console.log('arrayOfTemplate sin split', arrayOfTemplate); //Depronto me sirve este log si voy a agregar más plantillas, para asegurarme que estoy haciendo bien el split
 
@@ -89,33 +91,33 @@ export class SummaryComponent {
   }
 
   async showTemplateWithData() {
-    this.dentalinkQuerysService.loadButtonText = 'Descargando citas...';
-    this.dentalinkQuerysService.loadButtonDisabled = true;
+    this.globalVariablesService.loadButtonText = 'Descargando citas...';
+    this.globalVariablesService.loadButtonDisabled = true;
     this.componentVisibility.progressBarDynamicShow = true;
     this.componentVisibility.progressBarIndeterminatedShow = false;
-    this.dentalinkQuerysService.componentVisibility.progressBarLabel =
+    this.globalVariablesService.componentVisibility.progressBarLabel =
       'Descargando citas';
 
     console.log(
-      'this.allAppointments luego de cargar el progressbar:',
-      this.allAppointments
+      'this.globalVariablesService.allAppointments luego de cargar el progressbar:',
+      this.globalVariablesService.allAppointments
     );
 
     //Busca entre todos los templates de whatsapp, cual coincide con el selectedTemplateName para extraer el template en string y meterlo en selectedTemplateTemplate
     this.whatsAppTemplates.forEach((value) => {
-      if (value.name === this.mainParams.selectedTemplateName) {
-        this.mainParams.selectedTemplateTemplate = value.template;
+      if (value.name === this.globalVariablesService.mainParams.selectedTemplateName) {
+        this.globalVariablesService.mainParams.selectedTemplateTemplate = value.template;
       }
     });
 
-    this.allAppointments.appointments.shift(); //Elimino el primer valor genérico
+    this.globalVariablesService.allAppointments.appointments.shift(); //Elimino el primer valor genérico
 
     //Antes de mostrar en pantalla descargamos los whatsapps
     await this.getWANumbers();
 
-    console.log('this.allAppointments :', this.allAppointments);
+    console.log('this.globalVariablesService.allAppointments :', this.globalVariablesService.allAppointments);
 
-    this.allAppointments.appointments.forEach((appointment) => {
+    this.globalVariablesService.allAppointments.appointments.forEach((appointment) => {
       const templateWithData: TemplateWithData = {
         template: this.putDataIntoTemplate(appointment),
         appointmentId: appointment.id!,
@@ -129,19 +131,19 @@ export class SummaryComponent {
       this.putDataIntoTemplate(appointment);
       this.templatesWithData.push(templateWithData);
     });
-    this.dentalinkQuerysService.loadButtonText = 'Citas descargadas';
+    this.globalVariablesService.loadButtonText = 'Citas descargadas';
   }
 
   // getWhatsAppToken() {
   //   this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-  //     this.secretKeys.b2ChatToken = response.access_token;
-  //     this.secretKeys.b2ChatExpiration = (
+  //     this.globalVariablesService.secretKeys.b2ChatToken = response.access_token;
+  //     this.globalVariablesService.secretKeys.b2ChatExpiration = (
   //       response.expires_in /
   //       60 /
   //       60
   //     ).toFixed(2);
-  //     console.log('Token: ', this.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
-  //     console.log(`Expira en: ${this.secretKeys.b2ChatExpiration} Horas`);
+  //     console.log('Token: ', this.globalVariablesService.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
+  //     console.log(`Expira en: ${this.globalVariablesService.secretKeys.b2ChatExpiration} Horas`);
   //   });
   // }
 
@@ -151,24 +153,24 @@ export class SummaryComponent {
 
     //Primero obtenemos el token de b2chat
     this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-      this.secretKeys.b2ChatToken = response.access_token;
-      this.secretKeys.b2ChatExpiration = (
+      this.globalVariablesService.secretKeys.b2ChatToken = response.access_token;
+      this.globalVariablesService.secretKeys.b2ChatExpiration = (
         response.expires_in /
         60 /
         60
       ).toFixed(2);
-      console.log('Token: ', this.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
-      console.log(`Expira en: ${this.secretKeys.b2ChatExpiration} Horas`);
+      console.log('Token: ', this.globalVariablesService.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
+      console.log(`Expira en: ${this.globalVariablesService.secretKeys.b2ChatExpiration} Horas`);
 
       //Luego enviamos los mensajes
-      this.allAppointments.appointments.forEach((appointment, i) => {
+      this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
         setTimeout(() => {
           const body: BroadcastData = {
-            from: `+57${this.mainParams.selectedLine}`,
+            from: `+57${this.globalVariablesService.mainParams.selectedLine}`,
             to: `+57${appointment.whatsApp}`,
             contact_name: appointment.nombre_paciente,
-            template_name: this.mainParams.selectedTemplateName,
-            campaign_name: this.mainParams.campaignNote,
+            template_name: this.globalVariablesService.mainParams.selectedTemplateName,
+            campaign_name: this.globalVariablesService.mainParams.campaignNote,
             values: [
               appointment.nombre_paciente,
               appointment.nombre_sucursal,
@@ -205,20 +207,20 @@ export class SummaryComponent {
     //creo que no se necesita el async
     console.log(
       'Estas son las citas sin validar ',
-      this.allAppointments.appointmentsWitoutValidation
+      this.globalVariablesService.allAppointments.appointmentsWitoutValidation
     );
     console.log(
       'Estas son las citas a las cuales les vamos a buscar el WhatsApp: ',
-      this.allAppointments.appointments
+      this.globalVariablesService.allAppointments.appointments
     );
 
-    this.allAppointments.appointments.forEach((appointment, i) => {
+    this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
         console.log('Descargando el whatsapp #', i);
         this.progressBar.downloadedAppointments = i + 1;
         this.progressBar.progressBarValue = Math.ceil(
           (this.progressBar.downloadedAppointments /
-            this.allAppointments.appointments.length) *
+            this.globalVariablesService.allAppointments.appointments.length) *
             100
         );
 
@@ -240,7 +242,7 @@ export class SummaryComponent {
               `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
             );
 
-            if (i === this.allAppointments.appointments.length - 1) {
+            if (i === this.globalVariablesService.allAppointments.appointments.length - 1) {
               this.sendButtonDisabled = false;
             }
           });
@@ -249,7 +251,7 @@ export class SummaryComponent {
   }
 
   updateDentalinkAppointments() {
-    this.allAppointments.appointments.forEach((appointment, i) => {
+    this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
         console.log('Actualizando cita # ', i);
 
@@ -273,7 +275,7 @@ export class SummaryComponent {
               ].updatedDentalinkSeverity = 'info'),
               console.log(`Cita #${appointment.id} actualizada`);
 
-            // if (i === this.allAppointments.appointments.length - 1) {
+            // if (i === this.globalVariablesService.allAppointments.appointments.length - 1) {
             //   this.sendButtonDisabled = false;
             // }
           });

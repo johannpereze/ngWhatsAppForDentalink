@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Clinics, DentalinkClinics } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
+import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 
 @Component({
   selector: 'app-clinics-list',
@@ -8,13 +9,13 @@ import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.servic
   styleUrls: ['./clinics-list.component.scss'],
 })
 export class ClinicsListComponent {
-  constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
+  constructor(private dentalinkQuerysService: DentalinkQuerysService, private globalVariablesService: GlobalVariablesService) {}
 
   get mainParams() {
-    return this.dentalinkQuerysService.mainParams;
+    return this.globalVariablesService.mainParams;
   }
   get componentVisibility() {
-    return this.dentalinkQuerysService.componentVisibility;
+    return this.globalVariablesService.componentVisibility;
   }
 
   clinicsApiResponse: DentalinkClinics = {
@@ -67,12 +68,12 @@ export class ClinicsListComponent {
     console.log(this.selectedClinics);
 
     this.selectedClinics.forEach((clinic) => {
-      this.mainParams.selectedClinics.push(clinic.nombre);
+      this.globalVariablesService.mainParams.selectedClinics.push(clinic.nombre);
     });
 
-    console.log(this.mainParams.appointmentsDate);
-    console.log(this.mainParams.selectedClinics);
-    console.log(this.mainParams);
+    console.log(this.globalVariablesService.mainParams.appointmentsDate);
+    console.log(this.globalVariablesService.mainParams.selectedClinics);
+    console.log(this.globalVariablesService.mainParams);
     this.clinicsLisVisibility = false;
     this.componentVisibility.clinicsList = false;
     this.componentVisibility.templateSelection = true;

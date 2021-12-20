@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 import { DentalinkQuerysService } from '../../services/dentalink-querys.service';
 
 @Component({
@@ -7,28 +8,29 @@ import { DentalinkQuerysService } from '../../services/dentalink-querys.service'
   styleUrls: ['./line-selection.component.scss'],
 })
 export class LineSelectionComponent {
-  constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
+  constructor(private dentalinkQuerysService: DentalinkQuerysService,
+    private globalVariablesService: GlobalVariablesService) {}
 
   get mainParams() {
-    return this.dentalinkQuerysService.mainParams;
+    return this.globalVariablesService.mainParams;
   }
 
   //Cuando tenga un backend las actualizo en el backend
   get whatsAppLines() {
-    return this.dentalinkQuerysService.whatsAppLines;
+    return this.globalVariablesService.whatsAppLines;
   }
 
   get componentVisibility() {
-    return this.dentalinkQuerysService.componentVisibility;
+    return this.globalVariablesService.componentVisibility;
   }
 
   selectLine() {
     if (
-      this.mainParams.selectedLine !== 0 &&
-      this.mainParams.campaignNote !== ''
+      this.globalVariablesService.mainParams.selectedLine !== 0 &&
+      this.globalVariablesService.mainParams.campaignNote !== ''
     ) {
-      console.log(this.mainParams.selectedLine);
-      console.log(this.mainParams.campaignNote);
+      console.log(this.globalVariablesService.mainParams.selectedLine);
+      console.log(this.globalVariablesService.mainParams.campaignNote);
       this.componentVisibility.lineSelection = false;
       this.componentVisibility.clinicsList = true;
     } else {

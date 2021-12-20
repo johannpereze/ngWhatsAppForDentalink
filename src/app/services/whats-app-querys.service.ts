@@ -3,20 +3,21 @@ import { DentalinkQuerysService } from './dentalink-querys.service';
 import { B2ChatToken, BroadcastData } from '../interfaces/interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { GlobalVariablesService } from './global-variables.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WhatsAppQuerysService {
   constructor(
-    private dentalinkQuerysService: DentalinkQuerysService,
+    private dentalinkQuerysService: DentalinkQuerysService, private globalVariablesService: GlobalVariablesService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   private proxyUrl: string = environment.proxyUrl;
 
   get secretKeys() {
-    return this.dentalinkQuerysService.secretKeys;
+    return this.globalVariablesService.secretKeys;
   }
 
   getWhatsAppToken() {
@@ -39,7 +40,7 @@ export class WhatsAppQuerysService {
       .set('Content-Type', 'application/json')
       .set(
         'Authorization',
-        `Bearer ${this.dentalinkQuerysService.secretKeys.b2ChatToken}`
+        `Bearer ${this.globalVariablesService.secretKeys.b2ChatToken}`
       );
     console.log(headers);
     console.log(body);

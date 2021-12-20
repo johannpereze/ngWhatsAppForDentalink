@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Appointments } from 'src/app/interfaces/interface';
 import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
+import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 
 @Component({
   selector: 'app-template-selection',
@@ -8,31 +9,31 @@ import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.servic
   styleUrls: ['./template-selection.component.scss'],
 })
 export class TemplateSelectionComponent {
-  constructor(private dentalinkQuerysService: DentalinkQuerysService) {}
+  constructor(private dentalinkQuerysService: DentalinkQuerysService, private globalVariablesService: GlobalVariablesService) {}
 
   get mainParams() {
-    return this.dentalinkQuerysService.mainParams;
+    return this.globalVariablesService.mainParams;
   }
 
   get whatsAppTemplates() {
-    return this.dentalinkQuerysService.whatsAppTemplates;
+    return this.globalVariablesService.whatsAppTemplates;
   }
 
   get allAppointments() {
-    return this.dentalinkQuerysService.allAppointments;
+    return this.globalVariablesService.allAppointments;
   }
 
   get validAppointmentIds() {
-    return this.dentalinkQuerysService.validAppointmentIds;
+    return this.globalVariablesService.validAppointmentIds;
   }
   
   get componentVisibility() {
-    return this.dentalinkQuerysService.componentVisibility;
+    return this.globalVariablesService.componentVisibility;
   }
 
   selectTemplate() {
-    console.log(this.mainParams.selectedTemplateName);
-    if (this.mainParams.selectedTemplateName !== '') {
+    console.log(this.globalVariablesService.mainParams.selectedTemplateName);
+    if (this.globalVariablesService.mainParams.selectedTemplateName !== '') {
       this.getAppointments();
       this.componentVisibility.templateSelection = false;
       this.componentVisibility.summary = true;
@@ -43,25 +44,25 @@ export class TemplateSelectionComponent {
 
   getAppointments() {
     console.log(
-      'this.mainParams.appointmentsDate',
-      this.mainParams.appointmentsDate
+      'this.globalVariablesService.mainParams.appointmentsDate',
+      this.globalVariablesService.mainParams.appointmentsDate
     );
-    let appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.mainParams.appointmentsDate}"}}`;
+    let appointmentsUrl: string = `https://api.dentalink.healthatom.com/api/v1/citas?q={"fecha":{"eq":"${this.globalVariablesService.mainParams.appointmentsDate}"}}`;
 
     console.log('this.appointmentsUrl', appointmentsUrl);
     this.dentalinkQuerysService.getAppointments(appointmentsUrl).subscribe(
       (response: Appointments[]) => {
-        this.dentalinkQuerysService.loadButtonDisabled = false;
-        this.dentalinkQuerysService.loadButtonText = 'Cargar plantillas';
-        this.dentalinkQuerysService.componentVisibility.progressBarIndeterminatedShow =
+        this.globalVariablesService.loadButtonDisabled = false;
+        this.globalVariablesService.loadButtonText = 'Cargar plantillas';
+        this.globalVariablesService.componentVisibility.progressBarIndeterminatedShow =
           false;
-        this.dentalinkQuerysService.componentVisibility.progressBarLabel =
+        this.globalVariablesService.componentVisibility.progressBarLabel =
           'Citas descargadas';
       }
       //   (response: Appointments[]) => {
       //   console.log(
       //     'Aquí deben estar todas las citas que necesito: ',
-      //     this.allAppointments.appointments
+      //     this.globalVariablesService.allAppointments.appointments
       //   );
       // } //TODO: ME FALTA APLANAR ESTA RESPUESTA PORQUE ESTÁN VOLVIENDO MUCHAS RESPUESTAS Y SÓLO NECESITO UNA
     );
