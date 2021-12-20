@@ -10,7 +10,7 @@ import { GlobalVariablesService } from './global-variables.service';
 })
 export class WhatsAppQuerysService {
   constructor(
-    private dentalinkQuerysService: DentalinkQuerysService, private globalVariablesService: GlobalVariablesService,
+    private globalVariablesService: GlobalVariablesService,
     private http: HttpClient
   ) { }
 

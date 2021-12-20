@@ -9,7 +9,6 @@ export class GlobalVariablesService {
 
   constructor(private http: HttpClient) { }
 
-  //TODO: HACER UN SERVICIO PARA ESTOS MAIN PARAMS Y SECRET KEYS
   //dentalinkKey Se guarda desde secret keys component con el método savekeys
   //b2ChatToken Se obtiene desde el backend
   secretKeys: SecretKeys = {
@@ -31,7 +30,6 @@ export class GlobalVariablesService {
     appointmentsDate: this.date.toLocaleDateString("fr-CA") //2022-10-01 puse esta fecha para hacer pruebas y que no descargue siempre 600 citas. Idealmente debería seleccionar 2 días en el futuro, teniendo en cuenta domingos y festivos
   };
 
-  //TODO: TAMPOCO PERTENECE A ESTE SERVICIO
   validAppointmentIds: AppointmentsIds[] = [
     { id: 3, appointmentState: 'Confirmado por teléfono' },
     { id: 7, appointmentState: 'No confirmado' },
@@ -43,9 +41,6 @@ export class GlobalVariablesService {
     { id: 19, appointmentState: 'Confirmado en Sede' },
     { id: 24, appointmentState: 'Notificado vía WhatsApp' },
   ];
-
-  // TODO: Sacar todo lo relacionado con vistas a un servicio independiente
-  //DESDE AQUÍ...
 
   componentVisibility: ComponentVisibility = {
     secretKeys: true,
@@ -60,10 +55,6 @@ export class GlobalVariablesService {
 
   loadButtonDisabled = true;
   loadButtonText = 'Buscando citas';
-
-  //HASTA AQUÍ
-
-
 
   //Cuando tenga una base de datos las paso de aquí al backend
   whatsAppLines: WhatsAppLine[] = [

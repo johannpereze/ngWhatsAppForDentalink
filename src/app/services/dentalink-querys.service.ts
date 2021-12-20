@@ -7,7 +7,7 @@ import {
   Patient,
 
 } from '../interfaces/interface';
-import { Observable, of, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import {
   tap,
   switchMap,
