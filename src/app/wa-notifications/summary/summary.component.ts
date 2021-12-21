@@ -262,7 +262,7 @@ export class SummaryComponent {
     myHeaders.append("Authorization", `Token ${this.globalVariablesService.secretKeys.dentalinkKey}`);
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify({
-      "id_estado": 7
+      "id_estado": 24
     });
     const requestOptions = {
       method: 'PUT',
