@@ -286,8 +286,6 @@ export class SummaryComponent {
 
     await this.downloadWA(patients,10)
 
-
-
     /*
     this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
@@ -327,7 +325,88 @@ export class SummaryComponent {
     */
   }
 
-  updateDentalinkAppointments() {
+  updateAppointment = async (appointments:number[], retryLimit = 50, retryCount = 0, index = 0) => {
+    const url = 'https://api.dentalink.healthatom.com/api/v1/citas/'
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Token ${this.globalVariablesService.secretKeys.dentalinkKey}`);
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+        "id_estado": 7
+    });
+    const requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        // redirect: 'follow'
+    };
+
+    if (index === appointments.length) {
+        console.log('Finalizado');
+        return
+    }
+    else {
+        return fetch(`${url}${appointments[index]}`, requestOptions)
+            .then(async (res) => {
+                const data = await res.json()
+                console.log(data)
+                if (data.data) {
+                    setTimeout(() => {
+                        return this.updateAppointment(appointments, retryLimit, retryCount, index)
+                    }, 1000);
+                    index++
+
+                    const templatesWithDataIndex = this.templatesWithData.findIndex(
+                      (template) => template.appointmentId === appointments[index]
+                    );
+        
+                    (this.templatesWithData[
+                      templatesWithDataIndex
+                    ].updatedDentalinkLabel = 'Actualizado'),
+                      (this.templatesWithData[
+                        templatesWithDataIndex
+                      ].updatedDentalinkIcon = 'pi pi-check-circle'),
+                      (this.templatesWithData[
+                        templatesWithDataIndex
+                      ].updatedDentalinkSeverity = 'info'),
+                      console.log(`Cita #${appointments[index]} actualizada`);
+
+                } else {
+                    switch (data.error.code) {
+                        case 400:
+                            console.log(`Error ${data.error.code}, pasando al siguiente`);
+                            index++
+                            setTimeout(() => {
+                                return this.updateAppointment(appointments, retryLimit, retryCount, index);
+                            }, 1000);
+                            break;
+                        case 405:
+                            console.log(`Error ${data.error.code}, pasando al siguiente`);
+                            index++
+                            setTimeout(() => {
+                                return this.updateAppointment(appointments, retryLimit, retryCount, index);
+                            }, 1000);
+                            break;
+                        default:
+                            console.log(`Error ${data.error.code}, reintentando en unos segundos`);
+                            setTimeout(() => {
+                                return this.updateAppointment(appointments, retryLimit, retryCount + 1, index);
+                            }, 5000);
+                            break;
+                    }
+                }
+            })
+    }
+}
+
+  updateDentalinkAppointments(index = 0) {
+    
+    // creamos un array con sólo los IDs de las citas
+    const appointments:number[] = []
+    this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { appointments.push(appointment.id!) })
+
+    this.updateAppointment(appointments, 10)
+
+    /*
     this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
         console.log('Actualizando cita # ', i);
@@ -358,6 +437,7 @@ export class SummaryComponent {
           });
       }, 3000 * (i + 1));
     });
+    */
   }
 
   parseWANumber(cellphone: string) {
