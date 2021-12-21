@@ -4,7 +4,6 @@ import {
   BroadcastData,
   TemplateWithData,
 } from 'src/app/interfaces/interface';
-import { DentalinkQuerysService } from 'src/app/services/dentalink-querys.service';
 import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service';
 
@@ -15,7 +14,6 @@ import { WhatsAppQuerysService } from 'src/app/services/whats-app-querys.service
 })
 export class SummaryComponent {
   constructor(
-    private dentalinkQuerysService: DentalinkQuerysService,
     private whatsAppQuerysService: WhatsAppQuerysService,
     private globalVariablesService: GlobalVariablesService
   ) { }
@@ -115,10 +113,6 @@ export class SummaryComponent {
     //Antes de mostrar en pantalla descargamos los whatsapps
     await this.getWANumbers();
 
-    //AQUÍ HACEMOS EL NUEVO GET WA NUMBERS
-
-    //HASTA AQUÍ HACEMOS EL NUEVO GET WA NUMBERS
-
     console.log('this.globalVariablesService.allAppointments :', this.globalVariablesService.allAppointments);
 
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => {
@@ -137,19 +131,6 @@ export class SummaryComponent {
     });
     this.globalVariablesService.loadButtonText = 'Citas descargadas';
   }
-
-  // getWhatsAppToken() {
-  //   this.whatsAppQuerysService.getWhatsAppToken().subscribe((response) => {
-  //     this.globalVariablesService.secretKeys.b2ChatToken = response.access_token;
-  //     this.globalVariablesService.secretKeys.b2ChatExpiration = (
-  //       response.expires_in /
-  //       60 /
-  //       60
-  //     ).toFixed(2);
-  //     console.log('Token: ', this.globalVariablesService.secretKeys.b2ChatToken); //borrar esto por seguridad. Aunque no es crítico porque es el token que se vence
-  //     console.log(`Expira en: ${this.globalVariablesService.secretKeys.b2ChatExpiration} Horas`);
-  //   });
-  // }
 
   sendWhatsAppBroadcast() {
     this.sendButtonDisabled = true;
@@ -241,27 +222,18 @@ export class SummaryComponent {
             }, 1000);
             index++
           } else {
-            switch (data.error.code) {
-              case 400:
-                console.log(`Error ${data.error.code}, pasando al siguiente`);
-                index++
-                setTimeout(() => {
-                  return this.downloadWA(patients, retryLimit, retryCount, index);
-                }, 1000);
-                break;
-              case 405:
-                console.log(`Error ${data.error.code}, pasando al siguiente`);
-                index++
-                setTimeout(() => {
-                  return this.downloadWA(patients, retryLimit, retryCount, index);
-                }, 1000);
-                break;
-              default:
-                console.log(`Error ${data.error.code}, reintentando en unos segundos`);
-                setTimeout(() => {
-                  return this.downloadWA(patients, retryLimit, retryCount + 1, index);
-                }, 5000);
-                break;
+            const { code } = data.error
+            if (code === 405 || code === 400) {
+              console.log(`Error ${code}, pasando al siguiente`);
+              index++
+              setTimeout(() => {
+                return this.downloadWA(patients, retryLimit, retryCount, index);
+              }, 1000);
+            } else {
+              console.log(`Error ${code}, reintentando en unos segundos`);
+              setTimeout(() => {
+                return this.downloadWA(patients, retryLimit, retryCount + 1, index);
+              }, 5000);
             }
           }
         })
@@ -278,49 +250,10 @@ export class SummaryComponent {
       'Estas son las citas a las cuales les vamos a buscar el WhatsApp: ',
       this.globalVariablesService.allAppointments.appointments
     );
-
     const patients: any = []
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { patients.push(appointment.id_paciente) })
 
     await this.downloadWA(patients, 10)
-
-    /*
-    this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
-      setTimeout(() => {
-        console.log('Descargando el whatsapp #', i);
-        this.progressBar.downloadedAppointments = i + 1;
-        this.progressBar.progressBarValue = Math.ceil(
-          (this.progressBar.downloadedAppointments /
-            this.globalVariablesService.allAppointments.appointments.length) *
-            100
-        );
-  
-        this.dentalinkQuerysService
-          .getWANumbers(appointment.id_paciente!)
-          .subscribe((response) => {
-            appointment.whatsApp = this.parseWANumber(response.data.celular);
-            // const templatesWithDataIndex = this.templatesWithData.findIndex(
-            //   (template) => template.appointmentId === appointment.id
-            // );
-  
-            // (this.templatesWithData[templatesWithDataIndex].sendedLabel =
-            //   'Enviado'),
-            //   (this.templatesWithData[templatesWithDataIndex].sendedIcon =
-            //     'pi pi-check-circle'),
-            //   (this.templatesWithData[templatesWithDataIndex].sendedSeverity =
-            //     'success'),
-            console.log(
-              `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
-            );
-  
-            if (i === this.globalVariablesService.allAppointments.appointments.length - 1) {
-              this.sendButtonDisabled = false;
-            }
-          });
-      }, 5000 * (i + 1));
-    });
-  
-    */
   }
 
   updateAppointment = async (appointments: number[], retryLimit = 50, retryCount = 0, index = 0) => {
@@ -329,7 +262,7 @@ export class SummaryComponent {
     myHeaders.append("Authorization", `Token ${this.globalVariablesService.secretKeys.dentalinkKey}`);
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify({
-      "id_estado": 24
+      "id_estado": 7
     });
     const requestOptions = {
       method: 'PUT',
@@ -342,19 +275,16 @@ export class SummaryComponent {
       console.log('Finalizado');
       return
     }
+
     else {
       return fetch(`${url}${appointments[index]}`, requestOptions)
         .then(async (res) => {
           const data = await res.json()
           console.log(data)
-
-
-
           if (data.data) {
             const templatesWithDataIndex = this.templatesWithData.findIndex(
               (template) => template.appointmentId === appointments[index]
             );
-
             (this.templatesWithData[
               templatesWithDataIndex
             ].updatedDentalinkLabel = 'Actualizado'),
@@ -369,31 +299,19 @@ export class SummaryComponent {
               return this.updateAppointment(appointments, retryLimit, retryCount, index)
             }, 1000);
             index++
-
-
-
           } else {
-            switch (data.error.code) {
-              case 400:
-                console.log(`Error ${data.error.code}, pasando al siguiente`);
-                index++
-                setTimeout(() => {
-                  return this.updateAppointment(appointments, retryLimit, retryCount, index);
-                }, 1000);
-                break;
-              case 405:
-                console.log(`Error ${data.error.code}, pasando al siguiente`);
-                index++
-                setTimeout(() => {
-                  return this.updateAppointment(appointments, retryLimit, retryCount, index);
-                }, 1000);
-                break;
-              default:
-                console.log(`Error ${data.error.code}, reintentando en unos segundos`);
-                setTimeout(() => {
-                  return this.updateAppointment(appointments, retryLimit, retryCount + 1, index);
-                }, 5000);
-                break;
+            const { code } = data.error
+            if (code === 405 || code === 400) {
+              console.log(`Error ${code}, pasando al siguiente`);
+              index++
+              setTimeout(() => {
+                return this.updateAppointment(appointments, retryLimit, retryCount, index);
+              }, 1000);
+            } else {
+              console.log(`Error ${code}, reintentando en unos segundos`);
+              setTimeout(() => {
+                return this.updateAppointment(appointments, retryLimit, retryCount + 1, index);
+              }, 5000);
             }
           }
         })
@@ -405,41 +323,7 @@ export class SummaryComponent {
     // creamos un array con sólo los IDs de las citas
     const appointments: number[] = []
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { appointments.push(appointment.id!) })
-
     this.updateAppointment(appointments, 10)
-
-    /*
-    this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
-      setTimeout(() => {
-        console.log('Actualizando cita # ', i);
-
-        this.dentalinkQuerysService
-          .updateDentalinkAppointments(appointment.id!)
-          .subscribe((response) => {
-            console.log(response);
-
-            const templatesWithDataIndex = this.templatesWithData.findIndex(
-              (template) => template.appointmentId === appointment.id
-            );
-
-            (this.templatesWithData[
-              templatesWithDataIndex
-            ].updatedDentalinkLabel = 'Actualizado'),
-              (this.templatesWithData[
-                templatesWithDataIndex
-              ].updatedDentalinkIcon = 'pi pi-check-circle'),
-              (this.templatesWithData[
-                templatesWithDataIndex
-              ].updatedDentalinkSeverity = 'info'),
-              console.log(`Cita #${appointment.id} actualizada`);
-
-            // if (i === this.globalVariablesService.allAppointments.appointments.length - 1) {
-            //   this.sendButtonDisabled = false;
-            // }
-          });
-      }, 3000 * (i + 1));
-    });
-    */
   }
 
   parseWANumber(cellphone: string) {
