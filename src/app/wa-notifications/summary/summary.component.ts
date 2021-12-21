@@ -178,7 +178,7 @@ export class SummaryComponent {
             values: [
               appointment.nombre_paciente,
               appointment.nombre_sucursal,
-              appointment.fecha,
+              appointment.fecha.split('-').reverse().join('/'),
               appointment.hora_inicio,
               appointment.nombre_dentista,
             ],
@@ -216,11 +216,9 @@ export class SummaryComponent {
       headers: myHeaders,
       // redirect: 'follow'
     };
-    if (index === this.globalVariablesService.allAppointments.appointments.length - 1) {
-      this.sendButtonDisabled = false;
-    }
     if (index === patients.length) {
       console.log('Finalizado');
+      this.sendButtonDisabled = false;
       return
     }
     else {
@@ -281,10 +279,10 @@ export class SummaryComponent {
       this.globalVariablesService.allAppointments.appointments
     );
 
-    const patients:any = []
+    const patients: any = []
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { patients.push(appointment.id_paciente) })
 
-    await this.downloadWA(patients,10)
+    await this.downloadWA(patients, 10)
 
     /*
     this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
@@ -325,83 +323,87 @@ export class SummaryComponent {
     */
   }
 
-  updateAppointment = async (appointments:number[], retryLimit = 50, retryCount = 0, index = 0) => {
+  updateAppointment = async (appointments: number[], retryLimit = 50, retryCount = 0, index = 0) => {
     const url = 'https://api.dentalink.healthatom.com/api/v1/citas/'
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Token ${this.globalVariablesService.secretKeys.dentalinkKey}`);
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify({
-        "id_estado": 7
+      "id_estado": 24
     });
     const requestOptions = {
-        method: 'PUT',
-        headers: myHeaders,
-        body: raw,
-        // redirect: 'follow'
+      method: 'PUT',
+      headers: myHeaders,
+      body: raw,
+      // redirect: 'follow'
     };
 
     if (index === appointments.length) {
-        console.log('Finalizado');
-        return
+      console.log('Finalizado');
+      return
     }
     else {
-        return fetch(`${url}${appointments[index]}`, requestOptions)
-            .then(async (res) => {
-                const data = await res.json()
-                console.log(data)
-                if (data.data) {
-                    setTimeout(() => {
-                        return this.updateAppointment(appointments, retryLimit, retryCount, index)
-                    }, 1000);
-                    index++
+      return fetch(`${url}${appointments[index]}`, requestOptions)
+        .then(async (res) => {
+          const data = await res.json()
+          console.log(data)
 
-                    const templatesWithDataIndex = this.templatesWithData.findIndex(
-                      (template) => template.appointmentId === appointments[index]
-                    );
-        
-                    (this.templatesWithData[
-                      templatesWithDataIndex
-                    ].updatedDentalinkLabel = 'Actualizado'),
-                      (this.templatesWithData[
-                        templatesWithDataIndex
-                      ].updatedDentalinkIcon = 'pi pi-check-circle'),
-                      (this.templatesWithData[
-                        templatesWithDataIndex
-                      ].updatedDentalinkSeverity = 'info'),
-                      console.log(`Cita #${appointments[index]} actualizada`);
 
-                } else {
-                    switch (data.error.code) {
-                        case 400:
-                            console.log(`Error ${data.error.code}, pasando al siguiente`);
-                            index++
-                            setTimeout(() => {
-                                return this.updateAppointment(appointments, retryLimit, retryCount, index);
-                            }, 1000);
-                            break;
-                        case 405:
-                            console.log(`Error ${data.error.code}, pasando al siguiente`);
-                            index++
-                            setTimeout(() => {
-                                return this.updateAppointment(appointments, retryLimit, retryCount, index);
-                            }, 1000);
-                            break;
-                        default:
-                            console.log(`Error ${data.error.code}, reintentando en unos segundos`);
-                            setTimeout(() => {
-                                return this.updateAppointment(appointments, retryLimit, retryCount + 1, index);
-                            }, 5000);
-                            break;
-                    }
-                }
-            })
+
+          if (data.data) {
+            const templatesWithDataIndex = this.templatesWithData.findIndex(
+              (template) => template.appointmentId === appointments[index]
+            );
+
+            (this.templatesWithData[
+              templatesWithDataIndex
+            ].updatedDentalinkLabel = 'Actualizado'),
+              (this.templatesWithData[
+                templatesWithDataIndex
+              ].updatedDentalinkIcon = 'pi pi-check-circle'),
+              (this.templatesWithData[
+                templatesWithDataIndex
+              ].updatedDentalinkSeverity = 'info'),
+              console.log(`Cita #${appointments[index]} actualizada`);
+            setTimeout(() => {
+              return this.updateAppointment(appointments, retryLimit, retryCount, index)
+            }, 1000);
+            index++
+
+
+
+          } else {
+            switch (data.error.code) {
+              case 400:
+                console.log(`Error ${data.error.code}, pasando al siguiente`);
+                index++
+                setTimeout(() => {
+                  return this.updateAppointment(appointments, retryLimit, retryCount, index);
+                }, 1000);
+                break;
+              case 405:
+                console.log(`Error ${data.error.code}, pasando al siguiente`);
+                index++
+                setTimeout(() => {
+                  return this.updateAppointment(appointments, retryLimit, retryCount, index);
+                }, 1000);
+                break;
+              default:
+                console.log(`Error ${data.error.code}, reintentando en unos segundos`);
+                setTimeout(() => {
+                  return this.updateAppointment(appointments, retryLimit, retryCount + 1, index);
+                }, 5000);
+                break;
+            }
+          }
+        })
     }
-}
+  }
 
   updateDentalinkAppointments(index = 0) {
-    
+
     // creamos un array con sólo los IDs de las citas
-    const appointments:number[] = []
+    const appointments: number[] = []
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { appointments.push(appointment.id!) })
 
     this.updateAppointment(appointments, 10)
