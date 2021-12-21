@@ -18,7 +18,7 @@ export class SummaryComponent {
     private dentalinkQuerysService: DentalinkQuerysService,
     private whatsAppQuerysService: WhatsAppQuerysService,
     private globalVariablesService: GlobalVariablesService
-  ) {}
+  ) { }
 
   get mainParams() {
     return this.globalVariablesService.mainParams;
@@ -115,6 +115,10 @@ export class SummaryComponent {
     //Antes de mostrar en pantalla descargamos los whatsapps
     await this.getWANumbers();
 
+    //AQUÍ HACEMOS EL NUEVO GET WA NUMBERS
+
+    //HASTA AQUÍ HACEMOS EL NUEVO GET WA NUMBERS
+
     console.log('this.globalVariablesService.allAppointments :', this.globalVariablesService.allAppointments);
 
     this.globalVariablesService.allAppointments.appointments.forEach((appointment) => {
@@ -203,6 +207,69 @@ export class SummaryComponent {
     });
   }
 
+  downloadWA = async (patients: any, retryLimit = 50, retryCount = 0, index = 0) => {
+    const url = 'https://api.dentalink.healthatom.com/api/v1/pacientes/'
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Token ${this.globalVariablesService.secretKeys.dentalinkKey}`);
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      // redirect: 'follow'
+    };
+    if (index === this.globalVariablesService.allAppointments.appointments.length - 1) {
+      this.sendButtonDisabled = false;
+    }
+    if (index === patients.length) {
+      console.log('Finalizado');
+      return
+    }
+    else {
+      return fetch(`${url}${patients[index]}`, requestOptions)
+        .then(async (res) => {
+          console.log('Descargando el whatsapp #', index);
+          const data = await res.json()
+          console.log(data)
+          if (data.data) {
+            this.globalVariablesService.allAppointments.appointments[index].whatsApp = this.parseWANumber(data.data.celular);
+            this.progressBar.downloadedAppointments = index + 1;
+            this.progressBar.progressBarValue = Math.ceil(
+              (this.progressBar.downloadedAppointments /
+                this.globalVariablesService.allAppointments.appointments.length) *
+              100
+            );
+            console.log(data.data.celular)
+            setTimeout(() => {
+              return this.downloadWA(patients, retryLimit, retryCount, index)
+            }, 1000);
+            index++
+          } else {
+            switch (data.error.code) {
+              case 400:
+                console.log(`Error ${data.error.code}, pasando al siguiente`);
+                index++
+                setTimeout(() => {
+                  return this.downloadWA(patients, retryLimit, retryCount, index);
+                }, 1000);
+                break;
+              case 405:
+                console.log(`Error ${data.error.code}, pasando al siguiente`);
+                index++
+                setTimeout(() => {
+                  return this.downloadWA(patients, retryLimit, retryCount, index);
+                }, 1000);
+                break;
+              default:
+                console.log(`Error ${data.error.code}, reintentando en unos segundos`);
+                setTimeout(() => {
+                  return this.downloadWA(patients, retryLimit, retryCount + 1, index);
+                }, 5000);
+                break;
+            }
+          }
+        })
+    }
+  }
+
   async getWANumbers() {
     //creo que no se necesita el async
     console.log(
@@ -214,6 +281,14 @@ export class SummaryComponent {
       this.globalVariablesService.allAppointments.appointments
     );
 
+    const patients:any = []
+    this.globalVariablesService.allAppointments.appointments.forEach((appointment) => { patients.push(appointment.id_paciente) })
+
+    await this.downloadWA(patients,10)
+
+
+
+    /*
     this.globalVariablesService.allAppointments.appointments.forEach((appointment, i) => {
       setTimeout(() => {
         console.log('Descargando el whatsapp #', i);
@@ -223,7 +298,7 @@ export class SummaryComponent {
             this.globalVariablesService.allAppointments.appointments.length) *
             100
         );
-
+  
         this.dentalinkQuerysService
           .getWANumbers(appointment.id_paciente!)
           .subscribe((response) => {
@@ -231,7 +306,7 @@ export class SummaryComponent {
             // const templatesWithDataIndex = this.templatesWithData.findIndex(
             //   (template) => template.appointmentId === appointment.id
             // );
-
+  
             // (this.templatesWithData[templatesWithDataIndex].sendedLabel =
             //   'Enviado'),
             //   (this.templatesWithData[templatesWithDataIndex].sendedIcon =
@@ -241,13 +316,15 @@ export class SummaryComponent {
             console.log(
               `WhatsApp: ${appointment.whatsApp}, Id: ${appointment.id_paciente}`
             );
-
+  
             if (i === this.globalVariablesService.allAppointments.appointments.length - 1) {
               this.sendButtonDisabled = false;
             }
           });
       }, 5000 * (i + 1));
     });
+  
+    */
   }
 
   updateDentalinkAppointments() {
